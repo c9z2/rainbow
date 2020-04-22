@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.codc.annotion;
+package com.milchstrabe.rainbow.skt.server.tcp.codc.annotion;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,14 +1,14 @@
-package com.milchstrabe.rainbow.skt.server;
+package com.milchstrabe.rainbow.skt.server.tcp;
 
 import com.milchstrabe.rainbow.skt.common.constant.StateCode;
-import com.milchstrabe.rainbow.skt.server.codc.Request;
-import com.milchstrabe.rainbow.skt.server.codc.Response;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.Request;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.Response;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
-import com.milchstrabe.rainbow.skt.server.scanner.Invoker;
-import com.milchstrabe.rainbow.skt.server.scanner.InvokerHolder;
-import com.milchstrabe.rainbow.skt.server.session.NettySession;
-import com.milchstrabe.rainbow.skt.server.session.Session;
-import com.milchstrabe.rainbow.skt.server.session.SessionAttribute;
+import com.milchstrabe.rainbow.skt.server.tcp.scanner.Invoker;
+import com.milchstrabe.rainbow.skt.server.tcp.scanner.InvokerHolder;
+import com.milchstrabe.rainbow.skt.server.tcp.session.NettySession;
+import com.milchstrabe.rainbow.skt.server.tcp.session.Session;
+import com.milchstrabe.rainbow.skt.server.tcp.session.SessionAttribute;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

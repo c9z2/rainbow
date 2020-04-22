@@ -1,7 +1,7 @@
-package com.milchstrabe.rainbow.skt.server.scanner;
+package com.milchstrabe.rainbow.skt.server.tcp.scanner;
 
-import com.milchstrabe.rainbow.skt.server.codc.annotion.NettyController;
-import com.milchstrabe.rainbow.skt.server.codc.annotion.NettyMapping;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

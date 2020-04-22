@@ -1,7 +1,7 @@
-package com.milchstrabe.rainbow.skt.server.codc;
+package com.milchstrabe.rainbow.skt.server.tcp.codc;
 
 
-import com.milchstrabe.rainbow.skt.server.session.Session;
+import com.milchstrabe.rainbow.skt.server.tcp.session.Session;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

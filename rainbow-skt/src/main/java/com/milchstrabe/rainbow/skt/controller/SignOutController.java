@@ -1,9 +1,8 @@
 package com.milchstrabe.rainbow.skt.controller;
 
-import com.milchstrabe.rainbow.skt.server.codc.Request;
-import com.milchstrabe.rainbow.skt.server.codc.Response;
-import com.milchstrabe.rainbow.skt.server.codc.annotion.NettyController;
-import com.milchstrabe.rainbow.skt.server.codc.annotion.NettyMapping;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.Request;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.Response;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
 
 /**
  * @Author ch3ng
