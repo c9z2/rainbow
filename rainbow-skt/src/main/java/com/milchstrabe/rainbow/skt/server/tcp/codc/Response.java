@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.codc;
+package com.milchstrabe.rainbow.skt.server.tcp.codc;
 
 
 import lombok.Getter;

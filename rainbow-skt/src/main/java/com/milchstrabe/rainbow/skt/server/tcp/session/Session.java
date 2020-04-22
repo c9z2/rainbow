@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.session;
+package com.milchstrabe.rainbow.skt.server.tcp.session;
 
 
 import io.netty.channel.Channel;

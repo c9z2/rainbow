@@ -1,7 +1,7 @@
-package com.milchstrabe.rainbow.skt.server;
+package com.milchstrabe.rainbow.skt.server.tcp;
 
-import com.milchstrabe.rainbow.skt.server.codc.RequestDecoder;
-import com.milchstrabe.rainbow.skt.server.codc.ResponseEncoder;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.RequestDecoder;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.ResponseEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class NettyServer {
+public class NettyTCPServer {
 
     // 创建boss和worker
     private final EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -72,10 +72,10 @@ public class NettyServer {
      * shutdown service
      */
     public void destroy() {
-        log.info("Shutdown Netty Server...");
+        log.info("Shutdown Netty TCP Server...");
         if(channel != null) { channel.close();}
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
-        log.info("Shutdown Netty Server Success!");
+        log.info("Shutdown Netty TCP Server Success!");
     }
 }
