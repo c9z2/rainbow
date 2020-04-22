@@ -1,5 +1,6 @@
 package com.milchstrabe.rainbow.skt.server;
 
+import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Request;
 import com.milchstrabe.rainbow.skt.server.codc.Response;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
