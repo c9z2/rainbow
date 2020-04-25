@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+
+option java_package="com.milchstrabe.rainbow.skt.server.grpc";
+
+message TxtMsgRequest{
+    string msgId = 1;
+    int32 msgType = 2;
+    string content = 3;
+    string sender = 4;
+    string receiver = 5;
+    string sendDate = 6;
+
+}
+
+message Response{
+    int32 code = 1;
+    string msg = 2;
+}
+
+
+service PassThroughMessageService{
+    rpc passThroughMessage (TxtMsgRequest) returns (Response){}
+}
