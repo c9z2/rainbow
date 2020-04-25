@@ -6,6 +6,8 @@ netty:
     port: 8081
   udp:
     port: 8082
+  gRPC:
+    port: 8083
 
 spring:
   data:
