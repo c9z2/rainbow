@@ -1,5 +1,6 @@
 package com.milchstrabe.rainbow.skt;
 
+import com.milchstrabe.rainbow.skt.server.ServerByCurator;
 import com.milchstrabe.rainbow.skt.server.grpc.GRPCServer;
 import com.milchstrabe.rainbow.skt.server.tcp.NettyTCPServer;
 import com.milchstrabe.rainbow.skt.server.udp.NettyUDPServer;
@@ -31,6 +32,9 @@ public class RainbowSktApplication implements CommandLineRunner {
 
 	@Autowired
 	private GRPCServer grpcServer;
+
+	@Autowired
+	private ServerByCurator serverByCurator;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RainbowSktApplication.class, args);
@@ -86,6 +90,14 @@ public class RainbowSktApplication implements CommandLineRunner {
 				log.error(e.getMessage());
 			}
 		}).start();
+
+
+		//register current server to zookeeper
+		try {
+			serverByCurator.createNode();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 }
