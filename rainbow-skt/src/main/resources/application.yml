@@ -1,5 +1,8 @@
 server:
   port: 8080
+  servlet:
+    application-display-name: skyblue
+
 
 netty:
   tcp:
@@ -8,6 +11,14 @@ netty:
     port: 8082
   gRPC:
     port: 8083
+
+curator:
+  retryCount: 5
+  elapsedTimeMs: 5000
+  connectString: 127.0.0.1:2181
+  sessionTimeoutMs: 60000
+  connectionTimeoutMs: 5000
+
 
 spring:
   data:
