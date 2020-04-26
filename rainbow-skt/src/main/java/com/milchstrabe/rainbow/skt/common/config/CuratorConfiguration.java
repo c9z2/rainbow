@@ -7,6 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @Author ch3ng
+ * @Date 2020/4/26 17:51
+ * @Version 1.0
+ * @Description
+ **/
 @Configuration
 public class CuratorConfiguration {
 
