@@ -1,5 +1,6 @@
 package com.milchstrabe.interpret;
 
+import com.milchstrabe.interpret.impl.ExitExpression;
 import com.milchstrabe.interpret.impl.SendExpression;
 
 import java.util.HashMap;
@@ -13,9 +14,10 @@ import java.util.Map;
  **/
 public class CMDS {
 
-    private final static Map<String,Expression> C_M_D_S = new HashMap();
+    public final static Map<String,Expression> C_M_D_S = new HashMap();
 
     static{
         C_M_D_S.put("send",new SendExpression());
+        C_M_D_S.put("exit",new ExitExpression());
     }
 }
