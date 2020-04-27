@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.skt.server.grpc.impl;
 
+import com.milchstrabe.rainbow.skt.server.grpc.Msg;
 import com.milchstrabe.rainbow.skt.server.grpc.PassThroughMessageServiceGrpc;
-import com.milchstrabe.rainbow.skt.server.grpc.TxtMsg;
 import io.grpc.stub.StreamObserver;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class PassThroughMessageServiceImpl extends PassThroughMessageServiceGrpc.PassThroughMessageServiceImplBase {
 
     @Override
-    public void passThroughMessage(TxtMsg.TxtMsgRequest request, StreamObserver<TxtMsg.Response> responseObserver) {
+    public void passThroughMessage(Msg.MsgRequest request, StreamObserver<Msg.MsgResponse> responseObserver) {
         super.passThroughMessage(request, responseObserver);
     }
 }

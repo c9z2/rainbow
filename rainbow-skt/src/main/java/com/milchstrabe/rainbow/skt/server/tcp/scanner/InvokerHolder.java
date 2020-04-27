@@ -11,18 +11,18 @@ import java.util.Map;
  **/
 public class InvokerHolder {
 
-    private static Map<Byte,Map<Byte,Invoker>> invokers = new HashMap<>();
+    private static Map<Integer,Map<Integer,Invoker>> invokers = new HashMap<>();
 
-    public static Invoker getInvoker(byte firstOrder,byte secondOrder){
-        Map<Byte, Invoker> map = invokers.get(firstOrder);
+    public static Invoker getInvoker(int firstOrder,int secondOrder){
+        Map<Integer, Invoker> map = invokers.get(firstOrder);
         if(map != null){
             return map.get(secondOrder);
         }
         return null;
     }
 
-    public static void addInvoker(byte firstOrder,byte secondOrder,Invoker invoker){
-        Map<Byte, Invoker> map = invokers.get(firstOrder);
+    public static void addInvoker(int firstOrder,int secondOrder,Invoker invoker){
+        Map<Integer, Invoker> map = invokers.get(firstOrder);
         if(map == null){
             map = new HashMap<>();
             invokers.put(firstOrder,map);

@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.skt.controller;
 
-import com.milchstrabe.rainbow.skt.server.tcp.codc.Request;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.Response;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
 
 /**
@@ -14,7 +14,7 @@ import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
 public class SignOutController {
 
     @NettyMapping(cmd = 1)
-    public Response signIn(Request request){
+    public TCPResponse signIn(TCPRequest TCPRequest){
         return null;
     }
 }

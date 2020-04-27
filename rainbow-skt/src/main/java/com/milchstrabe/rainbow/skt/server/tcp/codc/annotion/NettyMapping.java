@@ -15,5 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NettyMapping {
 
-    byte cmd();
+    int cmd();
 }

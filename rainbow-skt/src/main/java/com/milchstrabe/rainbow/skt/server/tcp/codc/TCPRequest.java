@@ -1,6 +1,7 @@
 package com.milchstrabe.rainbow.skt.server.tcp.codc;
 
 
+import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.tcp.session.Session;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,11 +16,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class Request {
+public class TCPRequest {
 
-    private byte firstOrder;
-    private byte secondOrder;
-    private byte[] data;
+    private Data.Request request;
     private Session session;
 
 }

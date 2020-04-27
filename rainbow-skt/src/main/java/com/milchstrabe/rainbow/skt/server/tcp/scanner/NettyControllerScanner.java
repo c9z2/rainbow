@@ -43,7 +43,7 @@ public class NettyControllerScanner implements ApplicationListener<ContextRefres
             Object bean = next.getValue();
             Class<?> clazz = bean.getClass();
             NettyController annotation = clazz.getAnnotation(NettyController.class);
-            byte cmd1 = annotation.cmd();
+            int cmd1 = annotation.cmd();
             Method[] methods = clazz.getMethods();
             if(methods == null || methods.length ==0){
                 continue;
@@ -53,7 +53,7 @@ public class NettyControllerScanner implements ApplicationListener<ContextRefres
                 if (nettyMapping == null) {
                     continue;
                 }
-                byte cmd2 = nettyMapping.cmd();
+                int cmd2 = nettyMapping.cmd();
                 if (InvokerHolder.getInvoker(cmd1, cmd2) == null) {
                     InvokerHolder.addInvoker(cmd1, cmd2, Invoker.valueOf(method, bean));
                     log.info("scan controller /{}/{}",cmd1,cmd2);

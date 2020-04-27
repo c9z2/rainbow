@@ -18,5 +18,5 @@ import java.lang.annotation.Target;
 @Component
 public @interface NettyController {
 
-    byte cmd();
+    int cmd();
 }

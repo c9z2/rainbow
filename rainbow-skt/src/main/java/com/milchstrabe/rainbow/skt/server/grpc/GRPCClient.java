@@ -8,17 +8,17 @@ import lombok.extern.slf4j.Slf4j;
 public class GRPCClient {
 
 
-  public TxtMsg.Response sendMsg(TxtMsg.TxtMsgRequest txtMsgRequest,ManagedChannel channel) {
+  public Msg.MsgResponse sendMsg(Msg.MsgRequest txtMsgRequest,ManagedChannel channel) {
 
 //    TxtMsg.TxtMsgRequest build = TxtMsg.TxtMsgRequest.newBuilder(txtMsgRequest).build();
       PassThroughMessageServiceGrpc.PassThroughMessageServiceBlockingStub passThroughMessageServiceBlockingStub = PassThroughMessageServiceGrpc.newBlockingStub(channel);
-      TxtMsg.Response response = passThroughMessageServiceBlockingStub.passThroughMessage(txtMsgRequest);
+      Msg.MsgResponse response = passThroughMessageServiceBlockingStub.passThroughMessage(txtMsgRequest);
       log.info("msg: " + response.getMsg());
       return response;
   }
 
 
-  public void sender(String host, int port, TxtMsg.TxtMsgRequest request) throws Exception {
+  public void sender(String host, int port, Msg.MsgRequest request) throws Exception {
     String target = host+ ":"+ port;
     // Allow passing in the user and target strings as command line arguments
 
@@ -29,7 +29,7 @@ public class GRPCClient {
         .usePlaintext()
         .build();
     try {
-      TxtMsg.Response response = sendMsg(request, channel);
+      Msg.MsgResponse response = sendMsg(request, channel);
     } finally {
       // ManagedChannels use resources like threads and TCP connections. To prevent leaking these
       // resources the channel should be shut down when it will no longer be used. If it may be used

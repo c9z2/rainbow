@@ -1,6 +1,7 @@
 package com.milchstrabe.rainbow.skt.server.tcp.session;
 
-import com.milchstrabe.rainbow.skt.server.tcp.codc.Response;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,11 +52,12 @@ public class SessionManager {
 	/**
 	 * 发送消息
 	 */
-	public static  void sendMessage(String assistantSn,Object object){
-		Session session = onlineSessions.get(assistantSn);
+	public static  void sendMessage(String cid,Object object){
+		Session session = onlineSessions.get(cid);
 		if (session != null && session.isConnected()) {
-			Response response = new Response();
-			session.write(response);
+			Data.Response resp = Data.Response.newBuilder().build();
+			TCPResponse TCPResponse = new TCPResponse(resp);
+			session.write(TCPResponse);
 		}
 	}
 
