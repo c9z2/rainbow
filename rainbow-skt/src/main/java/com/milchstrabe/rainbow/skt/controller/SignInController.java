@@ -11,10 +11,10 @@ import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
  * @Version 1.0
  * @Description
  **/
-@NettyController(cmd = 1)
+@NettyController(cmd = 0)
 public class SignInController {
 
-    @NettyMapping(cmd = 1)
+    @NettyMapping(cmd = 0)
     public TCPResponse signIn(TCPRequest TCPRequest){
         return null;
     }

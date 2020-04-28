@@ -3,12 +3,14 @@ package com.milchstrabe.rainbow.skt.server.grpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class GRPCClient {
 
 
-  public Msg.MsgResponse sendMsg(Msg.MsgRequest txtMsgRequest,ManagedChannel channel) {
+  private Msg.MsgResponse sendMsg(Msg.MsgRequest txtMsgRequest,ManagedChannel channel) {
 
 //    TxtMsg.TxtMsgRequest build = TxtMsg.TxtMsgRequest.newBuilder(txtMsgRequest).build();
       PassThroughMessageServiceGrpc.PassThroughMessageServiceBlockingStub passThroughMessageServiceBlockingStub = PassThroughMessageServiceGrpc.newBlockingStub(channel);
@@ -18,7 +20,7 @@ public class GRPCClient {
   }
 
 
-  public void sender(String host, int port, Msg.MsgRequest request) throws Exception {
+  public void sender(String host, int port, Msg.MsgRequest request) {
     String target = host+ ":"+ port;
     // Allow passing in the user and target strings as command line arguments
 

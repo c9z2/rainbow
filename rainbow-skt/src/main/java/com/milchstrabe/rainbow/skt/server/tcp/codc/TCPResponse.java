@@ -2,6 +2,7 @@ package com.milchstrabe.rainbow.skt.server.tcp.codc;
 
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import lombok.Setter;
  **/
 @Setter
 @Getter
+@Builder
 public class TCPResponse {
 
     private Data.Response response;

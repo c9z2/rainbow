@@ -11,7 +11,7 @@ import com.milchstrabe.interpret.Expression;
 public class ExitExpression implements Expression {
 
     @Override
-    public boolean interpret(String cmd) {
+    public boolean interpret(String[] cmds) {
         System.exit(1);
         return true;
     }

@@ -8,5 +8,5 @@ package com.milchstrabe.interpret;
  **/
 public interface Expression {
 
-   public boolean interpret(String cmd);
+   boolean interpret(String[] cmds);
 }
