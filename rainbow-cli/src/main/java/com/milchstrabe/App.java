@@ -1,5 +1,6 @@
 package com.milchstrabe;
 
+import com.milchstrabe.client.TCPClient;
 import com.milchstrabe.interpret.CMDS;
 import com.milchstrabe.interpret.Expression;
 
@@ -15,6 +16,16 @@ import java.util.concurrent.TimeoutException;
 public class App{
 
     public static void main( String[] args ) throws IOException, InterruptedException, ExecutionException, TimeoutException {
+        TCPClient client = new TCPClient();
+        new Thread(()->{
+            client.start();
+        }).start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("shutdown tcp connection");
+            client.destory();
+        }));
+
         Scanner inp = new Scanner(System.in);
 
         login(inp);
@@ -32,7 +43,7 @@ public class App{
             if(split.length>=1){
                 Expression expression = CMDS.C_M_D_S.get(split[0]);
                 if(expression != null){
-                    expression.interpret(str);
+                    expression.interpret(split);
                 }
             }
             System.out.println("command not found: "+ split[0]);
@@ -50,4 +61,6 @@ public class App{
         }
         login(inp);
     }
+
+
 }
