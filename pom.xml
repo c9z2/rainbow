@@ -26,11 +26,16 @@
         <gRPC.version>1.29.0</gRPC.version>
         <curator.version>2.12.0</curator.version>
         <zk.version>3.6.0</zk.version>
+        <mybatis.version>2.1.2</mybatis.version>
+        <mysql.driver>8.0.19</mysql.driver>
+        <druid.version>1.1.20</druid.version>
+        <jwt.version>3.10.1</jwt.version>
     </properties>
 
     <modules>
         <module>rainbow-skt</module>
         <module>rainbow-cli</module>
+        <module>rainbow-biz</module>
     </modules>
 
     <dependencyManagement>
@@ -99,6 +104,31 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.driver}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
