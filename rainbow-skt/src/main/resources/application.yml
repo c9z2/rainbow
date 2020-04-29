@@ -14,7 +14,7 @@ netty:
 curator:
   retryCount: 5
   elapsedTimeMs: 5000
-  connectString: 10.40.3.165:2181
+  connectString: 192.168.1.119:2181
   sessionTimeoutMs: 60000
   connectionTimeoutMs: 5000
 
@@ -27,7 +27,7 @@ spring:
     database: 0
     host: 10.40.3.165
     port: 6379
-    #    password: 123456
+       # password: 123456
     max-active: 10
     max-wait: 500
     max-idle: 5
