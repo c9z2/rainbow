@@ -26,3 +26,11 @@ spring:
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       use-global-data-source-stat: true
 
+encrypt:
+  secret: 123
+
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: com.milchstrabe.rainbow.biz,domain.po
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
