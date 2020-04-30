@@ -1,0 +1,21 @@
+
+syntax = "proto3";
+
+option optimize_for = SPEED;
+option java_package="com.milchstrabe.rainbow.skt.server.codc";
+option java_outer_classname = "Data";
+
+
+message Request{
+    int32 cmd1 = 1;
+    int32 cmd2 = 2;
+    bytes data = 3;
+
+}
+
+message Response{
+    int32 cmd1 = 1;
+    int32 cmd2 = 2;
+    int32 code = 3;
+    bytes data = 4;
+}
