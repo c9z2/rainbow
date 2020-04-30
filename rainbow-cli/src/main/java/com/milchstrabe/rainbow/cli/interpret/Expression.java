@@ -1,4 +1,4 @@
-package com.milchstrabe.interpret;
+package com.milchstrabe.rainbow.cli.interpret;
 
 /**
  * @Author ch3ng

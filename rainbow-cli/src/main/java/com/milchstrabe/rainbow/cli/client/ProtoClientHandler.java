@@ -1,4 +1,4 @@
-package com.milchstrabe.client;
+package com.milchstrabe.rainbow.cli.client;
 
 import com.milchstrabe.rainbow.client.codc.Data;
 import io.netty.channel.ChannelHandlerContext;

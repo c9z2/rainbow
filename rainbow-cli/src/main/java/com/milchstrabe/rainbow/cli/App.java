@@ -1,8 +1,8 @@
-package com.milchstrabe;
+package com.milchstrabe.rainbow.cli;
 
-import com.milchstrabe.client.TCPClient;
-import com.milchstrabe.interpret.CMDS;
-import com.milchstrabe.interpret.Expression;
+import com.milchstrabe.rainbow.cli.client.TCPClient;
+import com.milchstrabe.rainbow.cli.interpret.CMDS;
+import com.milchstrabe.rainbow.cli.interpret.Expression;
 
 import java.io.IOException;
 import java.util.Scanner;

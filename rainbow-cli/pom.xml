@@ -15,6 +15,12 @@
     <name>${project.artifactId}</name>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.milchstrabe</groupId>
+            <artifactId>rainbow-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

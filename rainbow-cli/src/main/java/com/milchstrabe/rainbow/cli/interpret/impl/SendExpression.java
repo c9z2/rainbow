@@ -1,8 +1,8 @@
-package com.milchstrabe.interpret.impl;
+package com.milchstrabe.rainbow.cli.interpret.impl;
 
 import com.google.protobuf.ByteString;
-import com.milchstrabe.client.TCPClient;
-import com.milchstrabe.interpret.Expression;
+import com.milchstrabe.rainbow.cli.client.TCPClient;
+import com.milchstrabe.rainbow.cli.interpret.Expression;
 import com.milchstrabe.rainbow.client.codc.Data;
 
 /**

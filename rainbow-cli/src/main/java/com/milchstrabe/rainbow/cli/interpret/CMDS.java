@@ -1,7 +1,7 @@
-package com.milchstrabe.interpret;
+package com.milchstrabe.rainbow.cli.interpret;
 
-import com.milchstrabe.interpret.impl.ExitExpression;
-import com.milchstrabe.interpret.impl.SendExpression;
+import com.milchstrabe.rainbow.cli.interpret.impl.ExitExpression;
+import com.milchstrabe.rainbow.cli.interpret.impl.SendExpression;
 
 import java.util.HashMap;
 import java.util.Map;

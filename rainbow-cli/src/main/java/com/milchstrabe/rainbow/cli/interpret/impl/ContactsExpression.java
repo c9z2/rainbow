@@ -1,6 +1,6 @@
-package com.milchstrabe.interpret.impl;
+package com.milchstrabe.rainbow.cli.interpret.impl;
 
-import com.milchstrabe.interpret.Expression;
+import com.milchstrabe.rainbow.cli.interpret.Expression;
 
 /**
  * @Author ch3ng
