@@ -1,9 +1,8 @@
-package com.milchstrabe.rainbow.cli.interpret.impl;
+package com.milchstrabe.rainbow.cli.interpret;
 
 import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
-import com.milchstrabe.rainbow.cli.interpret.Expression;
-import com.milchstrabe.rainbow.client.codc.Data;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
 
 /**
  * @Author ch3ng
@@ -11,7 +10,7 @@ import com.milchstrabe.rainbow.client.codc.Data;
  * @Version 1.0
  * @Description
  **/
-public class SendExpression implements Expression {
+public class SendExpression implements CMDExpression {
 
     @Override
     public boolean interpret(String[] cmds) {

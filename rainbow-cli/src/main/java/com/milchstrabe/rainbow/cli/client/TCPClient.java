@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.cli.client;
 
-import com.milchstrabe.rainbow.client.codc.Data;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

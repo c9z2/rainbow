@@ -1,10 +1,18 @@
 package com.milchstrabe.rainbow.cli;
 
+import cn.hutool.http.HttpUtil;
+import com.google.gson.Gson;
+import com.google.protobuf.ByteString;
+import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
+import com.milchstrabe.rainbow.cli.common.Constant;
+import com.milchstrabe.rainbow.cli.interpret.CMDExpression;
 import com.milchstrabe.rainbow.cli.interpret.CMDS;
-import com.milchstrabe.rainbow.cli.interpret.Expression;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -41,7 +49,7 @@ public class App{
             String regex = "\\s+";
             String[] split = str.split(regex);
             if(split.length>=1){
-                Expression expression = CMDS.C_M_D_S.get(split[0]);
+                CMDExpression expression = CMDS.C_M_D_S.get(split[0]);
                 if(expression != null){
                     expression.interpret(split);
                 }
@@ -56,7 +64,26 @@ public class App{
         String username = inp.nextLine();
         System.out.print("password: ");
         String password = inp.nextLine();
-        if("admin".equals(username) && "123".equals(password)){
+
+        Map<String,Object> param = new HashMap<>();
+        param.put("username",username);
+        param.put("password",password);
+        String post = HttpUtil.post(Constant.sign_In, param);
+        /**
+         *     private Integer code;
+         *     private String msg;
+         *     private T data;
+         */
+        Gson gson = new Gson();
+        Result result = gson.fromJson(post, Result.class);
+        if(200 == result.getCode()){
+            String token = result.getData().toString();
+            Data.Request request = Data.Request.newBuilder()
+                    .setCmd1(0)
+                    .setCmd2(0)
+                    .setData(ByteString.copyFromUtf8(token))
+                    .build();
+            TCPClient.f.channel().writeAndFlush(request);
             return;
         }
         login(inp);

@@ -1,6 +1,5 @@
-package com.milchstrabe.rainbow.cli.interpret.impl;
+package com.milchstrabe.rainbow.cli.interpret;
 
-import com.milchstrabe.rainbow.cli.interpret.Expression;
 
 /**
  * @Author ch3ng
@@ -8,7 +7,7 @@ import com.milchstrabe.rainbow.cli.interpret.Expression;
  * @Version 1.0
  * @Description
  **/
-public class ExitExpression implements Expression {
+public class ExitExpression implements CMDExpression {
 
     @Override
     public boolean interpret(String[] cmds) {

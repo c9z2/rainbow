@@ -6,7 +6,7 @@ package com.milchstrabe.rainbow.cli.interpret;
  * @Version 1.0
  * @Description
  **/
-public interface Expression {
+public interface CMDExpression {
 
    boolean interpret(String[] cmds);
 }

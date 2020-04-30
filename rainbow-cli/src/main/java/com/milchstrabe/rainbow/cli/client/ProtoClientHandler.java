@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.cli.client;
 
-import com.milchstrabe.rainbow.client.codc.Data;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

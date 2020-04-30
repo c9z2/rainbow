@@ -1,8 +1,5 @@
 package com.milchstrabe.rainbow.cli.interpret;
 
-import com.milchstrabe.rainbow.cli.interpret.impl.ExitExpression;
-import com.milchstrabe.rainbow.cli.interpret.impl.SendExpression;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +11,7 @@ import java.util.Map;
  **/
 public class CMDS {
 
-    public final static Map<String,Expression> C_M_D_S = new HashMap();
+    public final static Map<String,CMDExpression> C_M_D_S = new HashMap();
 
     static{
         C_M_D_S.put("send",new SendExpression());
