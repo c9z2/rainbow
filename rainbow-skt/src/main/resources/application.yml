@@ -1,7 +1,5 @@
-server:
-  servlet:
-    application-display-name: skyblue
-
+node:
+  host: 127.0.0.1
 
 netty:
   tcp:
