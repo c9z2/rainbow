@@ -52,6 +52,7 @@ public class App{
                 CMDExpression expression = CMDS.C_M_D_S.get(split[0]);
                 if(expression != null){
                     expression.interpret(split);
+                    continue;
                 }
             }
             System.out.println("command not found: "+ split[0]);

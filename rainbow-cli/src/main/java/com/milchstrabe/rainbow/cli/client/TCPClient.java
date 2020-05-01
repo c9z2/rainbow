@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class TCPClient {
 
 	private static final String host = "localhost";
-	private static final int port = 32221;
+	private static final int port = 8081;
 	private final EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
 	public static ChannelFuture f = null;
 	public void start() {

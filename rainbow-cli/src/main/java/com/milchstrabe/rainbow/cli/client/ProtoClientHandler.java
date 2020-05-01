@@ -10,7 +10,9 @@ public class ProtoClientHandler extends SimpleChannelInboundHandler<Data.Respons
     protected void channelRead0(ChannelHandlerContext ctx, Data.Response resp) throws Exception {
         com.google.protobuf.ByteString data = resp.getData();
         String msg = data.toStringUtf8();
-        System.out.println(msg);
+        int code = resp.getCode();
+
+        System.out.println("code:"+code);
     }
 
 

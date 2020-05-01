@@ -7,6 +7,7 @@ import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
+import com.milchstrabe.rainbow.skt.server.tcp.session.SessionAttribute;
 import com.milchstrabe.rainbow.skt.service.ISignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,7 +32,9 @@ public class SignInController {
 
         DecodedJWT decodedJWT = signInService.signIn(token);
 
-        tcpRequest.getSession().setAttachment(decodedJWT);
+        SessionAttribute sessionAttribute = new SessionAttribute();
+        sessionAttribute.put("jwt",decodedJWT);
+        tcpRequest.getSession().setAttachment(sessionAttribute);
 
         TCPResponse tcpResponse = TCPResponse.builder()
                 .response(Data.Response
