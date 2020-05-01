@@ -12,7 +12,7 @@ netty:
 curator:
   retryCount: 5
   elapsedTimeMs: 5000
-  connectString: 192.168.1.119:2181
+  connectString: rainbow.milchstrabe.com:22181
   sessionTimeoutMs: 60000
   connectionTimeoutMs: 5000
 
@@ -20,11 +20,11 @@ curator:
 spring:
   data:
     mongodb:
-      uri: mongodb://10.40.3.165:27017/sas_multi_dev
+      uri: mongodb://rainbow.milchstrabe.com:37017/rainbow
   redis:
     database: 0
-    host: 10.40.3.165
-    port: 6379
+    host: rainbow.milchstrabe.com
+    port: 16379
        # password: 123456
     max-active: 10
     max-wait: 500
