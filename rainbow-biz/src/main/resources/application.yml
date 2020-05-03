@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://rainbow.milchstrabe.com:33306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
+    url: jdbc:mysql://192.168.1.118:3306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
     username: root
     password: zhang
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -33,7 +33,7 @@ encrypt:
 curator:
   retryCount: 5
   elapsedTimeMs: 5000
-  connectString: rainbow.milchstrabe.com:22181
+  connectString: 192.168.1.118:2181
   sessionTimeoutMs: 60000
   connectionTimeoutMs: 5000
 

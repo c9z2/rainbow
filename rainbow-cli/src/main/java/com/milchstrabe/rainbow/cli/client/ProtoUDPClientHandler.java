@@ -18,7 +18,7 @@ public class ProtoUDPClientHandler extends SimpleChannelInboundHandler<Data.Resp
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         // open datagram channel
-
+        System.out.println();
         super.channelInactive(ctx);
     }
 
