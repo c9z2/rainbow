@@ -11,6 +11,7 @@ import com.milchstrabe.rainbow.server.domain.Node;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class ServerController {
 
     private final static String ROOT_PATH = "/rainbow";
 
-    @PostMapping(path = "/nodes")
+    @GetMapping(path = "/nodes")
     public Result<NodeVO> nodes() throws InternalException {
         try {
             List<String> nodes = curatorFramework.getChildren().forPath(ROOT_PATH);

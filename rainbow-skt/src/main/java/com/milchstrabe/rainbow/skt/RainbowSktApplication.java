@@ -95,6 +95,7 @@ public class RainbowSktApplication implements CommandLineRunner {
 		//register current server to zookeeper
 		try {
 			serverByCurator.createNode();
+			serverByCurator.setData2Node();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

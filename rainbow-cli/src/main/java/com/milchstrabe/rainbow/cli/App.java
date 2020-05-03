@@ -1,21 +1,21 @@
 package com.milchstrabe.rainbow.cli;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
+import com.milchstrabe.rainbow.cli.client.UDPClient;
 import com.milchstrabe.rainbow.cli.common.Constant;
 import com.milchstrabe.rainbow.cli.interpret.CMDExpression;
 import com.milchstrabe.rainbow.cli.interpret.CMDS;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 /**
  * rainbow client test program
@@ -23,16 +23,11 @@ import java.util.concurrent.TimeoutException;
  */
 public class App{
 
-    public static void main( String[] args ) throws IOException, InterruptedException, ExecutionException, TimeoutException {
-        TCPClient client = new TCPClient();
-        new Thread(()->{
-            client.start();
-        }).start();
+    static TCPClient tcpClient = new TCPClient();
+    static UDPClient udpClient = new UDPClient();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("shutdown tcp connection");
-            client.destory();
-        }));
+    public static void main( String[] args ) {
+
 
         Scanner inp = new Scanner(System.in);
 
@@ -69,7 +64,7 @@ public class App{
         Map<String,Object> param = new HashMap<>();
         param.put("username",username);
         param.put("password",password);
-        String post = HttpUtil.post(Constant.sign_In, param);
+        String post = HttpUtil.post(Constant.SIGN_IN, param);
         /**
          *     private Integer code;
          *     private String msg;
@@ -79,12 +74,70 @@ public class App{
         Result result = gson.fromJson(post, Result.class);
         if(200 == result.getCode()){
             String token = result.getData().toString();
+            HttpRequest get = HttpUtil.createGet(Constant.SERVER_NODE);
+            get.header("Authorization","Berarer " + token);
+            HttpResponse execute = get.execute();
+            if(!execute.isOk()){
+                login(inp);
+            }
+            String body = execute.body();
+            Result serverNodeResult = gson.fromJson(body,Result.class);
+            Map<String,Object> map =  (Map) serverNodeResult.getData();
+            TCPClient.SERVER_NODE = map;
+
+
+            new Thread(()->{
+                tcpClient.start();
+            }).start();
+
+            new Thread(()->{
+                udpClient.start();
+            }).start();
+
+
+            new Thread(()->{
+                try {
+                    while (udpClient.channel == null){
+                        Thread.sleep(500);
+                    }
+                    udpClient.channel.closeFuture().await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            new Thread(()->{
+                //tcp server
+                try {
+                    while(tcpClient.f == null ){
+                        Thread.sleep(500);
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tcpClient.f.channel().closeFuture().syncUninterruptibly();
+            }).start();
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                System.out.println("shutdown tcp connection");
+                tcpClient.destory();
+                udpClient.destory();
+            }));
+
             Data.Request request = Data.Request.newBuilder()
                     .setCmd1(0)
                     .setCmd2(0)
                     .setData(ByteString.copyFromUtf8(token))
                     .build();
-            TCPClient.f.channel().writeAndFlush(request);
+            try {
+                while (tcpClient.f == null){
+                    Thread.sleep(500);
+                }
+            }catch (Exception e){
+
+            }
+
+            tcpClient.f.channel().writeAndFlush(request);
             return;
         }
         login(inp);

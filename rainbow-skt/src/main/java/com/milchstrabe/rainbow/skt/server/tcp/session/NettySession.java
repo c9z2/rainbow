@@ -1,7 +1,6 @@
 package com.milchstrabe.rainbow.skt.server.tcp.session;
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
 
@@ -49,9 +48,8 @@ public class NettySession implements Session<SessionAttribute> {
 	}
 
 	@Override
-	public void write(TCPResponse response) {
-		Data.Response resp = response.getResponse();
-		channel.writeAndFlush(resp);
+	public void write(Data.Response response) {
+		channel.writeAndFlush(response);
 	}
 
 	@Override

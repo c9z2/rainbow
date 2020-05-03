@@ -1,5 +1,15 @@
 package com.milchstrabe.rainbow.skt.server.udp;
 
+import com.milchstrabe.rainbow.skt.common.constant.StateCode;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
+import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
+import com.milchstrabe.rainbow.skt.server.tcp.scanner.Invoker;
+import com.milchstrabe.rainbow.skt.server.tcp.scanner.InvokerHolder;
+import com.milchstrabe.rainbow.skt.server.tcp.session.NettySession;
+import com.milchstrabe.rainbow.skt.server.tcp.session.Session;
+import com.milchstrabe.rainbow.skt.server.udp.codc.UDPRequest;
+import com.milchstrabe.rainbow.skt.server.udp.codc.UDPResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
@@ -12,24 +22,42 @@ import lombok.extern.slf4j.Slf4j;
  * @Description
  **/
 @Slf4j
-public class ServerHandler extends SimpleChannelInboundHandler<DatagramPacket> {
- 
-	@Override
-	public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
+public class ServerHandler extends SimpleChannelInboundHandler<Data.Request> {
 
+
+	private void handlerMessage(UDPRequest udpRequest) {
+		Data.Response response = null;
+		int firstOrder = udpRequest.getRequest().getCmd1();
+		int secondOrder = udpRequest.getRequest().getCmd2();
+		Session session = udpRequest.getSession();
+		Invoker invoker = InvokerHolder.getInvoker(firstOrder, secondOrder);
+		if (invoker != null) {
+			//指令
+			Object invoke = invoker.invoke(udpRequest);
+			if (invoke == null) {
+				return;
+			}
+			response = (Data.Response) invoke;
+
+			session.write(response);
+		} else {
+			log.info("没有相关的指令");
+			response = Data.Response
+					.newBuilder()
+					.setCmd1(firstOrder)
+					.setCmd2(secondOrder)
+					.setCode(StateCode.NOT_FOUND)
+					.build();
+			session.write(response);
+		}
 	}
- 
-	 @Override
-	 protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
-	
-	 // 消息处理。。。。。
-	 
-	 //消息发送。。。。
-
-	 }
 
 	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-		super.userEventTriggered(ctx, evt);
+	protected void channelRead0(ChannelHandlerContext channelHandlerContext, Data.Request request) throws Exception {
+		UDPRequest tcpRequest = UDPRequest.builder()
+				.request(request)
+				.session(new NettySession(channelHandlerContext.channel()))
+				.build();
+		handlerMessage(tcpRequest);
 	}
 }

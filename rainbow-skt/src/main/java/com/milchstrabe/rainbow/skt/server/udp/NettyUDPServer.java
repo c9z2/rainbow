@@ -1,9 +1,17 @@
 package com.milchstrabe.rainbow.skt.server.udp;
 
+import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.handler.codec.DatagramPacketDecoder;
+import io.netty.handler.codec.DatagramPacketEncoder;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,23 +42,14 @@ public class NettyUDPServer {
 						@Override
 						protected void initChannel(NioDatagramChannel nioDatagramChannel) throws Exception {
 							ChannelPipeline pipeline = nioDatagramChannel.pipeline();
-							// 添加UDP解码器
-//							 new ProtobufDecoder(Message.getDefaultInstance())));
-							// 添加UDP编码器
-//							 pipeline.addLast("datagramPacketEncoder", new DatagramPacketEncoder<Message>(new ProtobufEncoder()));
-							//消息处理器
-							pipeline.addLast(busyGroup, new ServerHandler());
-							//ack处理器
-//							 pipeline.addLast("ackHandler", new UdpAckServerHandler());
-
-							pipeline.addLast("timeout", new IdleStateHandler(180, 0, 0,TimeUnit.SECONDS));
-							// 心跳处理handler
-							// pipeline.addLast(new UdpHeartBeatServerHandler());
+							pipeline.addLast(new DatagramPacketDecoder(new ProtobufDecoder(Data.Request.getDefaultInstance())));
+							pipeline.addLast(new DatagramPacketEncoder<Data.Request>(new ProtobufEncoder()));
+							pipeline.addLast(new ServerHandler());
 
 						}
 					})
 					.option(ChannelOption.SO_BROADCAST, true)// 支持广播
-					.option(ChannelOption.SO_BACKLOG, 128)
+//					.option(ChannelOption.SO_BACKLOG, 128)
 					.option(ChannelOption.SO_RCVBUF, 1024 * 1024)// 设置UDP读缓冲区为1M
 					.option(ChannelOption.SO_SNDBUF, 1024 * 1024);// 设置UDP写缓冲区为1M
  

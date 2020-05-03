@@ -1,8 +1,8 @@
 package com.milchstrabe.rainbow.skt.service;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
+import com.milchstrabe.rainbow.biz.domain.po.User;
 
 public interface ISignInService {
 
-    DecodedJWT signIn(String token);
+    User signIn(String token);
 }

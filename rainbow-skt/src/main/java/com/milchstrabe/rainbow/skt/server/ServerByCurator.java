@@ -53,7 +53,7 @@ public class ServerByCurator{
      * create node
      */
     public void createNode() throws Exception {
-        String keyPath = ROOT_PATH + "/" + host;
+        String keyPath = ROOT_PATH + "/" + host + ":" + tcpPort;
             if(curatorFramework.checkExists().forPath(keyPath)!=null){
                 throw new Exception("the znode exists at:" + keyPath);
             }
@@ -73,7 +73,7 @@ public class ServerByCurator{
      * @throws Exception
      */
     public boolean removeNode(String path) throws Exception {
-        String keyPath = ROOT_PATH + "/" + host;
+        String keyPath = ROOT_PATH + "/" + host + ":" + tcpPort;
         if (curatorFramework.checkExists().forPath(keyPath) != null) {
             curatorFramework.delete().forPath(keyPath);
             return true;

@@ -47,10 +47,7 @@ public class MessageServiceImpl implements IMessageService {
                         .setCode(2)
                         .setData(request.getData())
                         .build();
-                TCPResponse tcpResponse = TCPResponse.builder()
-                        .response(resp)
-                        .build();
-                session.write(tcpResponse);
+                session.write(resp);
                 return true;
             }
             List<ClientServer> css = clientServerRepository.findCSByUid(receiver);

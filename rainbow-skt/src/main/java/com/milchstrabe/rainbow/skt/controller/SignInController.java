@@ -1,7 +1,8 @@
 package com.milchstrabe.rainbow.skt.controller;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.protobuf.ByteString;
+import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
@@ -24,27 +25,23 @@ public class SignInController {
     private ISignInService signInService;
 
     @NettyMapping(cmd = 0)
-    public TCPResponse signIn(TCPRequest tcpRequest){
+    public Data.Response signIn(TCPRequest tcpRequest){
 
         Data.Request request = tcpRequest.getRequest();
         ByteString data = request.getData();
         String token = data.toStringUtf8();
 
-        DecodedJWT decodedJWT = signInService.signIn(token);
+        User user = signInService.signIn(token);
 
         SessionAttribute sessionAttribute = new SessionAttribute();
-        sessionAttribute.put("jwt",decodedJWT);
+        sessionAttribute.put(SessionKey.CLIENT_IN_SESSION,user);
         tcpRequest.getSession().setAttachment(sessionAttribute);
 
-        TCPResponse tcpResponse = TCPResponse.builder()
-                .response(Data.Response
-                        .newBuilder()
-                        .setCmd1(request.getCmd1())
-                        .setCmd2(request.getCmd2())
-                        .setCode(2)
-                        .build()
-                )
+        return Data.Response
+                .newBuilder()
+                .setCmd1(request.getCmd1())
+                .setCmd2(request.getCmd2())
+                .setCode(2)
                 .build();
-        return tcpResponse;
     }
 }

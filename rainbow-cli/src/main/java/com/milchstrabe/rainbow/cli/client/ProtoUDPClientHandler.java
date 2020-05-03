@@ -4,7 +4,7 @@ import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-public class ProtoClientHandler extends SimpleChannelInboundHandler<Data.Response> {
+public class ProtoUDPClientHandler extends SimpleChannelInboundHandler<Data.Response> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Data.Response resp) throws Exception {
@@ -15,11 +15,11 @@ public class ProtoClientHandler extends SimpleChannelInboundHandler<Data.Respons
         System.out.println("code:"+code);
     }
 
-
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//        DataInfo.RequestUser user = DataInfo.RequestUser.newBuilder()
-//                .setUserName("zhihao.miao").setAge(27).setPassword("123456").build();
-//        ctx.channel().writeAndFlush(user);
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        // open datagram channel
+
+        super.channelInactive(ctx);
     }
+
 }

@@ -1,8 +1,10 @@
 package com.milchstrabe.rainbow.biz.interceptor;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.milchstrabe.rainbow.biz.exception.AuthException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws AuthException {
         String authorization = request.getHeader("Authorization");
         log.info(authorization);
         if(!StringUtils.hasLength(authorization)){
@@ -33,7 +35,14 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
         String token = tokens[1];
-        DecodedJWT decode = JWT.decode(token);
+        DecodedJWT decode = null;
+        try {
+            decode = JWT.decode(token);
+        }catch (JWTDecodeException exception){
+            log.error(exception.getMessage());
+            throw new AuthException("berarer token err!");
+        }
+
         Claim user = decode.getClaim("userId");
         String userId = user.asString();
         request.setAttribute("userId",userId);

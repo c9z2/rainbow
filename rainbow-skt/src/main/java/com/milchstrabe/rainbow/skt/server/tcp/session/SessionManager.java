@@ -56,8 +56,7 @@ public class SessionManager {
 		Session session = onlineSessions.get(cid);
 		if (session != null && session.isConnected()) {
 			Data.Response resp = Data.Response.newBuilder().build();
-			TCPResponse TCPResponse = new TCPResponse(resp);
-			session.write(TCPResponse);
+			session.write(resp);
 		}
 	}
 

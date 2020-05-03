@@ -21,7 +21,7 @@ public class MessageController {
     private IMessageService messageService;
 
     @NettyMapping(cmd = 1)
-    public TCPResponse msg(TCPRequest tcpRequest){
+    public Data.Response msg(TCPRequest tcpRequest){
         Data.Request request = tcpRequest.getRequest();
         boolean isSuccess = messageService.doMessage(request);
         int status = 5;
@@ -29,13 +29,10 @@ public class MessageController {
             status = 2;
         }
 
-        Data.Response response = Data.Response.newBuilder()
+        return Data.Response.newBuilder()
                 .setCmd1(request.getCmd1())
                 .setCmd2(request.getCmd2())
                 .setCode(status)
-                .build();
-        return TCPResponse.builder()
-                .response(response)
                 .build();
     }
 }

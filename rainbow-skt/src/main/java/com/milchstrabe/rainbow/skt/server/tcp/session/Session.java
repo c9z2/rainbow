@@ -2,7 +2,6 @@ package com.milchstrabe.rainbow.skt.server.tcp.session;
 
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 import io.netty.channel.Channel;
 
 /**
@@ -41,7 +40,7 @@ public interface Session<T> {
 	 * 向会话中写入消息
 	 * @param response
 	 */
-	void write(TCPResponse response);
+	void write(Data.Response response);
 	
 	/**
 	 * 判断会话是否在连接中

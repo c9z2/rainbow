@@ -68,6 +68,7 @@ public class SystemServiceImpl implements ISystemService {
                 .withIssuedAt(now)
                 .withJWTId(UUID.randomUUID().toString().replace("-",""))
                 .withClaim("userId",userInDatabase.getId())
+                .withClaim("username",username)
                 .sign(algorithmHS);
 
         return token;
