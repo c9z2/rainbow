@@ -33,8 +33,6 @@ public class RainbowSktApplication implements CommandLineRunner {
 	@Autowired
 	private GRPCServer grpcServer;
 
-	@Autowired
-	private ServerByCurator serverByCurator;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RainbowSktApplication.class, args);
@@ -90,15 +88,6 @@ public class RainbowSktApplication implements CommandLineRunner {
 				log.error(e.getMessage());
 			}
 		}).start();
-
-
-		//register current server to zookeeper
-		try {
-			serverByCurator.createNode();
-			serverByCurator.setData2Node();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 	}
 }
