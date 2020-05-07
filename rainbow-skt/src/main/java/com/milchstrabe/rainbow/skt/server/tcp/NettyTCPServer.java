@@ -46,7 +46,7 @@ public class NettyTCPServer {
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new IdleStateHandler(0,0,20));
+                    ch.pipeline().addLast(new IdleStateHandler(0,0,2000));
 //                    ch.pipeline().addLast(new RequestDecoder());
 //                    ch.pipeline().addLast(new ResponseEncoder());
 //                    ch.pipeline().addLast(busyGroup,new ServerHandler());

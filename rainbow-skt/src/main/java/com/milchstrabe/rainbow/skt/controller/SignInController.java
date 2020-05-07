@@ -9,6 +9,7 @@ import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
 import com.milchstrabe.rainbow.skt.server.tcp.session.SessionAttribute;
+import com.milchstrabe.rainbow.skt.server.tcp.session.SessionManager;
 import com.milchstrabe.rainbow.skt.service.ISignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,6 +37,7 @@ public class SignInController {
         SessionAttribute sessionAttribute = new SessionAttribute();
         sessionAttribute.put(SessionKey.CLIENT_IN_SESSION,user);
         tcpRequest.getSession().setAttachment(sessionAttribute);
+        SessionManager.putSession(user.getUsername(),tcpRequest.getSession());
 
         return Data.Response
                 .newBuilder()

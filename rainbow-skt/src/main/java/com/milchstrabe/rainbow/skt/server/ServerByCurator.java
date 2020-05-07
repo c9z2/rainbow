@@ -1,30 +1,18 @@
 package com.milchstrabe.rainbow.skt.server;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.milchstrabe.rainbow.server.domain.Node;
 import com.milchstrabe.rainbow.skt.common.util.ByteUtil;
-import com.mongodb.util.JSON;
-import com.oracle.javafx.jmx.json.JSONWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache;
-import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.Stat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @Author ch3ng
