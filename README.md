@@ -4,14 +4,14 @@ Rainbow is a distributed IM system that will cover all platforms. Including IOS,
 ```
 rainbow
 ├── rainbow-api: common programs
-│		├── src: source code
-│		└── pom: pom file
+│   ├── src: source code
+│   └── pom: pom file
 ├── rainbow-biz: provide business programs for clients
-│		├── src: source code
-│		└── pom: pom file
+│   ├── src: source code
+│   └── pom: pom file
 ├── rainbow-cli: clients test prograns
-│		├── src: source code
-│		└── pom: pom file
+│   ├── src: source code
+│   └── pom: pom file
 └── rainbow-skt: provide socket support for clients
 ```
 
@@ -22,7 +22,11 @@ rainbow
 
 ## Features
 
-- uncertain
+- Get offline messages
+- Disconnect and reconnect function
+- Message store
+- Contact list
+- Message list
 
 ## Reporting bugs
 
