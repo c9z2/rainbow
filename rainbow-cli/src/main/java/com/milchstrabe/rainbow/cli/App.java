@@ -3,9 +3,12 @@ package com.milchstrabe.rainbow.cli;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.biz.common.Result;
+import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
 import com.milchstrabe.rainbow.cli.client.UDPClient;
 import com.milchstrabe.rainbow.cli.common.Constant;
@@ -25,6 +28,8 @@ public class App{
 
     static TCPClient tcpClient = new TCPClient();
     static UDPClient udpClient = new UDPClient();
+
+    public static User user = null;
 
     public static void main( String[] args ) {
 
@@ -80,6 +85,15 @@ public class App{
             if(!execute.isOk()){
                 login(inp);
             }
+
+            DecodedJWT decode = JWT.decode(token);
+            String userId = decode.getClaim("userId").asString();
+            String username_ = decode.getClaim("username").asString();
+            user = User.builder()
+                    .username(username_)
+                    .id(userId)
+                    .build();
+
             String body = execute.body();
             Result serverNodeResult = gson.fromJson(body,Result.class);
             Map<String,Object> map =  (Map) serverNodeResult.getData();

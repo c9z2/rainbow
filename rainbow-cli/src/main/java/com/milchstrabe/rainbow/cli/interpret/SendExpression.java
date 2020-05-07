@@ -1,10 +1,13 @@
 package com.milchstrabe.rainbow.cli.interpret;
 
 import com.google.protobuf.ByteString;
+import com.milchstrabe.rainbow.cli.App;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.grpc.Msg;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -15,9 +18,14 @@ import java.util.UUID;
  **/
 public class SendExpression implements CMDExpression {
 
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     @Override
     public boolean interpret(String[] cmds) {
-        String msg = cmds[1];
+
+        String date = LocalDateTime.now().format(dateTimeFormatter);
+        String msg = cmds[2];
+        String rec = cmds[1];
 
         /**
          *  string msgId = 1;
@@ -27,13 +35,14 @@ public class SendExpression implements CMDExpression {
          *     string receiver = 5;
          *     string date = 6;
          */
+
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
                 .setMsgId(UUID.randomUUID().toString())
                 .setMsgType(1)
                 .setContent(msg)
-                .setSender("admin")
-                .setReceiver("root")
-                .setDate("2020-05-02 19:00:00")
+                .setSender(App.user.getUsername())
+                .setReceiver(rec)
+                .setDate(date)
                 .build();
 
         ByteString bytes = msgRequest.toByteString();

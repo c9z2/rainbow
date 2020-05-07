@@ -1,17 +1,15 @@
 package com.milchstrabe.rainbow.cli.client;
 
+import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
+import com.milchstrabe.rainbow.skt.server.grpc.Msg;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelPromise;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,11 +19,11 @@ public class ProtoTCPClientHandler extends SimpleChannelInboundHandler<Data.Resp
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Data.Response resp) throws Exception {
-        com.google.protobuf.ByteString data = resp.getData();
-        String msg = data.toStringUtf8();
-        int code = resp.getCode();
-
-        System.out.println("code:"+code);
+        ByteString data = resp.getData();
+        if(resp.getCmd1() == 1 && resp.getCmd2() == 1){
+            Msg.MsgRequest msgRequest = Msg.MsgRequest.parseFrom(data);
+            System.out.println(msgRequest);
+        }
     }
 
     @Override
