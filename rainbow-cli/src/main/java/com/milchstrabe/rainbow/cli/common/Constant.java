@@ -8,7 +8,7 @@ package com.milchstrabe.rainbow.cli.common;
  **/
 public class Constant {
 
-    public static final String SIGN_IN = "http://rainbow.milchstrabe.com:18080/sys/signIn";
+    public static final String SIGN_IN = "http://192.168.118:8080/sys/signIn";
 
-    public static final String SERVER_NODE = "http://rainbow.milchstrabe.com:18080/server/nodes";
+    public static final String SERVER_NODE = "http://192.168.1.118:8080/server/nodes";
 }
