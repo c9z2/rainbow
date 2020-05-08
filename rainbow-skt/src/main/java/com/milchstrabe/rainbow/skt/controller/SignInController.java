@@ -4,12 +4,11 @@ import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
+import com.milchstrabe.rainbow.skt.server.session.Request;
+import com.milchstrabe.rainbow.skt.server.session.SessionAttribute;
+import com.milchstrabe.rainbow.skt.server.session.SessionManager;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
-import com.milchstrabe.rainbow.skt.server.tcp.session.SessionAttribute;
-import com.milchstrabe.rainbow.skt.server.tcp.session.SessionManager;
 import com.milchstrabe.rainbow.skt.service.ISignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,23 +25,23 @@ public class SignInController {
     private ISignInService signInService;
 
     @NettyMapping(cmd = 0)
-    public Data.Response signIn(TCPRequest tcpRequest){
+    public Data.Response signIn(Request request){
 
-        Data.Request request = tcpRequest.getRequest();
-        ByteString data = request.getData();
+        Data.Request dataRequest = request.getRequest();
+        ByteString data = dataRequest.getData();
         String token = data.toStringUtf8();
 
         User user = signInService.signIn(token);
 
         SessionAttribute sessionAttribute = new SessionAttribute();
         sessionAttribute.put(SessionKey.CLIENT_IN_SESSION,user);
-        tcpRequest.getSession().setAttachment(sessionAttribute);
-        SessionManager.putSession(user.getUsername(),tcpRequest.getSession());
+        request.getSession().setAttachment(sessionAttribute);
+        SessionManager.putSession(user.getUsername(),request.getSession());
 
         return Data.Response
                 .newBuilder()
-                .setCmd1(request.getCmd1())
-                .setCmd2(request.getCmd2())
+                .setCmd1(dataRequest.getCmd1())
+                .setCmd2(dataRequest.getCmd2())
                 .setCode(2)
                 .build();
     }

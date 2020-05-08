@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.tcp.codc;
+package com.milchstrabe.rainbow.skt.server.session;
 
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
@@ -15,11 +15,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class TCPResponse {
+public class Response {
 
     private Data.Response response;
 
-    public TCPResponse(Data.Response response){
+    public Response(Data.Response response){
         this.response = response;
     }
 

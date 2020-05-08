@@ -1,7 +1,6 @@
-package com.milchstrabe.rainbow.skt.server.tcp.session;
+package com.milchstrabe.rainbow.skt.server.session;
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 
 import java.util.concurrent.ConcurrentHashMap;
 

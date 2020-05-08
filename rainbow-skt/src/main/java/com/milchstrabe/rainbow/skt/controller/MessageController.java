@@ -1,8 +1,7 @@
 package com.milchstrabe.rainbow.skt.controller;
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
+import com.milchstrabe.rainbow.skt.server.session.Request;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
 import com.milchstrabe.rainbow.skt.service.IMessageService;
@@ -21,17 +20,17 @@ public class MessageController {
     private IMessageService messageService;
 
     @NettyMapping(cmd = 1)
-    public Data.Response msg(TCPRequest tcpRequest){
-        Data.Request request = tcpRequest.getRequest();
-        boolean isSuccess = messageService.doMessage(request);
+    public Data.Response msg(Request request){
+        Data.Request dataRequest = request.getRequest();
+        boolean isSuccess = messageService.doMessage(dataRequest);
         int status = 5;
         if(isSuccess){
             status = 2;
         }
 
         return Data.Response.newBuilder()
-                .setCmd1(request.getCmd1())
-                .setCmd2(request.getCmd2())
+                .setCmd1(dataRequest.getCmd1())
+                .setCmd2(dataRequest.getCmd2())
                 .setCode(status)
                 .build();
     }

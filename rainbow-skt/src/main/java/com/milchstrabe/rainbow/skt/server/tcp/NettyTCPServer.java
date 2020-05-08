@@ -47,16 +47,9 @@ public class NettyTCPServer {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(new IdleStateHandler(0,0,2000));
-//                    ch.pipeline().addLast(new RequestDecoder());
-//                    ch.pipeline().addLast(new ResponseEncoder());
-//                    ch.pipeline().addLast(busyGroup,new ServerHandler());
-                    //解码器，通过Google Protocol Buffers序列化框架动态的切割接收到的ByteBuf
                     ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                    //服务器端接收的是客户端RequestUser对象，所以这边将接收对象进行解码生产实列
                     ch.pipeline().addLast(new ProtobufDecoder(Data.Request.getDefaultInstance()));
-                    //Google Protocol Buffers编码器
                     ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
-                    //Google Protocol Buffers编码器
                     ch.pipeline().addLast(new ProtobufEncoder());
                     ch.pipeline().addLast(busyGroup,new ProtoServerHandler());
                 }

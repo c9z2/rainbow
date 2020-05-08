@@ -4,13 +4,9 @@ import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
 import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
+import com.milchstrabe.rainbow.skt.server.session.*;
 import com.milchstrabe.rainbow.skt.server.tcp.scanner.Invoker;
 import com.milchstrabe.rainbow.skt.server.tcp.scanner.InvokerHolder;
-import com.milchstrabe.rainbow.skt.server.tcp.session.NettySession;
-import com.milchstrabe.rainbow.skt.server.tcp.session.Session;
-import com.milchstrabe.rainbow.skt.server.tcp.session.SessionAttribute;
-import com.milchstrabe.rainbow.skt.server.tcp.session.SessionManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -29,18 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProtoServerHandler extends SimpleChannelInboundHandler<Data.Request> {
 
-    private void handlerMessage(TCPRequest TCPRequest) {
+    private void handlerMessage(Request request) {
         Data.Response response = null;
-        int firstOrder = TCPRequest.getRequest().getCmd1();
-        int secondOrder = TCPRequest.getRequest().getCmd2();
-        Session session = TCPRequest.getSession();
-        //此处应该加入拦截器
-        //拦截器的构思还没想好
+        int firstOrder = request.getRequest().getCmd1();
+        int secondOrder = request.getRequest().getCmd2();
+        Session session = request.getSession();
         Invoker invoker = InvokerHolder.getInvoker(firstOrder, secondOrder);
 
         if (invoker != null) {
             //指令
-            Object invoke = invoker.invoke(TCPRequest);
+            Object invoke = invoker.invoke(request);
             if (invoke == null) {
                 return;
             }
@@ -61,7 +55,7 @@ public class ProtoServerHandler extends SimpleChannelInboundHandler<Data.Request
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Data.Request request){
-        TCPRequest tcpRequest = TCPRequest.builder()
+        Request tcpRequest = Request.builder()
                 .request(request)
                 .session(new NettySession(channelHandlerContext.channel()))
                 .build();

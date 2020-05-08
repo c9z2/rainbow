@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.tcp.session;
+package com.milchstrabe.rainbow.skt.server.session;
 
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;

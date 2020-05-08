@@ -2,17 +2,13 @@ package com.milchstrabe.rainbow.skt.server.udp;
 
 import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPRequest;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.TCPResponse;
 import com.milchstrabe.rainbow.skt.server.tcp.scanner.Invoker;
 import com.milchstrabe.rainbow.skt.server.tcp.scanner.InvokerHolder;
-import com.milchstrabe.rainbow.skt.server.tcp.session.NettySession;
-import com.milchstrabe.rainbow.skt.server.tcp.session.Session;
+import com.milchstrabe.rainbow.skt.server.session.NettySession;
+import com.milchstrabe.rainbow.skt.server.session.Session;
 import com.milchstrabe.rainbow.skt.server.udp.codc.UDPRequest;
-import com.milchstrabe.rainbow.skt.server.udp.codc.UDPResponse;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.socket.DatagramPacket;
 import lombok.extern.slf4j.Slf4j;
 
 /**
