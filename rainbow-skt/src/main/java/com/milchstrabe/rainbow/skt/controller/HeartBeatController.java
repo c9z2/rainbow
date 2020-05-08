@@ -1,9 +1,13 @@
 package com.milchstrabe.rainbow.skt.controller;
 
+import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
+import com.milchstrabe.rainbow.skt.server.annotion.NettyController;
+import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
-import com.milchstrabe.rainbow.skt.server.udp.codc.UDPRequest;
+import com.milchstrabe.rainbow.skt.server.session.Request;
+import com.milchstrabe.rainbow.skt.server.session.SessionAttribute;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author ch3ng
@@ -12,19 +16,14 @@ import com.milchstrabe.rainbow.skt.server.udp.codc.UDPRequest;
  * @Description
  * cmd1:0 --> cmd2:1
  **/
+@Slf4j
 @NettyController(cmd = 0)
 public class HeartBeatController {
 
     @NettyMapping(cmd = 1)
-    public Data.Response heartBeat(UDPRequest udpRequest){
-
-        Data.Request request = udpRequest.getRequest();
-
-        return Data.Response
-                .newBuilder()
-                .setCmd1(request.getCmd1())
-                .setCmd2(request.getCmd2())
-                .setCode(2)
-                .build();
+    public void heartBeat(Request request){
+        SessionAttribute attachment = (SessionAttribute) request.getSession().getAttachment();
+        User user = (User) attachment.get(SessionKey.CLIENT_IN_SESSION);
+        log.info("heart beat-->username:[{}]",user.getUsername());
     }
 }

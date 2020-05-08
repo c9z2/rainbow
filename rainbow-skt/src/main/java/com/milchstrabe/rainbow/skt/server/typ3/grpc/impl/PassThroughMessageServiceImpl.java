@@ -1,7 +1,7 @@
-package com.milchstrabe.rainbow.skt.server.grpc.impl;
+package com.milchstrabe.rainbow.skt.server.typ3.grpc.impl;
 
-import com.milchstrabe.rainbow.skt.server.grpc.Msg;
-import com.milchstrabe.rainbow.skt.server.grpc.PassThroughMessageServiceGrpc;
+import com.milchstrabe.rainbow.skt.server.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.skt.server.typ3.grpc.PassThroughMessageServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import org.springframework.stereotype.Component;
 

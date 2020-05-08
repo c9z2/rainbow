@@ -1,9 +1,8 @@
 package com.milchstrabe.rainbow.skt;
 
-import com.milchstrabe.rainbow.skt.server.ServerByCurator;
-import com.milchstrabe.rainbow.skt.server.grpc.GRPCServer;
-import com.milchstrabe.rainbow.skt.server.tcp.NettyTCPServer;
-import com.milchstrabe.rainbow.skt.server.udp.NettyUDPServer;
+import com.milchstrabe.rainbow.skt.server.typ3.grpc.GRPCServer;
+import com.milchstrabe.rainbow.skt.server.typ3.tcp.NettyTCPServer;
+import com.milchstrabe.rainbow.skt.server.typ3.udp.NettyUDPServer;
 import io.grpc.Server;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;

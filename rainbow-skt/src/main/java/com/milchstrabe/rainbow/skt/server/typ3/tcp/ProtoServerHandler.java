@@ -1,12 +1,12 @@
-package com.milchstrabe.rainbow.skt.server.tcp;
+package com.milchstrabe.rainbow.skt.server.typ3.tcp;
 
 import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
 import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.session.*;
-import com.milchstrabe.rainbow.skt.server.tcp.scanner.Invoker;
-import com.milchstrabe.rainbow.skt.server.tcp.scanner.InvokerHolder;
+import com.milchstrabe.rainbow.skt.server.scanner.Invoker;
+import com.milchstrabe.rainbow.skt.server.scanner.InvokerHolder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

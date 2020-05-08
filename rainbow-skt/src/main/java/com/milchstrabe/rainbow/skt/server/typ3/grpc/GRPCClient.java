@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.grpc;
+package com.milchstrabe.rainbow.skt.server.typ3.grpc;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

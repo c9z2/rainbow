@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.tcp.scanner;
+package com.milchstrabe.rainbow.skt.server.scanner;
 
 import java.util.HashMap;
 import java.util.Map;

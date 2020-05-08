@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.udp;
+package com.milchstrabe.rainbow.skt.server.typ3.udp;
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.bootstrap.Bootstrap;
@@ -9,14 +9,8 @@ import io.netty.handler.codec.DatagramPacketDecoder;
 import io.netty.handler.codec.DatagramPacketEncoder;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Author ch3ng

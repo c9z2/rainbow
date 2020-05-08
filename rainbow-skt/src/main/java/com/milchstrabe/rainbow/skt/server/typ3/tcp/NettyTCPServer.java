@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.tcp;
+package com.milchstrabe.rainbow.skt.server.typ3.tcp;
 
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.bootstrap.ServerBootstrap;
@@ -46,7 +46,7 @@ public class NettyTCPServer {
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new IdleStateHandler(0,0,2000));
+                    ch.pipeline().addLast(new IdleStateHandler(0,0,60));
                     ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
                     ch.pipeline().addLast(new ProtobufDecoder(Data.Request.getDefaultInstance()));
                     ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());

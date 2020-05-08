@@ -7,8 +7,8 @@ import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.session.Request;
 import com.milchstrabe.rainbow.skt.server.session.SessionAttribute;
 import com.milchstrabe.rainbow.skt.server.session.SessionManager;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyController;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
+import com.milchstrabe.rainbow.skt.server.annotion.NettyController;
+import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
 import com.milchstrabe.rainbow.skt.service.ISignInService;
 import org.springframework.beans.factory.annotation.Autowired;
 

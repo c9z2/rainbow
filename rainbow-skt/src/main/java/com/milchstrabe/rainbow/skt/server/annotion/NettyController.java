@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.skt.server.tcp.codc.annotion;
+package com.milchstrabe.rainbow.skt.server.annotion;
 
 import org.springframework.stereotype.Component;
 

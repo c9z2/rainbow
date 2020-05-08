@@ -2,7 +2,7 @@ package com.milchstrabe.rainbow.skt.controller;
 
 import com.milchstrabe.rainbow.skt.server.session.Request;
 import com.milchstrabe.rainbow.skt.server.session.Response;
-import com.milchstrabe.rainbow.skt.server.tcp.codc.annotion.NettyMapping;
+import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
 
 /**
  * @Author ch3ng

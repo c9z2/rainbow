@@ -1,12 +1,12 @@
-package com.milchstrabe.rainbow.skt.server.udp;
+package com.milchstrabe.rainbow.skt.server.typ3.udp;
 
 import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.tcp.scanner.Invoker;
-import com.milchstrabe.rainbow.skt.server.tcp.scanner.InvokerHolder;
+import com.milchstrabe.rainbow.skt.server.scanner.Invoker;
+import com.milchstrabe.rainbow.skt.server.scanner.InvokerHolder;
 import com.milchstrabe.rainbow.skt.server.session.NettySession;
+import com.milchstrabe.rainbow.skt.server.session.Request;
 import com.milchstrabe.rainbow.skt.server.session.Session;
-import com.milchstrabe.rainbow.skt.server.udp.codc.UDPRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -21,15 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ServerHandler extends SimpleChannelInboundHandler<Data.Request> {
 
 
-	private void handlerMessage(UDPRequest udpRequest) {
+	private void handlerMessage(Request request) {
 		Data.Response response = null;
-		int firstOrder = udpRequest.getRequest().getCmd1();
-		int secondOrder = udpRequest.getRequest().getCmd2();
-		Session session = udpRequest.getSession();
+		int firstOrder = request.getRequest().getCmd1();
+		int secondOrder = request.getRequest().getCmd2();
+		Session session = request.getSession();
 		Invoker invoker = InvokerHolder.getInvoker(firstOrder, secondOrder);
 		if (invoker != null) {
 			//指令
-			Object invoke = invoker.invoke(udpRequest);
+			Object invoke = invoker.invoke(request);
 			if (invoke == null) {
 				return;
 			}
@@ -50,7 +50,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Data.Request> {
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext channelHandlerContext, Data.Request request) throws Exception {
-		UDPRequest tcpRequest = UDPRequest.builder()
+		Request tcpRequest = Request.builder()
 				.request(request)
 				.session(new NettySession(channelHandlerContext.channel()))
 				.build();
