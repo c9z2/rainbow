@@ -12,6 +12,7 @@ import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
 import com.milchstrabe.rainbow.cli.client.UDPClient;
 import com.milchstrabe.rainbow.cli.common.Constant;
+import com.milchstrabe.rainbow.cli.controller.ControllerContext;
 import com.milchstrabe.rainbow.cli.interpret.CMDExpression;
 import com.milchstrabe.rainbow.cli.interpret.CMDS;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
@@ -28,20 +29,16 @@ public class App{
 
     static TCPClient tcpClient = new TCPClient();
     static UDPClient udpClient = new UDPClient();
+    public static ControllerContext controllerContext = new ControllerContext();
 
     public static User user = null;
 
     public static void main( String[] args ) {
-
-
         Scanner inp = new Scanner(System.in);
-
         login(inp);
 
         while (true){
-            System.out.print("$ ");
             String str = inp.nextLine();
-
             if(str == null || "".equals(str = str.trim())){
                 str = "command is error";
             }

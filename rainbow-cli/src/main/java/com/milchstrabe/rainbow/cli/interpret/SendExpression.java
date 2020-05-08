@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.cli.App;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.grpc.Msg;
+import com.milchstrabe.rainbow.skt.server.typ3.grpc.Msg;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

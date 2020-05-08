@@ -1,6 +1,5 @@
 package com.milchstrabe.rainbow.cli.client;
 
-import com.milchstrabe.rainbow.cli.App;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
