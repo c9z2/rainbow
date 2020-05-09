@@ -13,12 +13,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SessionManager {
 
 	/**
-	 * 在线会话
+	 * online session
 	 */
 	private static final ConcurrentHashMap<String, Session> onlineSessions = new ConcurrentHashMap<>();
-	
+
+
+	public static Integer countOnline(){
+		 return onlineSessions.size();
+	}
+
 	/**
-	 * 加入
+	 * add session
 	 * @return
 	 */
 	public static boolean putSession(String cid, Session session){
@@ -30,7 +35,7 @@ public class SessionManager {
 	}
 
 	/**
-	 * 移除
+	 * remove session
 	 * @param cid
 	 * @return
 	 */
@@ -39,7 +44,7 @@ public class SessionManager {
 	}
 
 	/**
-	 * 获取当前设备的在线会话
+	 * get online session
 	 * @param cid
 	 * @return
 	 */
@@ -49,7 +54,9 @@ public class SessionManager {
 	}
 
 	/**
-	 * 发送消息
+	 * send messate
+	 * @param cid
+	 * @param object
 	 */
 	public static  void sendMessage(String cid,Object object){
 		Session session = onlineSessions.get(cid);
