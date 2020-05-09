@@ -75,13 +75,17 @@ public class ServerByCurator{
      * @throws Exception
      */
     public boolean setData2Node() throws Exception {
-        String keyPath = ROOT_PATH + "/" + host + ":" + tcpPort;
         Node node = Node.builder()
                 .host(host)
                 .tcpPort(tcpPort)
                 .udpPort(udpPort)
                 .playload(0L)
                 .build();
+        return setData2Node(node);
+    }
+
+    public boolean setData2Node(Node node) throws Exception {
+        String keyPath = ROOT_PATH + "/" + host + ":" + tcpPort;
         Gson gson = new Gson();
         String znodeJson = gson.toJson(node);
         byte[] bytes = znodeJson.getBytes(Charset.forName("utf-8"));
@@ -92,18 +96,27 @@ public class ServerByCurator{
         return false;
     }
 
+    public boolean updateData2Node() throws Exception{
+        Node dataFromNode = getDataFromNode();
+        long playload = dataFromNode.getPlayload();
+        dataFromNode.setPlayload(++playload);
+        String keyPath = ROOT_PATH + "/" + host + ":" + tcpPort;
+        return setData2Node(dataFromNode);
+    }
+
     /**
      * get data from znode
      * @return
      * @throws Exception
      */
-    public long getDataFromNode() throws Exception {
-        String keyPath = ROOT_PATH + "/" + host;
+    public Node getDataFromNode() throws Exception {
+        String keyPath = ROOT_PATH + "/" + host + ":" + tcpPort;
         byte[] bytes = curatorFramework.getData().forPath(keyPath);
-        if(bytes != null && bytes.length>0){
-            long l = ByteUtil.bytesToLong(bytes);
-            return l;
+        if(bytes == null || bytes.length==0){
+            return null;
         }
-        return 0L;
+        Gson gson = new Gson();
+        Node node = gson.fromJson(new String(bytes), Node.class);
+        return node;
     }
 }

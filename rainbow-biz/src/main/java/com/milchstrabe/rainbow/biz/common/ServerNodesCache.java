@@ -15,9 +15,17 @@ import java.util.TreeSet;
  **/
 public class ServerNodesCache {
 
-    private static final Set<Node> serverNodes = new TreeSet<>();
+    private static final Set<Node> serverNodes = new TreeSet<>((node1,node2)->{
+        if(node1.getPlayload() > node2.getPlayload()){
+            return 1;
+        }else if(node1.getPlayload() < node2.getPlayload()){
+            return -1;
+        }else{
+            return 0;
+        }
+    });
 
-    public static synchronized Node getNode() throws LogicException {
+    public static Node getNode() throws LogicException {
         if(serverNodes.isEmpty()){
             throw new LogicException("currently no server nodes are available");
         }
@@ -25,7 +33,7 @@ public class ServerNodesCache {
         return next;
     }
 
-    public static synchronized void removeNode(Node node){
+    public static void removeNode(Node node){
         Iterator<Node> iterator = serverNodes.iterator();
         while (iterator.hasNext()){
             Node temp = iterator.next();
@@ -44,7 +52,7 @@ public class ServerNodesCache {
     }
 
 
-    public static synchronized void existUpdateOrAdd(Node node){
+    public static void existUpdateOrAdd(Node node){
         for(Node temp : serverNodes){
             String host = node.getHost();
             int tcpPort = node.getTcpPort();

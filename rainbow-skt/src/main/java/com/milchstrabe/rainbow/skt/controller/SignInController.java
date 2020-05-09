@@ -10,6 +10,7 @@ import com.milchstrabe.rainbow.skt.server.session.SessionManager;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
 import com.milchstrabe.rainbow.skt.service.ISignInService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Version 1.0
  * @Description
  **/
+@Slf4j
 @NettyController(cmd = 0)
 public class SignInController {
 
@@ -31,7 +33,18 @@ public class SignInController {
         ByteString data = dataRequest.getData();
         String token = data.toStringUtf8();
 
-        User user = signInService.signIn(token);
+        User user = null;
+        try {
+            user = signInService.signIn(token);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return Data.Response
+                    .newBuilder()
+                    .setCmd1(dataRequest.getCmd1())
+                    .setCmd2(dataRequest.getCmd2())
+                    .setCode(3)
+                    .build();
+        }
 
         SessionAttribute sessionAttribute = new SessionAttribute();
         sessionAttribute.put(SessionKey.CLIENT_IN_SESSION,user);

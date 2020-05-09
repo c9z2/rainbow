@@ -16,7 +16,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Builder
-public class Node implements Comparable<Node>{
+public class Node{
 
     private String host;
     private int tcpPort;
@@ -41,9 +41,4 @@ public class Node implements Comparable<Node>{
         return Objects.hash(host, tcpPort);
     }
 
-
-    @Override
-    public int compareTo(Node o) {
-        return this.getPlayload() >= o.getPlayload() ? 1 : -1;
-    }
 }
