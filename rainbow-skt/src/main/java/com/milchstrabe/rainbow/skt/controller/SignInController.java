@@ -1,14 +1,14 @@
 package com.milchstrabe.rainbow.skt.controller;
 
+import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
-import com.milchstrabe.rainbow.biz.domain.po.User;
-import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
-import com.milchstrabe.rainbow.skt.server.codc.Data;
-import com.milchstrabe.rainbow.skt.server.session.Request;
-import com.milchstrabe.rainbow.skt.server.session.SessionAttribute;
-import com.milchstrabe.rainbow.skt.server.session.SessionManager;
+import com.milchstrabe.rainbow.exception.AuthException;
+import com.milchstrabe.rainbow.server.domain.vo.SiginVO;
+import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
+import com.milchstrabe.rainbow.skt.server.codc.Data;
+import com.milchstrabe.rainbow.skt.server.session.Request;
 import com.milchstrabe.rainbow.skt.service.ISignInService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,36 +26,41 @@ public class SignInController {
     @Autowired
     private ISignInService signInService;
 
+    /**
+     * request->{
+     *     "token":"jwt",
+     *     "cid":"cid",
+     *     "clientType":"MACOS"
+     * }
+     * @param request
+     * @return
+     */
     @NettyMapping(cmd = 0)
     public Data.Response signIn(Request request){
 
         Data.Request dataRequest = request.getRequest();
         ByteString data = dataRequest.getData();
-        String token = data.toStringUtf8();
+        String json = data.toStringUtf8();
+        Gson gson = new Gson();
+        SiginVO siginVO = gson.fromJson(json, SiginVO.class);
 
-        User user = null;
         try {
-            user = signInService.signIn(token);
-        } catch (Exception e) {
-            log.error(e.getMessage());
+            signInService.signIn(siginVO.getToken(), siginVO.getCid(), siginVO.getClientType(), request.getSession());
             return Data.Response
                     .newBuilder()
                     .setCmd1(dataRequest.getCmd1())
                     .setCmd2(dataRequest.getCmd2())
-                    .setCode(3)
+                    .setCode(StateCode.SUCCESS)
+                    .build();
+        } catch (AuthException e) {
+            log.error("[{}]:{}",e.CODE,e.getMessage());
+            return Data.Response
+                    .newBuilder()
+                    .setCmd1(dataRequest.getCmd1())
+                    .setCmd2(dataRequest.getCmd2())
+                    .setCode(e.CODE)
                     .build();
         }
 
-        SessionAttribute sessionAttribute = new SessionAttribute();
-        sessionAttribute.put(SessionKey.CLIENT_IN_SESSION,user);
-        request.getSession().setAttachment(sessionAttribute);
-        SessionManager.putSession(user.getUsername(),request.getSession());
-
-        return Data.Response
-                .newBuilder()
-                .setCmd1(dataRequest.getCmd1())
-                .setCmd2(dataRequest.getCmd2())
-                .setCode(2)
-                .build();
     }
 }

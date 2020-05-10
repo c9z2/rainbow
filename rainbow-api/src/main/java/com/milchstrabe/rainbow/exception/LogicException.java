@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.biz.exception;
+package com.milchstrabe.rainbow.exception;
 
 /**
  * @Author ch3ng
@@ -7,8 +7,9 @@ package com.milchstrabe.rainbow.biz.exception;
  * @Description
  **/
 public class LogicException extends Exception {
-
-    public LogicException(String msg){
+    public int CODE = 5000;
+    public LogicException(int code,String msg){
         super(msg);
+        this.CODE = code;
     }
 }

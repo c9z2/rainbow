@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.biz.exception;
+package com.milchstrabe.rainbow.exception;
 
 /**
  * @Author ch3ng
@@ -7,6 +7,8 @@ package com.milchstrabe.rainbow.biz.exception;
  * @Description
  **/
 public class AuthException extends Exception{
+
+    public final int CODE = 5001;
 
     public AuthException(String msg){
         super(msg);

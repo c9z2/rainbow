@@ -1,8 +1,10 @@
 package com.milchstrabe.rainbow.skt.service;
 
-import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.exception.AuthException;
+import com.milchstrabe.rainbow.server.domain.ClientType;
+import com.milchstrabe.rainbow.skt.server.session.Session;
 
 public interface ISignInService {
 
-    User signIn(String token);
+    void signIn(String token, String cid, ClientType cType, Session session) throws AuthException;
 }

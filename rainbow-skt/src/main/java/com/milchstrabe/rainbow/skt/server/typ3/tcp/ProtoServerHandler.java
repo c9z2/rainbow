@@ -1,6 +1,7 @@
 package com.milchstrabe.rainbow.skt.server.typ3.tcp;
 
 import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.server.domain.UCI;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
 import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
@@ -69,8 +70,6 @@ public class ProtoServerHandler extends SimpleChannelInboundHandler<Data.Request
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.ALL_IDLE) {
                 log.info("20s ,do not read and write");
-                //close connection
-                //open udp datagram Channel
                 ctx.channel().close();
             }
         } else {
@@ -85,14 +84,12 @@ public class ProtoServerHandler extends SimpleChannelInboundHandler<Data.Request
         Attribute<SessionAttribute> attachment = channel.attr(AttributeKey.valueOf("ATTACHMENT_KEY"));
         if (attachment != null) {
             SessionAttribute sessionAttribute =  attachment.get();
-            User user = (User) sessionAttribute.get(SessionKey.CLIENT_IN_SESSION);
-            //remove session object
-            if(user != null){
-                SessionManager.removeSession(user.getId());
+            UCI uci = (UCI) sessionAttribute.get(SessionKey.CLIENT_IN_SESSION);
+            if(uci != null){
+                SessionManager.removeSession(uci.getUsername(),uci.getCid());
             }
 
         }
-
         super.channelInactive(ctx);
     }
 

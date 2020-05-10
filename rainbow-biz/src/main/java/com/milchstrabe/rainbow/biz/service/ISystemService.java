@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.biz.service;
 
-import com.milchstrabe.rainbow.biz.exception.LogicException;
+import com.milchstrabe.rainbow.exception.LogicException;
 
 public interface ISystemService {
 

@@ -6,9 +6,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.milchstrabe.rainbow.biz.common.config.JWTConfig;
 import com.milchstrabe.rainbow.biz.domain.po.User;
-import com.milchstrabe.rainbow.biz.exception.LogicException;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
+import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,10 +36,10 @@ public class SystemServiceImpl implements ISystemService {
     @Override
     public String signIn(String username, String password) throws LogicException {
         User userInDatabase = userMappper.findUserByUsername(username);
-        User user = Optional.ofNullable(userInDatabase).orElseThrow(()->new LogicException("username or password err"));
+        User user = Optional.ofNullable(userInDatabase).orElseThrow(()->new LogicException(30000,"username or password err"));
         String md5Pwd = MD5.create().digestHex(password);
         if(!user.getPassword().equals(md5Pwd)){
-            throw new LogicException("username or password err");
+            throw new LogicException(30000,"username or password err");
         }
 
         //用户名密码正确

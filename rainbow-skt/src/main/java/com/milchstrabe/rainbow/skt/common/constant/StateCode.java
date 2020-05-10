@@ -9,34 +9,18 @@ package com.milchstrabe.rainbow.skt.common.constant;
 public class StateCode {
 
     /**
-     * 服务器内部错误
+     * success
      */
-    public  static final byte ERROR= 5;
+    public static final int SUCCESS = 2000;
 
     /**
-     * 正常
+     * internal error
      */
-    public  static final byte NORMAL= 2;
-
+    public static final int NOT_FOUND= 5010;
     /**
-     * 缺少参数
+     * mark gRPC informaration fail
      */
-    public  static final byte MISS= 3;
-
-    /**
-     * 指令不存在
-     */
-    public  static final byte NOT_FOUND= 4;
-
-    /**
-     * 下发指令的状态码
-     */
-    public static final byte DOWN_STATE = 6;
-
-    /**
-     * 没有权限没有登入
-     */
-    public static final byte NO_AUTH = 7;
+    public static final int REGISTER_gRPC_FAIL= 5001;
 
 
 

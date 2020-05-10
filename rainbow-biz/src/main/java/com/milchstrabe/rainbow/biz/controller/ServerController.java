@@ -4,7 +4,7 @@ import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.ServerNodesCache;
 import com.milchstrabe.rainbow.biz.domain.vo.NodeVO;
-import com.milchstrabe.rainbow.biz.exception.LogicException;
+import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.server.domain.Node;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

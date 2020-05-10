@@ -23,7 +23,7 @@ public class SignInController extends AbstractController{
     @Override
     public void resp(Data.Response response, Channel channel) {
         int code = response.getCode();
-        if(code == 2){
+        if(code == 2000){
             //sign in success
             new Thread(()->{
                 timer.schedule(new TimerTask() {

@@ -1,10 +1,13 @@
 package com.milchstrabe.rainbow.skt.controller;
 
+import com.milchstrabe.rainbow.exception.LogicException;
+import com.milchstrabe.rainbow.skt.common.constant.StateCode;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.session.Request;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
 import com.milchstrabe.rainbow.skt.service.IMessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Version 1.0
  * @Description
  **/
+@Slf4j
 @NettyController(cmd = 1)
 public class MessageController {
 
@@ -22,16 +26,20 @@ public class MessageController {
     @NettyMapping(cmd = 1)
     public Data.Response msg(Request request){
         Data.Request dataRequest = request.getRequest();
-        boolean isSuccess = messageService.doMessage(dataRequest);
-        int status = 5;
-        if(isSuccess){
-            status = 2;
+        try {
+            boolean isSuccess = messageService.doMessage(dataRequest);
+            return Data.Response.newBuilder()
+                    .setCmd1(dataRequest.getCmd1())
+                    .setCmd2(dataRequest.getCmd2())
+                    .setCode(StateCode.SUCCESS)
+                    .build();
+        } catch (LogicException e) {
+            log.error("[{}]:{}",e.CODE,e.getMessage());
+            return Data.Response.newBuilder()
+                    .setCmd1(dataRequest.getCmd1())
+                    .setCmd2(dataRequest.getCmd2())
+                    .setCode(e.CODE)
+                    .build();
         }
-
-        return Data.Response.newBuilder()
-                .setCmd1(dataRequest.getCmd1())
-                .setCmd2(dataRequest.getCmd2())
-                .setCode(status)
-                .build();
     }
 }

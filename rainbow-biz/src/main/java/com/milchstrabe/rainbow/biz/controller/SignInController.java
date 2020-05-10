@@ -2,8 +2,8 @@ package com.milchstrabe.rainbow.biz.controller;
 
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
-import com.milchstrabe.rainbow.biz.exception.LogicException;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
+import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +33,7 @@ public class SignInController {
             return ResultBuilder.success(jwt);
         } catch (LogicException e) {
            log.error(e.getMessage());
-           throw new LogicException(e.getMessage());
+           throw new LogicException(50001,e.getMessage());
         }
     }
 }

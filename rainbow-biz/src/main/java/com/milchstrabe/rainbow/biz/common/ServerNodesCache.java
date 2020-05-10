@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.biz.common;
 
-import com.milchstrabe.rainbow.biz.exception.LogicException;
+import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.server.domain.Node;
 
 import java.util.Iterator;
@@ -27,7 +27,7 @@ public class ServerNodesCache {
 
     public static Node getNode() throws LogicException {
         if(serverNodes.isEmpty()){
-            throw new LogicException("currently no server nodes are available");
+            throw new LogicException(30000,"currently no server nodes are available");
         }
         Node next = serverNodes.iterator().next();
         return next;

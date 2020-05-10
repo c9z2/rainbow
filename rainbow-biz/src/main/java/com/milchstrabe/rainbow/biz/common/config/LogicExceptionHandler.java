@@ -2,10 +2,10 @@ package com.milchstrabe.rainbow.biz.common.config;
 
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
-import com.milchstrabe.rainbow.biz.exception.AuthException;
-import com.milchstrabe.rainbow.biz.exception.InternalException;
-import com.milchstrabe.rainbow.biz.exception.LogicException;
-import com.milchstrabe.rainbow.biz.exception.ParamMissException;
+import com.milchstrabe.rainbow.exception.AuthException;
+import com.milchstrabe.rainbow.exception.InternalException;
+import com.milchstrabe.rainbow.exception.LogicException;
+import com.milchstrabe.rainbow.exception.ParamMissException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

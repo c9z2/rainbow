@@ -6,6 +6,8 @@ import cn.hutool.http.HttpUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.domain.po.User;
@@ -19,6 +21,7 @@ import com.milchstrabe.rainbow.skt.server.codc.Data;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -77,6 +80,7 @@ public class App{
         if(200 == result.getCode()){
             String token = result.getData().toString();
             HttpRequest get = HttpUtil.createGet(Constant.SERVER_NODE);
+
             get.header("Authorization","Berarer " + token);
             HttpResponse execute = get.execute();
             if(!execute.isOk()){
@@ -94,8 +98,8 @@ public class App{
             String body = execute.body();
             Result serverNodeResult = gson.fromJson(body,Result.class);
             Map<String,Object> map =  (Map) serverNodeResult.getData();
-            TCPClient.SERVER_NODE = map;
 
+            TCPClient.SERVER_NODE = map;
 
             new Thread(()->{
                 tcpClient.start();
@@ -134,11 +138,22 @@ public class App{
                 tcpClient.destory();
                 udpClient.destory();
             }));
-
+            /**
+             *  request->{
+             *      "token":"jwt",
+             *      "cid":"cid",
+             *      "clientType":"MACOS"
+             *  }
+             */
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("token",token);
+            jsonObject.addProperty("cid", Objects.hash("1233"));
+            jsonObject.addProperty("clientType","MACOS");
+            String json = gson.toJson(jsonObject);
             Data.Request request = Data.Request.newBuilder()
                     .setCmd1(0)
                     .setCmd2(0)
-                    .setData(ByteString.copyFromUtf8(token))
+                    .setData(ByteString.copyFromUtf8(json))
                     .build();
             try {
                 while (tcpClient.f == null){

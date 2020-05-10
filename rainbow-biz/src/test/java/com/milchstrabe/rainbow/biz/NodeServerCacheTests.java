@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.biz;
 
 import com.milchstrabe.rainbow.biz.common.ServerNodesCache;
-import com.milchstrabe.rainbow.biz.exception.LogicException;
+import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.server.domain.Node;
 import org.junit.jupiter.api.Test;
 

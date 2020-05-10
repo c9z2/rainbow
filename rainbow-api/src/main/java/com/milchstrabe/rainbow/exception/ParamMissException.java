@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.biz.exception;
+package com.milchstrabe.rainbow.exception;
 
 /**
  * @Author ch3ng
