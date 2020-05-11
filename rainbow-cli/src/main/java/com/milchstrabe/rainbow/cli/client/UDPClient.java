@@ -1,25 +1,14 @@
 package com.milchstrabe.rainbow.cli.client;
 
-import com.google.protobuf.ByteString;
-import com.milchstrabe.rainbow.cli.App;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.handler.codec.DatagramPacketDecoder;
 import io.netty.handler.codec.DatagramPacketEncoder;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.codec.string.StringEncoder;
-
-import java.io.UnsupportedEncodingException;
-import java.net.InetSocketAddress;
 
 /**
  * @Author ch3ng

@@ -6,7 +6,6 @@ import cn.hutool.http.HttpUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.biz.common.Result;
@@ -19,6 +18,7 @@ import com.milchstrabe.rainbow.cli.interpret.CMDExpression;
 import com.milchstrabe.rainbow.cli.interpret.CMDS;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,15 +28,20 @@ import java.util.Scanner;
  * rainbow client test program
  *
  */
-public class App{
+public class CLI{
 
     static TCPClient tcpClient = new TCPClient();
     static UDPClient udpClient = new UDPClient();
     public static ControllerContext controllerContext = new ControllerContext();
 
     public static User user = null;
+    static String props = null;
 
-    public static void main( String[] args ) {
+    static {
+        props = System.getProperties().getProperty("os.name");;
+    }
+
+        public static void main( String[] args ) {
         Scanner inp = new Scanner(System.in);
         login(inp);
 
@@ -76,7 +81,13 @@ public class App{
          *     private T data;
          */
         Gson gson = new Gson();
-        Result result = gson.fromJson(post, Result.class);
+        Result result = null;
+        try {
+            result = gson.fromJson(post, Result.class);
+        }catch (Exception e){
+            System.out.println("sign in fail: " + e.getMessage());
+        }
+
         if(200 == result.getCode()){
             String token = result.getData().toString();
             HttpRequest get = HttpUtil.createGet(Constant.SERVER_NODE);
@@ -100,6 +111,9 @@ public class App{
             Map<String,Object> map =  (Map) serverNodeResult.getData();
 
             TCPClient.SERVER_NODE = map;
+
+
+
 
             new Thread(()->{
                 tcpClient.start();
@@ -138,6 +152,77 @@ public class App{
                 tcpClient.destory();
                 udpClient.destory();
             }));
+            String cliStr = null;
+            if(props.startsWith("Linux") || props.startsWith("MAC")){
+                File file = new File("~/.rainbow");
+                if(file.exists()){
+                    FileReader fileReader = null;
+                    BufferedReader bufferedReader = null;
+                    try {
+                        fileReader = new FileReader(file);
+                        bufferedReader = new BufferedReader(fileReader);
+                        cliStr = bufferedReader.readLine();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if(fileReader != null){
+                                fileReader.close();
+                            }
+                            if(bufferedReader !=  null){
+                                bufferedReader.close();
+                            }
+                        }catch (IOException e){
+                            System.out.println(e.getMessage());
+                        }
+                    }
+
+                }
+            }else{
+
+            }
+            if(cliStr == null || "".equals(cliStr)){
+                HttpRequest postCLI = HttpUtil.createPost(Constant.CID);
+                get.header("Authorization","Berarer " + token);
+                HttpResponse executeCLI = postCLI.execute();
+                if(!executeCLI.isOk()){
+                    login(inp);
+                }
+                cliStr = executeCLI.body();
+                //write cli info to file
+                if(props.startsWith("Linux") || props.startsWith("MAC")){
+                    File file = new File("~/.rainbow");
+                    if(file.exists()){
+                        FileWriter writer = null;
+                        BufferedWriter bufferedWriter = null;
+                        try {
+                            writer = new FileWriter(file);
+                            bufferedWriter = new BufferedWriter(writer);
+                            bufferedWriter.write(cliStr);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                if(writer != null){
+                                    writer.close();
+                                }
+                                if(bufferedWriter !=  null){
+                                    bufferedWriter.close();
+                                }
+                            }catch (IOException e){
+                                System.out.println(e.getMessage());
+                            }
+                        }
+
+                    }
+                }else{
+
+                }
+            }
             /**
              *  request->{
              *      "token":"jwt",
@@ -147,8 +232,8 @@ public class App{
              */
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("token",token);
-            jsonObject.addProperty("cid", Objects.hash("1233"));
-            jsonObject.addProperty("clientType","MACOS");
+            jsonObject.addProperty("cid", cliStr);
+            jsonObject.addProperty("clientType",props);
             String json = gson.toJson(jsonObject);
             Data.Request request = Data.Request.newBuilder()
                     .setCmd1(0)

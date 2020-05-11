@@ -1,14 +1,19 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.MD5;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.milchstrabe.rainbow.biz.common.config.JWTConfig;
 import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.biz.mapper.ICLIMappper;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
 import com.milchstrabe.rainbow.exception.LogicException;
+import com.milchstrabe.rainbow.biz.domain.po.CLI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +33,9 @@ public class SystemServiceImpl implements ISystemService {
 
     @Autowired
     private IUserMappper userMappper;
+
+    @Autowired
+    private ICLIMappper cliMappper;
 
     @Value("{encrypt.secret:123}")
     private String secret;
@@ -73,6 +81,22 @@ public class SystemServiceImpl implements ISystemService {
 
         return token;
 
+    }
+
+    @Override
+    public String fingerprint(User user, String ctype) throws LogicException {
+        StringBuilder sb = new StringBuilder(System.currentTimeMillis()+":").append(ctype).append(":").append(user.getUsername());
+        String md5= MD5.create().digestHex(sb.toString());
+        byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded();
+        SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
+        String encryptHex = aes.encryptHex(md5);
+
+        CLI cli = CLI.builder().cid(encryptHex).createTime(new Date()).ctype(ctype).user(user).build();
+        boolean isSuccess = cliMappper.addCLI(cli);
+        if(isSuccess){
+            return encryptHex;
+        }
+        throw new LogicException(300,"create cid fail");
     }
 
 }

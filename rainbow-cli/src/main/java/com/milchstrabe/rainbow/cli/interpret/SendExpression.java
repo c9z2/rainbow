@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.cli.interpret;
 
 import com.google.protobuf.ByteString;
-import com.milchstrabe.rainbow.cli.App;
+import com.milchstrabe.rainbow.cli.CLI;
 import com.milchstrabe.rainbow.cli.client.TCPClient;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.skt.server.typ3.grpc.Msg;
@@ -27,7 +27,7 @@ public class SendExpression implements CMDExpression {
         String msg = cmds[2];
         String rec = cmds[1];
 
-        /**
+        /** 
          *  string msgId = 1;
          *     int32 msgType = 2;
          *     string content = 3;
@@ -40,7 +40,7 @@ public class SendExpression implements CMDExpression {
                 .setMsgId(UUID.randomUUID().toString())
                 .setMsgType(1)
                 .setContent(msg)
-                .setSender(App.user.getUsername())
+                .setSender(CLI.user.getUsername())
                 .setReceiver(rec)
                 .setDate(date)
                 .build();

@@ -6,6 +6,9 @@ import com.milchstrabe.rainbow.skt.server.codc.Data;
 import io.netty.channel.Channel;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileFilter;
+
 /**
  * Unit test for simple App.
  */

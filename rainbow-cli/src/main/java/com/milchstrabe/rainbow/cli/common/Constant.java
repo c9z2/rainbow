@@ -8,7 +8,12 @@ package com.milchstrabe.rainbow.cli.common;
  **/
 public class Constant {
 
-    public static final String SIGN_IN = "http://192.168.118:8080/sys/signIn";
+    private static final String HOST = "http://127.0.0.1:8080";
 
-    public static final String SERVER_NODE = "http://192.168.1.118:8080/server/nodes";
+    public static final String SIGN_IN = HOST + "/sys/signIn";
+
+    public static final String SERVER_NODE = HOST + "/server/nodes";
+
+    public static final String CID = HOST + "/cli/fingerprint";
+
 }
