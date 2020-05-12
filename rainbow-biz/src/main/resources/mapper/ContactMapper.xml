@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.milchstrabe.rainbow.biz.mapper.IContactMappper">
+
+	<select id="list" resultType="com.milchstrabe.rainbow.biz.domain.po.Contact">
+		SELECT t1.id,t1.username,t2.remark,t2.create_time AS createTime
+		FROM t_contact t2
+		LEFT JOIN t_user t1 ON t2.user_id=t1.id
+		WHERE t1.id=#{uid}
+	</select>
+
+
+</mapper>

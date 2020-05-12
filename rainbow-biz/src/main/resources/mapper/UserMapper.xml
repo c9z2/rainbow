@@ -5,20 +5,20 @@
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IUserMappper">
 
 	<insert id="addUser">
-		INSERT INTO `user` (id,username,password)
+		INSERT INTO `t_user` (id,username,password)
 		VALUE (#{user.id},#{user.username},#{user.password})
 	</insert>
 
 	<select id="findUserByUsername" resultType="User">
 		SELECT id,username,password
-		FROM `user`
+		FROM `t_user`
 		WHERE username=#{username}
 	</select>
 
 
 	<select id="findUserByUserId" resultType="User">
 		SELECT id,username,password
-		FROM `user`
+		FROM `t_user`
 		WHERE id=#{id}
 	</select>
 </mapper>

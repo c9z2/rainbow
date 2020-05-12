@@ -8,5 +8,5 @@ package com.milchstrabe.rainbow.cli.interpret;
  **/
 public interface CMDExpression {
 
-   boolean interpret(String[] cmds);
+   boolean interpret(String line);
 }

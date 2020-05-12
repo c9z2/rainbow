@@ -21,11 +21,12 @@ public class SendExpression implements CMDExpression {
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public boolean interpret(String[] cmds) {
-
-        String date = LocalDateTime.now().format(dateTimeFormatter);
-        String msg = cmds[2];
-        String rec = cmds[1];
+    public boolean interpret(String data) {
+        String regex = "\\s+";
+        String[] split = data.split(regex);
+        String rec = split[1];
+        String[] split1 = data.split(rec);
+        String msg = split1[1];
 
         /** 
          *  string msgId = 1;
@@ -35,7 +36,7 @@ public class SendExpression implements CMDExpression {
          *     string receiver = 5;
          *     string date = 6;
          */
-
+        String date = LocalDateTime.now().format(dateTimeFormatter);
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
                 .setMsgId(UUID.randomUUID().toString())
                 .setMsgType(1)

@@ -5,7 +5,7 @@
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.ICLIMappper">
 
 	<insert id="addCLI">
-		INSERT INTO `cli_info` (cid,ctype,create_time,user_id)
+		INSERT INTO `t_cli_info` (cid,ctype,create_time,user_id)
 		VALUE (#{cid},#{ctype},#{createTime},#{user.id})
 	</insert>
 

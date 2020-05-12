@@ -21,7 +21,6 @@ import com.milchstrabe.rainbow.skt.server.codc.Data;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -41,7 +40,12 @@ public class CLI{
         props = System.getProperties().getProperty("os.name");;
     }
 
-        public static void main( String[] args ) {
+    /**
+     * opCommad root -c
+     *
+     * @param args
+     */
+    public static void main( String[] args ) {
         Scanner inp = new Scanner(System.in);
         login(inp);
 
@@ -56,7 +60,7 @@ public class CLI{
             if(split.length>=1){
                 CMDExpression expression = CMDS.C_M_D_S.get(split[0]);
                 if(expression != null){
-                    expression.interpret(split);
+                    expression.interpret(str);
                     continue;
                 }
             }
