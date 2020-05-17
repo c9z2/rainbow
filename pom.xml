@@ -40,6 +40,7 @@
         <module>rainbow-cli</module>
         <module>rainbow-biz</module>
         <module>rainbow-api</module>
+        <module>rainbow-ws</module>
     </modules>
 
     <dependencyManagement>
