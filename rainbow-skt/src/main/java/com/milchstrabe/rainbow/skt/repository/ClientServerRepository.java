@@ -5,10 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author ch3ng
@@ -27,6 +24,7 @@ public class ClientServerRepository {
 
     public Set<ClientServer> findCSByUid(String username){
         Set<ClientServer> clientServers = redisTemplate.opsForValue().get(ROOT_PATH + username);
+        clientServers = Optional.ofNullable(clientServers).orElse(new HashSet<>());
         return clientServers;
     }
 

@@ -3,6 +3,7 @@ package com.milchstrabe.rainbow.skt.service.impl;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.milchstrabe.rainbow.exception.LogicException;
+import com.milchstrabe.rainbow.server.domain.UCI;
 import com.milchstrabe.rainbow.skt.repository.ClientServerRepository;
 import com.milchstrabe.rainbow.skt.server.ClientServer;
 import com.milchstrabe.rainbow.skt.server.codc.Data;
@@ -15,9 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author ch3ng
@@ -39,6 +38,7 @@ public class MessageServiceImpl implements IMessageService {
     public boolean doMessage(Data.Request request) throws LogicException {
         ByteString data = request.getData();
         Msg.MsgRequest msgRequest = null;
+        List<String> ucis = new ArrayList<>();
         try {
             msgRequest = Msg.MsgRequest.parseFrom(data);
         } catch (InvalidProtocolBufferException e) {
@@ -59,21 +59,20 @@ public class MessageServiceImpl implements IMessageService {
             while (iterator.hasNext()){
                 Map.Entry<String, Session> sessionEntry = iterator.next();
                 Session session = sessionEntry.getValue();
+                UCI uci = (UCI)session.getAttachment();
+                ucis.add(uci.getCid());
                 session.write(resp);
             }
-            return true;
         }
         Set<ClientServer> css = clientServerRepository.findCSByUid(receiver);
-        if(css == null){
-            //TODO offline message
-            //receiver offline
-            //save offline message 2 db
-            return true;
-        }
         Iterator<ClientServer> iterator = css.iterator();
         while (iterator.hasNext()){
             //TODO gRPC fail
             ClientServer cs = iterator.next();
+            if(ucis.contains(cs.getCid())){
+                //
+                continue;
+            }
             grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
         }
         return true;
