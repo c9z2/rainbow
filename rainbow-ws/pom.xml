@@ -36,6 +36,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -45,6 +50,11 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.milchstrabe</groupId>
+			<artifactId>rainbow-api</artifactId>
 		</dependency>
 	</dependencies>
 
