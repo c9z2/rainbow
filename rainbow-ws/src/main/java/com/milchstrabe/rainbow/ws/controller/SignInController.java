@@ -29,7 +29,7 @@ import java.util.Optional;
 public class SignInController {
 
 
-    @PostMapping("/ws/signIn")
+    @PostMapping("/sys/signIn")
     public Result signIn(SiginVO siginVO,
                          HttpSession session) throws AuthException, ParamMissException {
         Optional.ofNullable(siginVO).orElseThrow(()->{

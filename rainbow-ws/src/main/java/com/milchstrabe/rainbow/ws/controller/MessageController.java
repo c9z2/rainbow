@@ -1,9 +1,8 @@
 package com.milchstrabe.rainbow.ws.controller;
 
-import com.milchstrabe.rainbow.skt.server.codc.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
@@ -11,14 +10,15 @@ import org.springframework.stereotype.Controller;
 public class MessageController {
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private SimpMessageSendingOperations simpMessageSendingOperations;
 
-
-    @MessageMapping("/msg")
-    @SendToUser("/msg")
-    public Data.Response msg(String msg) {
-
-        return null;
+    @MessageMapping("/message")
+    @SendToUser("/message")
+    public String msg(String name) {
+        System.out.println(name);
+        simpMessageSendingOperations.convertAndSendToUser("49ba59abbe56e057", "/message", name);
+        return name;
     }
+
 
 }
