@@ -78,9 +78,9 @@ public class NettyTCPServer {
      */
     public void destroy() {
         log.info("Shutdown Netty TCP Server...");
+        bossGroup.shutdownGracefully();
         if(channel != null) { channel.close();}
         workerGroup.shutdownGracefully();
-        bossGroup.shutdownGracefully();
         log.info("Shutdown Netty TCP Server Success!");
     }
 }
