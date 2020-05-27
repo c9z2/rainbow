@@ -11,6 +11,7 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.concurrent.DefaultThreadFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +26,9 @@ import org.springframework.stereotype.Component;
 public class NettyTCPServer {
 
     // 创建boss和worker
-    private final EventLoopGroup bossGroup = new NioEventLoopGroup();
-    private final EventLoopGroup workerGroup = new NioEventLoopGroup();
-    private final EventLoopGroup busyGroup = new NioEventLoopGroup();
+    private final EventLoopGroup bossGroup = new NioEventLoopGroup(new DefaultThreadFactory("rainbow-skt-boosGroup"));
+    private final EventLoopGroup workerGroup = new NioEventLoopGroup(new DefaultThreadFactory("rainbow-skt-workGroup"));
+    private final EventLoopGroup busyGroup = new NioEventLoopGroup(new DefaultThreadFactory("rainbow-skt-busyGroup"));
 
     private Channel channel;
 
