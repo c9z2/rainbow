@@ -11,7 +11,11 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.NettyRuntime;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import io.netty.util.concurrent.EventExecutorGroup;
+import io.netty.util.concurrent.UnorderedThreadPoolEventExecutor;
+import io.netty.util.internal.SystemPropertyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +29,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class NettyTCPServer {
 
+    // 默认业务线程数
+    private static final int DEFAULT_BUSY_LOOP_THREADS = Math.max(1, SystemPropertyUtil.getInt("io.netty.eventLoopThreads", NettyRuntime.availableProcessors() * 2));
+
     // 创建boss和worker
-    private final EventLoopGroup bossGroup = new NioEventLoopGroup(new DefaultThreadFactory("rainbow-skt-boosGroup"));
+    private final EventLoopGroup bossGroup = new NioEventLoopGroup(1, new DefaultThreadFactory("rainbow-skt-boosGroup"));
     private final EventLoopGroup workerGroup = new NioEventLoopGroup(new DefaultThreadFactory("rainbow-skt-workGroup"));
-    private final EventLoopGroup busyGroup = new NioEventLoopGroup(new DefaultThreadFactory("rainbow-skt-busyGroup"));
+    private final EventExecutorGroup busyGroup = new UnorderedThreadPoolEventExecutor(DEFAULT_BUSY_LOOP_THREADS, new DefaultThreadFactory("rainbow-skt-busyGroup"));
 
     private Channel channel;
 
