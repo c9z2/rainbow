@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <style type="text/css">
+    	
+    	.loginPanal{
+    		width: 400px;
+    		height: 80px;
+    		margin: auto;
+    		background: skyblue;
+    	}
+    </style>
+</head>
+<body>
+
+	<div class="loginPanal">
+
+		username:<input type="text" id="username" />
+		<br>
+		password:<input type="text" id="password"/>
+		<br>
+		<button id="sigIn">sig in</button>
+
+	</div>
+
+	
+
+</body>
+<script type="text/javascript" src="../static/lib/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+
+
+	
+$(function(){
+	var inputUsername = $("#username");
+	var inputPassword = $("#password");
+	$("#sigIn").click(function(){
+		var username = inputUsername.val();
+		var password = inputPassword.val();
+
+		$.post("http://localhost:8080/biz/sys/signIn",
+			{"username":username,"password":password},function(data){
+				console.log(data);
+				if(200 == data.code){
+					var token  = data.data;
+
+					var parts = token.split(".");
+					if (parts.length == 2 && token.endsWith(".")) {
+					    //Tokens with alg='none' have empty String as Signature.
+					    parts = [arts[0], parts[1], ""];
+					}
+					 console.log(parts);
+					var payloadJson = atob(parts[1]);
+					console.log(payloadJson);
+					var payload = JSON.parse(payloadJson); 
+					var userId = payload.userId;
+					localStorage.setItem("token",data.data);
+					localStorage.setItem("userId",userId);
+					window.location.href = "./html/index.html";
+				}
+				
+			})
+
+		
+		
+	})
+	
+
+
+})
+</script>
+</html>
