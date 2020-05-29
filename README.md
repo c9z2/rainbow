@@ -3,16 +3,19 @@ Rainbow is a distributed IM system that will cover all platforms. Including IOS,
 ## Structure
 ```
 rainbow
-├── rainbow-api: common programs
+├── rainbow-api: common program
 │   ├── src: source code
 │   └── pom: pom file
-├── rainbow-biz: provide business programs for clients
+├── rainbow-biz: provide business program for clients
 │   ├── src: source code
 │   └── pom: pom file
-├── rainbow-cli: clients test prograns
+├── rainbow-cli: clients test program
 │   ├── src: source code
 │   └── pom: pom file
-└── rainbow-skt: provide socket support for clients
+├── rainbow-skt: provide socket support for clients
+│   ├── src: source code
+│   └── pom: pom file
+└── rainbow-web: websocket clients test program
 ```
 
 ## Architecture
