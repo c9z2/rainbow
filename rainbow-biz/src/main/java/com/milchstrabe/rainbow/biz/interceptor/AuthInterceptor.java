@@ -28,11 +28,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         String authorization = request.getHeader("Authorization");
         log.info(authorization);
         if(!StringUtils.hasLength(authorization)){
-            return false;
+            throw new AuthException("miss auth!");
         }
         String[] tokens = authorization.split(" ");
         if(tokens.length<2){
-            return false;
+            throw new AuthException("miss auth!");
         }
         String token = tokens[1];
         DecodedJWT decode = null;

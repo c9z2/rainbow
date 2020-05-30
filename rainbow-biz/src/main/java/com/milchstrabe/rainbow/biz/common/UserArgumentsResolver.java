@@ -28,13 +28,7 @@ public class UserArgumentsResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        if(methodParameter.getParameterAnnotation(CurrentUser.class) != null
-                && methodParameter.getParameterType()==CurrentUser.class
-        ){
-            //支持解析该参数
-            return true;
-        }
-        return false;
+        return methodParameter.hasParameterAnnotation(CurrentUser.class);
     }
 
     @Override

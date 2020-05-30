@@ -4,12 +4,25 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IContactMappper">
 
-	<select id="list" resultType="com.milchstrabe.rainbow.biz.domain.po.Contact">
-		SELECT t1.id,t1.username,t2.remark,t2.create_time AS createTime
-		FROM t_contact t2
-		LEFT JOIN t_user t1 ON t2.user_id=t1.id
-		WHERE t1.id=#{uid}
+	<select id="list" resultMap="list_result">
+		SELECT t2.id AS id,
+		t2.username AS username,
+		t1.remark AS remark,
+		t1.create_time AS createTime
+		FROM t_contact t1
+		LEFT JOIN t_user t2 ON t1.contact_id=t2.id
+		WHERE t1.user_id=#{uid}
 	</select>
+
+	<resultMap id="list_result" type="com.milchstrabe.rainbow.biz.domain.po.Contact">
+		<result column="remark" property="remark"/>
+		<result column="createTime" property="createTime"/>
+		<association property="user" javaType="com.milchstrabe.rainbow.biz.domain.po.User">
+			<result column="id" property="id"/>
+			<result column="username" property="username"/>
+		</association>
+
+	</resultMap>
 
 
 </mapper>

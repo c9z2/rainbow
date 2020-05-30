@@ -19,6 +19,7 @@ public class ContactVO {
 
     private String id;
     private String username;
+    private String avatar;
     private String remark;
-    private Date createTime;
+    private Long createTime;
 }

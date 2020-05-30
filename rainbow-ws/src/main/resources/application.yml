@@ -1,2 +1,6 @@
 server:
   port: 6767
+
+netty:
+  gRPC:
+    port: 8083

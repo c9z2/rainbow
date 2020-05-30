@@ -43,6 +43,9 @@ public class ContactController {
         list.stream().forEach(contact -> {
             ContactVO contactVO = ContactVO.builder().build();
             BeanUtils.copyProperties(contact,contactVO);
+            contactVO.setId(contact.getUser().getId());
+            contactVO.setUsername(contact.getUser().getUsername());
+            contactVO.setAvatar("../static/images/avator.png");
             result.add(contactVO);
         });
         return ResultBuilder.success(result);

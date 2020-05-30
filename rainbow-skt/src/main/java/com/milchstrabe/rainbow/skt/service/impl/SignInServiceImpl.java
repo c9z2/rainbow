@@ -7,7 +7,6 @@ import com.milchstrabe.rainbow.server.domain.ClientType;
 import com.milchstrabe.rainbow.server.domain.UCI;
 import com.milchstrabe.rainbow.skt.common.constant.SessionKey;
 import com.milchstrabe.rainbow.skt.repository.ClientServerRepository;
-import com.milchstrabe.rainbow.skt.server.ClientServer;
 import com.milchstrabe.rainbow.skt.server.session.Session;
 import com.milchstrabe.rainbow.skt.server.session.SessionAttribute;
 import com.milchstrabe.rainbow.skt.server.session.SessionManager;

@@ -1,10 +1,6 @@
 package com.milchstrabe.rainbow.biz.domain.po;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Date;
+import lombok.*;
 
 /**
  * @Author ch3ng
@@ -15,9 +11,11 @@ import java.util.Date;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Contact {
 
     private User user;
     private String remark;
-    private Date createTime;
+    private Long createTime;
 }

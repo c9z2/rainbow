@@ -1,8 +1,6 @@
 package com.milchstrabe.rainbow.biz.domain.po;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * @Author ch3ng
@@ -13,8 +11,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     private String id;
     private String username;
     private String password;
+
+
 }
