@@ -4,3 +4,25 @@ server:
 netty:
   gRPC:
     port: 8083
+
+thread:
+  pool:
+    corePoolSize: 200
+    maxPoolSize: 500
+    queueCapacity: 200
+
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://192.168.1.118:27017/rainbow
+  redis:
+    database: 0
+    host: 192.168.1.118
+    port: 6379
+    # password: 123456
+    max-active: 10
+    max-wait: 500
+    max-idle: 5
+    min-idle: 1
+    timeout: 2000

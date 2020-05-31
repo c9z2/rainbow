@@ -9,7 +9,7 @@ message MsgRequest{
     string content = 3;
     string sender = 4;
     string receiver = 5;
-    string date = 6;
+    uint64 date = 6;
 
 }
 

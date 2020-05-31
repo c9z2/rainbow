@@ -1,10 +1,9 @@
-package com.milchstrabe.rainbow.skt.server;
+package com.milchstrabe.rainbow;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -26,7 +25,7 @@ public class ClientServer {
     public ClientServer() {
     }
 
-    public ClientServer(String host, Integer port, String cid,String cType) {
+    public ClientServer(String host, Integer port, String cid, String cType) {
         this.host = host;
         this.port = port;
         this.cid = cid;

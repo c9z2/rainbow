@@ -2,6 +2,7 @@ package com.milchstrabe.rainbow.skt.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.exception.AuthException;
 import com.milchstrabe.rainbow.server.domain.ClientType;
 import com.milchstrabe.rainbow.server.domain.UCI;

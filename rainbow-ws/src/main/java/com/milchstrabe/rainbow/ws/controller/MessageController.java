@@ -45,13 +45,10 @@ public class MessageController {
         MessageRequest messageRequest = gson.fromJson(messageStr, MessageRequest.class);
         messageRequest.setDate(System.currentTimeMillis());
         messageRequest.setId(UUID.randomUUID().toString().replace("-",""));
-        try {
-            messageService.doMessage(messageRequest);
-        } catch (LogicException e) {
-            e.printStackTrace();
-        }
+        messageService.doMessage(messageRequest);
         MessageResponse messageResponse = new MessageResponse();
-        BeanUtils.copyProperties(messageRequest,messageRequest);
+        BeanUtils.copyProperties(messageRequest,messageResponse);
+        BeanUtils.copyProperties(messageRequest,messageResponse);
         String json = gson.toJson(messageResponse);
         return json;
     }

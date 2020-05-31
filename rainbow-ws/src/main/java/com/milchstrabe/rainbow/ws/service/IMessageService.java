@@ -1,7 +1,5 @@
 package com.milchstrabe.rainbow.ws.service;
 
-import com.milchstrabe.rainbow.exception.LogicException;
-import com.milchstrabe.rainbow.skt.server.codc.Data;
 import com.milchstrabe.rainbow.ws.domain.dto.MessageRequest;
 
 /**
@@ -12,5 +10,5 @@ import com.milchstrabe.rainbow.ws.domain.dto.MessageRequest;
  **/
 public interface IMessageService {
 
-    boolean doMessage(MessageRequest request) throws LogicException;
+    void doMessage(MessageRequest request);
 }

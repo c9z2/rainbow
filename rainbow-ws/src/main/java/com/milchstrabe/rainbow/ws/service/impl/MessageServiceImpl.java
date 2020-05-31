@@ -1,9 +1,7 @@
 package com.milchstrabe.rainbow.ws.service.impl;
 
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.milchstrabe.rainbow.exception.LogicException;
-import com.milchstrabe.rainbow.skt.server.codc.Data;
+import com.google.gson.Gson;
+import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.skt.server.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.ws.domain.dto.MessageRequest;
 import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
@@ -12,10 +10,13 @@ import com.milchstrabe.rainbow.ws.service.IMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author ch3ng
@@ -36,50 +37,37 @@ public class MessageServiceImpl implements IMessageService {
     @Autowired
     private GRPCClient grpcClient;
 
+    @Async("asyncExecutor")
     @Override
-    public boolean doMessage(MessageRequest messageRequest) throws LogicException {
+    public void doMessage(MessageRequest messageRequest) {
+        String receiver = messageRequest.getReceiver();
+        Gson gson = new Gson();
+        String json = gson.toJson(messageRequest);
 
-//        simpMessageSendingOperations.convertAndSendToUser(receiver, "/message", jsonObject);
-//        ByteString data = request.getData();
-//        Msg.MsgRequest msgRequest = null;
+        simpMessageSendingOperations.convertAndSendToUser(receiver, "/message", json);
+
         List<String> ucis = new ArrayList<>();
-        try {
-            msgRequest = Msg.MsgRequest.parseFrom(data);
-        } catch (InvalidProtocolBufferException e) {
-            log.error(e.getMessage());
-            throw new LogicException(5003,e.getMessage());
-        }
-        String receiver = msgRequest.getReceiver();
+        Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
+                .setMsgId(messageRequest.getId())
+                .setMsgType(messageRequest.getMsgType())
+                .setContent(messageRequest.getContent())
+                .setSender(messageRequest.getSender())
+                .setReceiver(messageRequest.getReceiver())
+                .setDate(messageRequest.getDate())
+                .build();
+
         //current server node sessions
-//        Map<String, Session> sessions = SessionManager.getSession(receiver);
-//        if(sessions.size() > 0){
-//            Data.Response resp = Data.Response.newBuilder()
-//                    .setCmd1(request.getCmd1())
-//                    .setCmd2(request.getCmd2())
-//                    .setCode(2)
-//                    .setData(request.getData())
-//                    .build();
-//            Iterator<Map.Entry<String, Session>> iterator = sessions.entrySet().iterator();
-//            while (iterator.hasNext()){
-//                Map.Entry<String, Session> sessionEntry = iterator.next();
-//                Session session = sessionEntry.getValue();
-//                UCI uci = (UCI)session.getAttachment();
-//                ucis.add(uci.getCid());
-//                session.write(resp);
-//            }
-//        }
-//        Set<ClientServer> css = clientServerRepository.findCSByUid(receiver);
-//        Iterator<ClientServer> iterator = css.iterator();
-//        while (iterator.hasNext()){
-//            //TODO gRPC fail
-//            ClientServer cs = iterator.next();
-//            if(ucis.contains(cs.getCid())){
-//                //
-//                continue;
-//            }
-//            grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
-//        }
-        return true;
+        Set<ClientServer> css = clientServerRepository.findCSByUid(receiver);
+        Iterator<ClientServer> iterator = css.iterator();
+        while (iterator.hasNext()){
+            //TODO gRPC fail
+            ClientServer cs = iterator.next();
+            if(ucis.contains(cs.getCid())){
+                //
+                continue;
+            }
+            grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
+        }
     }
 
 }
