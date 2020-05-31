@@ -1,52 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-
-    <style type="text/css">
-    	
-    	.loginPanal{
-    		width: 400px;
-    		height: 80px;
-    		margin: auto;
-    		background: skyblue;
-    	}
-    </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Sign In</title>
+	<link rel="stylesheet" href="./static/css/auth.css">
 </head>
 <body>
+	<div class="lowin">
+		<div class="lowin-brand">
+			<img src="./static/images/kodinger.jpg" alt="logo">
+		</div>
+		<div class="lowin-wrapper">
+			<div class="lowin-box lowin-login">
+				<div class="lowin-box-inner">
+					<form>
+						<p>Sign in to continue</p>
+						<div class="lowin-group">
+							<label>Email <a href="#" class="login-back-link">Sign in?</a></label>
+							<input type="email" autocomplete="email" name="email" class="lowin-input">
+						</div>
+						<div class="lowin-group password-group">
+							<label>Password <a href="#" class="forgot-link">Forgot Password?</a></label>
+							<input type="password" name="password" autocomplete="current-password" class="lowin-input">
+						</div>
+						<button class="lowin-btn login-btn">
+							Sign In
+						</button>
 
-	<div class="loginPanal">
+						<div class="text-foot">
+							Don't have an account? <a href="" class="register-link">Register</a>
+						</div>
+					</form>
+				</div>
+			</div>
 
-		username:<input type="text" id="username" />
-		<br>
-		password:<input type="text" id="password"/>
-		<br>
-		<button id="sigIn">sig in</button>
-
+			<div class="lowin-box lowin-register">
+				<div class="lowin-box-inner">
+						<p>Let's create your account</p>
+						<div class="lowin-group">
+							<label>Username</label>
+							<input type="text" name="name" autocomplete="name" class="lowin-input" id="username">
+						</div>
+						<div class="lowin-group">
+							<label>Password</label>
+							<input type="password" name="password" autocomplete="current-password" class="lowin-input" id="password">
+						</div>
+						<button class="lowin-btn" id="sigIn">
+							Sign In
+						</button>
+						<div class="text-foot">
+							Already have an account? <a href="" class="login-link">Register</a>
+						</div>
+				</div>
+			</div>
+		</div>
+	
 	</div>
 
 	
-
 </body>
-<script type="text/javascript" src="../static/lib/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="./static/lib/jquery-3.4.1.js"></script>
 <script type="text/javascript">
 
-
-	
-$(function(){
-	var inputUsername = $("#username");
-	var inputPassword = $("#password");
 	$("#sigIn").click(function(){
-		var username = inputUsername.val();
-		var password = inputPassword.val();
+		var username = $("#username").val();
+		var password = $("#password").val();
 
 		$.post("http://localhost:8080/biz/sys/signIn",
 			{"username":username,"password":password},function(data){
-				console.log(data);
 				if(200 == data.code){
 					var token  = data.data;
-
 					var parts = token.split(".");
 					if (parts.length == 2 && token.endsWith(".")) {
 					    //Tokens with alg='none' have empty String as Signature.
@@ -59,17 +83,12 @@ $(function(){
 					var userId = payload.userId;
 					localStorage.setItem("token",data.data);
 					localStorage.setItem("userId",userId);
-					window.location.href = "./html/index.html";
+					window.location.href = "./html/main.html";
 				}
 				
 			})
 
-		
-		
 	})
-	
 
-
-})
 </script>
 </html>

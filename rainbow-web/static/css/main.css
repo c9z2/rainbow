@@ -28,12 +28,34 @@
 
 }
 
-.ng-chat img{
+.ng-bg img{
 	position: absolute;
 	width: 80%;
 	height: 5%;
-	top: 2%;
+	top: 3%;
 	left: 10%;
+}
+
+.ng-chat img{
+	position: absolute;
+	width: 60%;
+	height: 5%;
+	top: 20%;
+	left: 15%;
+}
+.ng-chat img:hover{
+	content:url(../images/chat.png);
+}
+
+.ng-contact img{
+	position: absolute;
+	width: 60%;
+	height: 5%;
+	top: 30%;
+	left: 15%;
+}
+.ng-contact img:hover{
+	content:url(../images/contact.png);
 }
 
 .right{
@@ -179,17 +201,51 @@
 	margin-left: 5%;
 	margin-top: 20px;
 	max-width: 70%;
+	min-width: 20%;
 	padding: 10px;
 	border-radius: 0 15px 15px 15px;
+	word-wrap:break-word;  
+    word-break:break-all;  
 }
 .chat-me{
 	background-color: rgb(120,170,255);
 	float: right;
 	margin-right: 5%;
-	max-width: 70%;
+	max-width: 60%;
+	min-width: 20%;
 	padding: 10px;
 	margin-top: 20px;
 	border-radius: 15px 0 15px 15px;
+	color: #000;
+	word-wrap:break-word;  
+    word-break:break-all;  
+}
+
+.chat-content .you span{
+	max-width:85%;
+	display: block;
+	float: left;
+}
+
+.chat-content .you p{
+	width: 40px;
+	display: block;
+	color:rgb(178,178,178);
+	float: right;
+	font-size: 12px;
+}
+
+.chat-content .me span{
+	max-width:85%;
+	display: block;
+	float: left;
+	color: #fff;
+}
+
+.chat-content .me p{
+	color:#fff;
+	float: right;
+	font-size: 12px;
 }
 
 
