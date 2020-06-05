@@ -17,7 +17,7 @@ import java.util.Date;
 @Builder
 public class ContactVO {
 
-    private String id;
+    private String userId;
     private String username;
     private String avatar;
     private String remark;

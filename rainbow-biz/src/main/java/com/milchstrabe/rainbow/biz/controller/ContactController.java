@@ -37,13 +37,13 @@ public class ContactController {
 
     @GetMapping(path = "/list")
     public Result<ContactVO> list(@CurrentUser User user) throws LogicException {
-        String uid = user.getId();
+        String uid = user.getUserId();
         List<Contact> list = contactService.list(uid);
         List<ContactVO> result = new ArrayList<>();
         list.stream().forEach(contact -> {
             ContactVO contactVO = ContactVO.builder().build();
             BeanUtils.copyProperties(contact,contactVO);
-            contactVO.setId(contact.getUser().getId());
+            contactVO.setUserId(contact.getUser().getUserId());
             contactVO.setUsername(contact.getUser().getUsername());
             contactVO.setAvatar("../static/images/avator.png");
             result.add(contactVO);

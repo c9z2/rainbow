@@ -9,6 +9,10 @@ public interface IUserMappper {
 
     boolean addUser(@Param("user") User user);
 
+    boolean addUserProperty(@Param("user") User user);
+
+    User findUserByUsernameAndStatus(@Param("username") String username,@Param("status") Short status);
+
     User findUserByUsername(@Param("username") String username);
 
     User findUserByUserId(@Param("id") String id);

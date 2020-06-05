@@ -8,13 +8,18 @@ import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.milchstrabe.rainbow.biz.common.config.JWTConfig;
+import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
+import com.milchstrabe.rainbow.biz.domain.dto.UserPropertyDTO;
 import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.biz.domain.po.UserProperty;
 import com.milchstrabe.rainbow.biz.mapper.ICLIMappper;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.biz.domain.po.CLI;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanMap;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,11 +47,11 @@ public class SystemServiceImpl implements ISystemService {
 
 
     @Override
-    public String signIn(String username, String password) throws LogicException {
-        User userInDatabase = userMappper.findUserByUsername(username);
+    public String signIn(UserDTO userDTO) throws LogicException {
+        User userInDatabase = userMappper.findUserByUsernameAndStatus(userDTO.getUsername(),(short)1);
         User user = Optional.ofNullable(userInDatabase).orElseThrow(()->new LogicException(30000,"username or password err"));
-        String md5Pwd = MD5.create().digestHex(password);
-        if(!user.getPassword().equals(md5Pwd)){
+        String md5Pwd = MD5.create().digestHex(userDTO.getPasswd());
+        if(!user.getPasswd().equals(md5Pwd)){
             throw new LogicException(30000,"username or password err");
         }
 
@@ -76,10 +81,29 @@ public class SystemServiceImpl implements ISystemService {
                 .withIssuedAt(now)
                 .withJWTId(UUID.randomUUID().toString().replace("-",""))
                 .withClaim("userId",userInDatabase.getId())
-                .withClaim("username",username)
+                .withClaim("username",userDTO.getUsername())
                 .sign(algorithmHS);
 
         return token;
+
+    }
+
+    @Override
+    public void register(UserDTO userDTO) throws LogicException {
+        User userInDatabase = userMappper.findUserByUsername(userDTO.getUsername());
+        if(userInDatabase != null){
+            throw new LogicException(3000,"user exist");
+        }
+        User user = User.builder().build();
+        BeanUtils.copyProperties(userDTO,user);
+        boolean isSuccess = userMappper.addUser(user);
+        if(!isSuccess){
+            throw new LogicException(3000,"add user fail");
+        }
+        boolean isOk = userMappper.addUserProperty(user);
+        if(!isOk){
+            throw new LogicException(3000,"add user fail");
+        }
 
     }
 

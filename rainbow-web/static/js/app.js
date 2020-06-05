@@ -225,7 +225,7 @@ function selectContact(curcontact){
 
 
 function signInWS(){
-    $.post("http://localhost:8080/ws/sys/signIn",
+    $.post("/ws/sys/signIn",
         {
             "token":localStorage.getItem("token"),
             "cid":uuid(),

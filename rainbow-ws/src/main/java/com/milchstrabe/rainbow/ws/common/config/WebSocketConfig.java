@@ -38,6 +38,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     @Override
                     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
                         HttpSession session = getSession(request);
+                        //TODO
                         Object attribute = session.getAttribute(Constant.USER_IN_SESSION);
                         if(attribute == null){
                             return false;

@@ -4,10 +4,13 @@ import com.milchstrabe.rainbow.skt.server.annotion.NettyController;
 import com.milchstrabe.rainbow.skt.server.annotion.NettyMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -23,17 +26,15 @@ import java.util.Set;
  **/
 @Component
 @Slf4j
-public class NettyControllerScanner implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {
+@Order(1)
+public class NettyControllerScanner implements CommandLineRunner {
 
+    @Autowired
     private ApplicationContext applicationContext;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    public void run(String... args) throws Exception {
         Class<NettyController> nettyControllerClass = NettyController.class;
         Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(nettyControllerClass);
         Set<Map.Entry<String, Object>> entries = beansWithAnnotation.entrySet();

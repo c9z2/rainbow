@@ -5,19 +5,49 @@
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IUserMappper">
 
 	<insert id="addUser">
-		INSERT INTO `t_user` (id,username,password)
-		VALUE (#{user.id},#{user.username},#{user.password})
+		INSERT INTO `t_user` (user_id,username,passwd,status)
+		VALUE (#{user.userId},#{user.username},#{user.passwd},#{user.status})
 	</insert>
 
+	<insert id="addUserProperty">
+		INSERT INTO `t_user_property` (user_id,avatar,age,email,gender,remark,nickname,phone)
+		VALUE (#{user.userId},
+		#{user.property.avatar},
+		#{user.property.age},
+		#{user.property.email},
+		#{user.property.gender},
+		#{user.property.remark},
+		#{user.property.nickname},
+		#{user.property.phone})
+	</insert>
+
+	<select id="findUserByUsernameAndStatus" resultType="User">
+		SELECT id,
+		user_id AS userId,
+		username,
+		passwd,
+		status
+		FROM `t_user`
+		WHERE username=#{username} AND status=#{status}
+	</select>
+
 	<select id="findUserByUsername" resultType="User">
-		SELECT id,username,password
+		SELECT id,
+		user_id AS userId,
+		username,
+		passwd,
+		status
 		FROM `t_user`
 		WHERE username=#{username}
 	</select>
 
 
 	<select id="findUserByUserId" resultType="User">
-		SELECT id,username,password
+		SELECT id,
+		user_id AS userId,
+		username,
+		passwd,
+		status
 		FROM `t_user`
 		WHERE id=#{id}
 	</select>

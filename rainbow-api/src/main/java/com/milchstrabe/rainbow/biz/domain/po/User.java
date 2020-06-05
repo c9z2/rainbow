@@ -14,9 +14,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private String id;
+    private Long id;
+    private String userId;
     private String username;
-    private String password;
-
+    private String passwd;
+    private Short status;
+    private UserProperty property;
 
 }

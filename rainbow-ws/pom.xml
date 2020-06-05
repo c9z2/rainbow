@@ -65,6 +65,12 @@
 			<groupId>com.milchstrabe</groupId>
 			<artifactId>rainbow-api</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.github.tobato</groupId>
+			<artifactId>fastdfs-client</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
