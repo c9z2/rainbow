@@ -6,7 +6,7 @@
 
 	<insert id="addCLI">
 		INSERT INTO `t_cli_info` (cid,ctype,create_time,user_id)
-		VALUE (#{cid},#{ctype},#{createTime},#{user.id})
+		VALUE (#{cid},#{ctype},#{createTime},#{user.userId})
 	</insert>
 
 

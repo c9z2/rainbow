@@ -3,12 +3,15 @@ package com.milchstrabe.rainbow.biz.controller;
 import com.milchstrabe.rainbow.biz.common.CurrentUser;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
+import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
 import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +29,8 @@ public class CLIController {
     @Autowired
     private ISystemService systemService;
 
-    @PostMapping(path = "/fingerprint")
-    public Result<String> fingerprint(@CurrentUser User user,String ctype) throws LogicException {
+    @PostMapping(path = APIVersion.V_1 + "/fingerprint")
+    public Result<String> fingerprint(@CurrentUser User user,@RequestBody String ctype) throws LogicException {
 
         String fingerprint = systemService.fingerprint(user, ctype);
 

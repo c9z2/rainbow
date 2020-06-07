@@ -80,7 +80,7 @@ public class SystemServiceImpl implements ISystemService {
                 .withNotBefore(now)
                 .withIssuedAt(now)
                 .withJWTId(UUID.randomUUID().toString().replace("-",""))
-                .withClaim("userId",userInDatabase.getId())
+                .withClaim("userId",userInDatabase.getUserId())
                 .withClaim("username",userDTO.getUsername())
                 .sign(algorithmHS);
 
@@ -115,7 +115,12 @@ public class SystemServiceImpl implements ISystemService {
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
         String encryptHex = aes.encryptHex(md5);
 
-        CLI cli = CLI.builder().cid(encryptHex).createTime(new Date()).ctype(ctype).user(user).build();
+        CLI cli = CLI.builder()
+                .cid(encryptHex)
+                .createTime(System.currentTimeMillis())
+                .ctype(ctype)
+                .user(user)
+                .build();
         boolean isSuccess = cliMappper.addCLI(cli);
         if(isSuccess){
             return encryptHex;

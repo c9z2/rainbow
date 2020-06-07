@@ -10,7 +10,7 @@ package com.milchstrabe.rainbow.cli.interpret;
 public class ContactsExpression implements CMDExpression {
 
     @Override
-    public boolean interpret(String[] cmds) {
+    public boolean interpret(String line) {
         return false;
     }
 }

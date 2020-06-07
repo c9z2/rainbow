@@ -22,13 +22,12 @@ import java.util.concurrent.TimeUnit;
  **/
 public class TCPClient {
 
-	public static Map<String,Object> SERVER_NODE = null;
 
 	private final EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
 	public static ChannelFuture f = null;
 	public void start() {
-		String remoteHost = SERVER_NODE.get("host").toString();
-		int port = ((Double) SERVER_NODE.get("tcpPort")).intValue();
+		String remoteHost = "192.168.1.118";
+		int port = 7000;
 		try {
 			Bootstrap bootstrap = new Bootstrap();
 			bootstrap.group(eventLoopGroup);

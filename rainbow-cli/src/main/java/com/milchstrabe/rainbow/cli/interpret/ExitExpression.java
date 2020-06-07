@@ -10,7 +10,7 @@ package com.milchstrabe.rainbow.cli.interpret;
 public class ExitExpression implements CMDExpression {
 
     @Override
-    public boolean interpret(String[] cmds) {
+    public boolean interpret(String cmds) {
         System.exit(1);
         return true;
     }

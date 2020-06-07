@@ -34,16 +34,15 @@ public class SendExpression implements CMDExpression {
          *     string content = 3;
          *     string sender = 4;
          *     string receiver = 5;
-         *     string date = 6;
+         *     long date = 6;
          */
-        String date = LocalDateTime.now().format(dateTimeFormatter);
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
                 .setMsgId(UUID.randomUUID().toString())
                 .setMsgType(1)
                 .setContent(msg)
                 .setSender(CLI.user.getUsername())
                 .setReceiver(rec)
-                .setDate(date)
+                .setDate(System.currentTimeMillis())
                 .build();
 
         ByteString bytes = msgRequest.toByteString();

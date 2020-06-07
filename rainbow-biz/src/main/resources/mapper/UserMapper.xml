@@ -49,6 +49,6 @@
 		passwd,
 		status
 		FROM `t_user`
-		WHERE id=#{id}
+		WHERE user_id=#{id}
 	</select>
 </mapper>

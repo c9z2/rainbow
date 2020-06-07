@@ -75,49 +75,38 @@ public class CLI{
         System.out.print("password: ");
         String password = inp.nextLine();
 
+        Gson gson = new Gson();
+
         Map<String,Object> param = new HashMap<>();
         param.put("username",username);
-        param.put("password",password);
-        String post = HttpUtil.post(Constant.SIGN_IN, param);
+        param.put("passwd",password);
+        HttpRequest post = HttpUtil.createPost(Constant.SIGN_IN);
+        post.body(gson.toJson(param), "application/json");
+        HttpResponse execute = post.execute();
+        String body = execute.body();
         /**
          *     private Integer code;
          *     private String msg;
          *     private T data;
          */
-        Gson gson = new Gson();
+
         Result result = null;
         try {
-            result = gson.fromJson(post, Result.class);
+            result = gson.fromJson(body, Result.class);
         }catch (Exception e){
             System.out.println("sign in fail: " + e.getMessage());
         }
 
         if(200 == result.getCode()){
             String token = result.getData().toString();
-            HttpRequest get = HttpUtil.createGet(Constant.SERVER_NODE);
-
-            get.header("Authorization","Berarer " + token);
-            HttpResponse execute = get.execute();
-            if(!execute.isOk()){
-                login(inp);
-            }
 
             DecodedJWT decode = JWT.decode(token);
             String userId = decode.getClaim("userId").asString();
             String username_ = decode.getClaim("username").asString();
             user = User.builder()
                     .username(username_)
-                    .id(userId)
+                    .userId(userId)
                     .build();
-
-            String body = execute.body();
-            Result serverNodeResult = gson.fromJson(body,Result.class);
-            Map<String,Object> map =  (Map) serverNodeResult.getData();
-
-            TCPClient.SERVER_NODE = map;
-
-
-
 
             new Thread(()->{
                 tcpClient.start();
@@ -156,77 +145,83 @@ public class CLI{
                 tcpClient.destory();
                 udpClient.destory();
             }));
-            String cliStr = null;
-            if(props.startsWith("Linux") || props.startsWith("MAC")){
-                File file = new File("~/.rainbow");
-                if(file.exists()){
-                    FileReader fileReader = null;
-                    BufferedReader bufferedReader = null;
-                    try {
-                        fileReader = new FileReader(file);
-                        bufferedReader = new BufferedReader(fileReader);
-                        cliStr = bufferedReader.readLine();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        try {
-                            if(fileReader != null){
-                                fileReader.close();
-                            }
-                            if(bufferedReader !=  null){
-                                bufferedReader.close();
-                            }
-                        }catch (IOException e){
-                            System.out.println(e.getMessage());
-                        }
-                    }
-
-                }
-            }else{
-
-            }
-            if(cliStr == null || "".equals(cliStr)){
-                HttpRequest postCLI = HttpUtil.createPost(Constant.CID);
-                get.header("Authorization","Berarer " + token);
-                HttpResponse executeCLI = postCLI.execute();
-                if(!executeCLI.isOk()){
-                    login(inp);
-                }
-                cliStr = executeCLI.body();
-                //write cli info to file
-                if(props.startsWith("Linux") || props.startsWith("MAC")){
-                    File file = new File("~/.rainbow");
-                    if(file.exists()){
-                        FileWriter writer = null;
-                        BufferedWriter bufferedWriter = null;
-                        try {
-                            writer = new FileWriter(file);
-                            bufferedWriter = new BufferedWriter(writer);
-                            bufferedWriter.write(cliStr);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                if(writer != null){
-                                    writer.close();
-                                }
-                                if(bufferedWriter !=  null){
-                                    bufferedWriter.close();
-                                }
-                            }catch (IOException e){
-                                System.out.println(e.getMessage());
-                            }
-                        }
-
-                    }
-                }else{
-
-                }
-            }
+//            String cliStr = null;
+//            if(props.startsWith("Linux") || props.startsWith("MAC")){
+//                File file = new File("~/.rainbow");
+//                if(file.exists()){
+//                    FileReader fileReader = null;
+//                    BufferedReader bufferedReader = null;
+//                    try {
+//                        fileReader = new FileReader(file);
+//                        bufferedReader = new BufferedReader(fileReader);
+//                        cliStr = bufferedReader.readLine();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } finally {
+//                        try {
+//                            if(fileReader != null){
+//                                fileReader.close();
+//                            }
+//                            if(bufferedReader !=  null){
+//                                bufferedReader.close();
+//                            }
+//                        }catch (IOException e){
+//                            System.out.println(e.getMessage());
+//                        }
+//                    }
+//
+//                }
+//            }else{
+//
+//            }
+//            if(cliStr == null || "".equals(cliStr)){
+//                Gson gson1 = new Gson();
+//                Map<String,String> map = new HashMap<>();
+//                map.put("ctype",props);
+//                String json = gson1.toJson(map);
+//
+//                HttpRequest postCLI = HttpUtil.createPost(Constant.CID);
+//                postCLI.header("Authorization","Berarer " + token);
+//                postCLI.body(json,"Content-Type");
+//                HttpResponse executeCLI = postCLI.execute();
+//                if(!executeCLI.isOk()){
+//                    login(inp);
+//                }
+//                cliStr = executeCLI.body();
+//                //write cli info to file
+//                if(props.startsWith("Linux") || props.startsWith("MAC")){
+//                    File file = new File("~/.rainbow");
+//                    if(file.exists()){
+//                        FileWriter writer = null;
+//                        BufferedWriter bufferedWriter = null;
+//                        try {
+//                            writer = new FileWriter(file);
+//                            bufferedWriter = new BufferedWriter(writer);
+//                            bufferedWriter.write(cliStr);
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } finally {
+//                            try {
+//                                if(writer != null){
+//                                    writer.close();
+//                                }
+//                                if(bufferedWriter !=  null){
+//                                    bufferedWriter.close();
+//                                }
+//                            }catch (IOException e){
+//                                System.out.println(e.getMessage());
+//                            }
+//                        }
+//
+//                    }
+//                }else{
+//
+//                }
+//            }
             /**
              *  request->{
              *      "token":"jwt",
@@ -236,7 +231,7 @@ public class CLI{
              */
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("token",token);
-            jsonObject.addProperty("cid", cliStr);
+            jsonObject.addProperty("cid", "abc");
             jsonObject.addProperty("clientType",props);
             String json = gson.toJson(jsonObject);
             Data.Request request = Data.Request.newBuilder()

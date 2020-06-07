@@ -21,7 +21,7 @@ public class CLI {
     private Long id;
     private String cid;
     private String ctype;
-    private Date createTime;
+    private Long createTime;
     private User user;
 
 }
