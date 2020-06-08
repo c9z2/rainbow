@@ -232,7 +232,7 @@ public class CLI{
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("token",token);
             jsonObject.addProperty("cid", "abc");
-            jsonObject.addProperty("clientType",props);
+            jsonObject.addProperty("clientType","MACOS");
             String json = gson.toJson(jsonObject);
             Data.Request request = Data.Request.newBuilder()
                     .setCmd1(0)
