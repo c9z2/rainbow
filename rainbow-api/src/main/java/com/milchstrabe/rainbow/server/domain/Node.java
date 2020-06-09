@@ -19,26 +19,8 @@ import java.util.Objects;
 public class Node{
 
     private String host;
-    private int tcpPort;
-    private int udpPort;
+    private int port;
     private long playload;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()){
-            return false;
-        }
-        Node node = (Node) o;
-        return tcpPort == node.tcpPort &&
-                Objects.equals(host, node.host);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(host, tcpPort);
-    }
 
 }

@@ -2,7 +2,7 @@
 syntax = "proto3";
 
 option optimize_for = SPEED;
-option java_package="com.milchstrabe.rainbow.skt.server.codc";
+option java_package="com.milchstrabe.rainbow.base.server.codc";
 option java_outer_classname = "Data";
 
 
