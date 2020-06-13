@@ -38,11 +38,11 @@ public class ServerNodesCache {
         while (iterator.hasNext()){
             Node temp = iterator.next();
             String host = node.getHost();
-            int tcpPort = node.getTcpPort();
+            int tcpPort = node.getPort();
             String path = host + ":" + tcpPort;
 
             String tempHost = temp.getHost();
-            int tempTcpPort = temp.getTcpPort();
+            int tempTcpPort = temp.getPort();
             String tempPath = tempHost + ":" + tempTcpPort;
             if(path.equals(tempPath)){
                 iterator.remove();
@@ -55,11 +55,11 @@ public class ServerNodesCache {
     public static void existUpdateOrAdd(Node node){
         for(Node temp : serverNodes){
             String host = node.getHost();
-            int tcpPort = node.getTcpPort();
+            int tcpPort = node.getPort();
             String path = host + ":" + tcpPort;
 
             String tempHost = temp.getHost();
-            int tempTcpPort = temp.getTcpPort();
+            int tempTcpPort = temp.getPort();
             String tempPath = tempHost + ":" + tempTcpPort;
             if(path.equals(tempPath)){
                 temp.setPlayload(node.getPlayload());

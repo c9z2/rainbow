@@ -1,5 +1,6 @@
 package com.milchstrabe.rainbow.biz.controller;
 
+import cn.hutool.crypto.digest.MD5;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
@@ -11,7 +12,7 @@ import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.exception.ParamMissException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class RegisterController {
     private ISystemService systemService;
 
 
-    @PostMapping(path = APIVersion.V_1 + "/register")
+    @PutMapping(path = APIVersion.V_1 + "/signUp")
     public Result<String> register(@RequestBody RegisterVO registerVO) throws LogicException, ParamMissException {
         Optional.ofNullable(registerVO).orElseThrow(()-> new ParamMissException("miss params"));
         Optional.ofNullable(registerVO.getNickname()).orElseThrow(()-> new ParamMissException("miss nickname"));
@@ -43,13 +44,13 @@ public class RegisterController {
         Optional.ofNullable(registerVO.getUsername()).orElseThrow(()-> new ParamMissException("miss username"));
 
         String userId = UUID.randomUUID().toString().replace("-","");
-        UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder().nickname(userId).build();
-
+        UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder().nickname(registerVO.getNickname()).build();
         UserDTO userDTO = UserDTO.builder()
-                .passwd(registerVO.getPasswd())
+                .passwd(MD5.create().digestHex(registerVO.getPasswd()))
                 .username(registerVO.getUsername())
                 .property(userPropertyDTO)
                 .userId(userId)
+                .status((short)1)
                 .build();
 
         systemService.register(userDTO);

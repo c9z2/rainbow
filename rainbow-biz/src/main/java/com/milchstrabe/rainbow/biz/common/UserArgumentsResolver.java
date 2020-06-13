@@ -1,8 +1,10 @@
 package com.milchstrabe.rainbow.biz.common;
 
+import com.milchstrabe.rainbow.biz.domain.RequestUser;
 import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -36,8 +38,9 @@ public class UserArgumentsResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest nativeRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         String userId = nativeRequest.getAttribute("userId").toString();
         log.info(userId);
-        User userByUserId = userMappper.findUserByUserId(userId);
-
-        return userByUserId;
+        User userInToken = userMappper.findUserByUserId(userId);
+        RequestUser requestUser = RequestUser.builder().build();
+        BeanUtils.copyProperties(userInToken,requestUser);
+        return requestUser;
     }
 }

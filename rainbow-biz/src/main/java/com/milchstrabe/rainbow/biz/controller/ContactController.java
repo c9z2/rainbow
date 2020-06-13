@@ -5,6 +5,8 @@ import com.milchstrabe.rainbow.biz.common.CurrentUser;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.ServerNodesCache;
+import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
+import com.milchstrabe.rainbow.biz.domain.RequestUser;
 import com.milchstrabe.rainbow.biz.domain.po.Contact;
 import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.biz.domain.vo.ContactVO;
@@ -35,8 +37,8 @@ public class ContactController {
     @Autowired
     private IContactService contactService;
 
-    @GetMapping(path = "/list")
-    public Result<ContactVO> list(@CurrentUser User user) throws LogicException {
+    @GetMapping(path = APIVersion.V_1 + "/list")
+    public Result<ContactVO> list(@CurrentUser RequestUser user) throws LogicException {
         String uid = user.getUserId();
         List<Contact> list = contactService.list(uid);
         List<ContactVO> result = new ArrayList<>();

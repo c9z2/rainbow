@@ -12,6 +12,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @Author ch3ng
@@ -26,9 +28,11 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws AuthException {
         String authorization = request.getHeader("Authorization");
-        log.info(authorization);
         if(!StringUtils.hasLength(authorization)){
-            throw new AuthException("miss auth!");
+            authorization = request.getParameter("Authorization");
+            if(!StringUtils.hasLength(authorization)){
+                throw new AuthException("miss auth!");
+            }
         }
         String[] tokens = authorization.split(" ");
         if(tokens.length<2){

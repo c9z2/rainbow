@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.ws.server.typ3.grpc;
 
-import com.milchstrabe.rainbow.skt.server.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.skt.server.typ3.grpc.PassThroughMessageServiceGrpc;
+import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.base.server.typ3.grpc.PassThroughMessageServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class GRPCClient {
 
 
-  private Msg.MsgResponse sendMsg(Msg.MsgRequest txtMsgRequest,ManagedChannel channel) {
+  private Msg.MsgResponse sendMsg(Msg.MsgRequest txtMsgRequest, ManagedChannel channel) {
 
 //    TxtMsg.TxtMsgRequest build = TxtMsg.TxtMsgRequest.newBuilder(txtMsgRequest).build();
       PassThroughMessageServiceGrpc.PassThroughMessageServiceBlockingStub passThroughMessageServiceBlockingStub = PassThroughMessageServiceGrpc.newBlockingStub(channel);

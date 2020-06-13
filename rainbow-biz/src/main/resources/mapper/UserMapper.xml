@@ -31,6 +31,36 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 
+	<select id="findUserAndPropertyByUsernameAndStatus" resultMap="findUserAndPropertyByUsernameAndStatusResult">
+		SELECT
+		t1.user_id AS userId,
+		t1.username,
+		t2.avatar,
+		t2.age,
+		t2.email,
+		t2.gender,
+		t2.remark,
+		t2.nickname,
+		t2.phone
+		FROM `t_user` t1
+		LEFT JOIN `t_user_property` t2 ON t1.user_id=t2.user_id
+		WHERE t1.username=#{username} AND status=#{status}
+	</select>
+
+	<resultMap id="findUserAndPropertyByUsernameAndStatusResult" type="User">
+		<result property="userId" column="userId"/>
+		<result property="username" column="username"/>
+		<association property="property" javaType="UserProperty">
+			<result property="avatar" column="avatar"/>
+			<result property="age" column="age"/>
+			<result property="email" column="email"/>
+			<result property="gender" column="gender"/>
+			<result property="remark" column="remark"/>
+			<result property="nickname" column="nickname"/>
+			<result property="phone" column="phone"/>
+		</association>
+	</resultMap>
+
 	<select id="findUserByUsername" resultType="User">
 		SELECT id,
 		user_id AS userId,
@@ -50,5 +80,41 @@
 		status
 		FROM `t_user`
 		WHERE user_id=#{id}
+		LIMIT 1
+	</select>
+
+	<update id="updateUserPropertyByUserId">
+		UPDATE `t_user_property`
+		<set>
+			<if test="user.property.avatar != null and user.property.avatar != ''">
+				avatar=#{user.property.avatar}
+			</if>
+			<if test="user.property.age != null">
+				age=#{user.property.age}
+			</if>
+			<if test="user.property.email != null and user.property.email != ''">
+				email=#{user.property.email}
+			</if>
+			<if test="user.property.gender != null">
+				gender=#{user.property.gender}
+			</if>
+			<if test="user.property.remark != null and user.property.remark != ''">
+				remark=#{user.property.remark}
+			</if>
+			<if test="user.property.nickname != null and user.property.nickname != ''">
+				nickname=#{user.property.nickname}
+			</if>
+			<if test="user.property.phone != null and user.property.phone != ''">
+				phone=#{user.property.phone}
+			</if>
+		</set>
+		 WHERE user_id=#{user.userId}
+	</update>
+
+	<select id="findUserPropertyByUserId" resultType="UserProperty">
+		SELECT avatar,age,email,gender,remark,nickname,phone
+		FROM t_user_property
+		WHERE user_id=#{userId}
+		LIMIT 1
 	</select>
 </mapper>

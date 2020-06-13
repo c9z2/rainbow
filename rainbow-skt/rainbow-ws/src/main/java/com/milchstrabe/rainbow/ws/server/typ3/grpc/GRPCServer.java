@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.ws.server.typ3.grpc;
 
-import com.milchstrabe.rainbow.skt.server.typ3.grpc.PassThroughMessageServiceGrpc;
+import com.milchstrabe.rainbow.base.server.typ3.grpc.PassThroughMessageServiceGrpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.extern.slf4j.Slf4j;

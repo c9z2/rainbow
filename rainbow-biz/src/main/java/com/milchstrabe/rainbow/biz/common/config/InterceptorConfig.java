@@ -25,11 +25,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     private UserArgumentsResolver userArgumentsResolver;
 
+    /**
+     * /sys/v1/signIn
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/sys/*/signIn","/sys/user","/v/**");
+        .excludePathPatterns("/**/signIn","/**/signUp","/error");
     }
 
     @Override

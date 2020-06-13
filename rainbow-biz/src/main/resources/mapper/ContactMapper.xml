@@ -5,12 +5,12 @@
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IContactMappper">
 
 	<select id="list" resultMap="list_result">
-		SELECT t2.id AS id,
+		SELECT t2.user_id AS userId,
 		t2.username AS username,
 		t1.remark AS remark,
 		t1.create_time AS createTime
 		FROM t_contact t1
-		LEFT JOIN t_user t2 ON t1.contact_id=t2.id
+		LEFT JOIN t_user t2 ON t1.contact_id=t2.user_id
 		WHERE t1.user_id=#{uid}
 	</select>
 
@@ -18,7 +18,7 @@
 		<result column="remark" property="remark"/>
 		<result column="createTime" property="createTime"/>
 		<association property="user" javaType="com.milchstrabe.rainbow.biz.domain.po.User">
-			<result column="id" property="id"/>
+			<result column="userId" property="userId"/>
 			<result column="username" property="username"/>
 		</association>
 

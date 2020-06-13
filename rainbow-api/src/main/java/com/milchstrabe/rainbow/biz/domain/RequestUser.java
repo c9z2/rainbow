@@ -1,23 +1,22 @@
-package com.milchstrabe.rainbow.biz.domain.dto;
+package com.milchstrabe.rainbow.biz.domain;
 
 import lombok.*;
 
 /**
  * @Author ch3ng
- * @Date 2020/4/29 23:38
+ * @Date 2020/6/10 19:00
  * @Version 1.0
  * @Description
  **/
 @Setter
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+@AllArgsConstructor
+public class RequestUser {
+    private Long id;
     private String userId;
     private String username;
     private String passwd;
     private Short status;
-    private UserPropertyDTO property;
-
 }

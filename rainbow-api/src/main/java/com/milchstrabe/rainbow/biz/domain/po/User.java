@@ -18,6 +18,10 @@ public class User {
     private String userId;
     private String username;
     private String passwd;
+    /**
+     * 1: normal
+     * 2:lock
+     */
     private Short status;
     private UserProperty property;
 

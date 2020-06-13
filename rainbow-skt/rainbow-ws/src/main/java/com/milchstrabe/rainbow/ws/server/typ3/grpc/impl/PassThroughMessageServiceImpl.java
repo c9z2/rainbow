@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.ws.server.typ3.grpc.impl;
 
-import com.milchstrabe.rainbow.skt.server.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.skt.server.typ3.grpc.PassThroughMessageServiceGrpc;
+import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.base.server.typ3.grpc.PassThroughMessageServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
