@@ -1,6 +1,8 @@
 package com.milchstrabe.rainbow.biz.controller;
 
+import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.domain.upload.FastFile;
 import com.github.tobato.fastdfs.service.DefaultFastFileStorageClient;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.milchstrabe.rainbow.biz.common.CurrentUser;
@@ -23,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @Author ch3ng
@@ -40,7 +44,8 @@ public class UserAvatarController {
     @Autowired
     private IUserService userService;
 
-
+    @Autowired
+    protected FastFileStorageClient storageClient;
     /**
      *
      * @param user
@@ -58,18 +63,26 @@ public class UserAvatarController {
          * FastFileStorageClient - 为方便项目开发集成的简单接口(StorageServer接口)
          * AppendFileStorageClient - 支持文件续传操作的接口 (StorageServer接口)
          */
-        FastFileStorageClient fastFileStorageClient = new DefaultFastFileStorageClient();
         try {
             String originalFilename = file.getOriginalFilename();
-            String fileExtName = originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
+            String fileExtName = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
             InputStream inputStream = file.getInputStream();
-            StorePath storePath = fastFileStorageClient.uploadFile(inputStream, file.getSize(), fileExtName, null);
-            String path = storePath.getPath();
+
+            Set<MetaData> metaDataSet = new HashSet<MetaData>();
+            metaDataSet.add(new MetaData("Author", "ch3ng"));
+            metaDataSet.add(new MetaData("CreateDate", System.currentTimeMillis()+""));
+
+            FastFile fastFile = new FastFile.Builder()
+                    .withFile(inputStream, file.getSize(), fileExtName)
+                    .withMetaData(metaDataSet)
+                    .toGroup("group1")
+                    .build();
+            StorePath storePath = storageClient.uploadFile(fastFile);
 
             UserDTO userDTO = UserDTO.builder().build();
             BeanUtils.copyProperties(user,userDTO);
             UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder()
-                    .avatar(path)
+                    .avatar(storePath.getFullPath())
                     .build();
             userDTO.setProperty(userPropertyDTO);
             userService.modifiedUserAvatar(userDTO);

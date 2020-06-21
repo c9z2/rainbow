@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.cli.controller;
 
-import com.milchstrabe.rainbow.skt.server.codc.Data;
+import com.milchstrabe.rainbow.base.server.codc.Data;
 import io.netty.channel.Channel;
 
 /**

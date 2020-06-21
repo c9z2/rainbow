@@ -12,6 +12,7 @@ import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.exception.ParamMissException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,9 +40,15 @@ public class RegisterController {
     @PutMapping(path = APIVersion.V_1 + "/signUp")
     public Result<String> register(@RequestBody RegisterVO registerVO) throws LogicException, ParamMissException {
         Optional.ofNullable(registerVO).orElseThrow(()-> new ParamMissException("miss params"));
-        Optional.ofNullable(registerVO.getNickname()).orElseThrow(()-> new ParamMissException("miss nickname"));
-        Optional.ofNullable(registerVO.getPasswd()).orElseThrow(()-> new ParamMissException("miss password"));
-        Optional.ofNullable(registerVO.getUsername()).orElseThrow(()-> new ParamMissException("miss username"));
+        if(!StringUtils.hasLength(registerVO.getNickname())){
+            throw new ParamMissException("miss nickname");
+        }
+        if(!StringUtils.hasLength(registerVO.getPasswd())){
+            throw new ParamMissException("miss password");
+        }
+        if(!StringUtils.hasLength(registerVO.getUsername())){
+            throw  new ParamMissException("miss username");
+        }
 
         String userId = UUID.randomUUID().toString().replace("-","");
         UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder().nickname(registerVO.getNickname()).build();

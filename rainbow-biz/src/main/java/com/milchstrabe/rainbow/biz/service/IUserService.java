@@ -11,4 +11,5 @@ public interface IUserService {
     UserPropertyDTO getUserProperty(UserDTO userDTO) throws LogicException;
 
     UserDTO findUserByUsernameAndStatus(UserDTO userDTO);
+
 }
