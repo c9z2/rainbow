@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.ws.domain.dto;
+package com.milchstrabe.rainbow.server.domain.dto;
 
 import lombok.*;
 
@@ -13,12 +13,13 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageRequest {
+public class Message<T> {
 
     private String id;
     private Integer msgType;
-    private String content;
+    private T content;
     private String sender;
     private String receiver;
+    private Short status;
     private Long date;
 }

@@ -27,5 +27,6 @@ public class MessageResponse {
     private String sender;
     private String receiver;
     private Long date;
+    private Short status;
 
 }

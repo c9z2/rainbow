@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @Slf4j
-public class MessageController {
+public class AddContactController {
 
 
     @Autowired
@@ -31,7 +31,7 @@ public class MessageController {
      * @param messageStr
      * @return
      */
-    @MessageMapping("/message")
+    @MessageMapping("/c")
     @SendToUser("/message")
     public String msg(String messageStr) {
         log.debug("msg:[{}]",messageStr);

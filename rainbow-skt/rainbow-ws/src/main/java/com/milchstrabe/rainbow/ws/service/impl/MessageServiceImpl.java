@@ -3,7 +3,7 @@ package com.milchstrabe.rainbow.ws.service.impl;
 import com.google.gson.Gson;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.ws.domain.dto.MessageRequest;
+import com.milchstrabe.rainbow.server.domain.dto.Message;
 import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
 import com.milchstrabe.rainbow.ws.server.typ3.grpc.GRPCClient;
 import com.milchstrabe.rainbow.ws.service.IMessageService;
@@ -39,21 +39,21 @@ public class MessageServiceImpl implements IMessageService {
 
     @Async("asyncExecutor")
     @Override
-    public void doMessage(MessageRequest messageRequest) {
-        String receiver = messageRequest.getReceiver();
+    public void doMessage(Message message) {
+        String receiver = message.getReceiver();
         Gson gson = new Gson();
-        String json = gson.toJson(messageRequest);
+        String json = gson.toJson(message);
 
         simpMessageSendingOperations.convertAndSendToUser(receiver, "/message", json);
 
         List<String> ucis = new ArrayList<>();
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
-                .setMsgId(messageRequest.getId())
-                .setMsgType(messageRequest.getMsgType())
-                .setContent(messageRequest.getContent())
-                .setSender(messageRequest.getSender())
-                .setReceiver(messageRequest.getReceiver())
-                .setDate(messageRequest.getDate())
+                .setMsgId(message.getId())
+                .setMsgType(message.getMsgType())
+                .setContent(message.getContent())
+                .setSender(message.getSender())
+                .setReceiver(message.getReceiver())
+                .setDate(message.getDate())
                 .build();
 
         //current server node sessions

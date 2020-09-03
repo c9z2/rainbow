@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.ws.service;
 
-import com.milchstrabe.rainbow.ws.domain.dto.MessageRequest;
+import com.milchstrabe.rainbow.server.domain.dto.Message;
 
 /**
  * @Author ch3ng
@@ -10,5 +10,5 @@ import com.milchstrabe.rainbow.ws.domain.dto.MessageRequest;
  **/
 public interface IMessageService {
 
-    void doMessage(MessageRequest request);
+    void doMessage(Message request);
 }
