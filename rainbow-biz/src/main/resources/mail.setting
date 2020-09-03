@@ -1,0 +1,5 @@
+host = smtp.163.com
+port = 25
+from = rainbow_service@163.com
+user = rainbow
+pass = IAVEGDPLRCJFEVON

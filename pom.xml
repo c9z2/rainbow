@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.3.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>pom</packaging>
@@ -39,7 +39,6 @@
 
     <modules>
         <module>rainbow-skt</module>
-        <module>rainbow-cli</module>
         <module>rainbow-biz</module>
         <module>rainbow-api</module>
     </modules>
@@ -166,7 +165,11 @@
                 <version>${fastdfs.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.7</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

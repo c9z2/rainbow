@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.milchstrabe.rainbow.biz.mapper.IUserPropertyMapper">
+
+	<select id="findUserPropertyByUserId" resultType="UserProperty">
+		SELECT avatar,age,email,gender,remark,nickname,phone
+		FROM t_user_property
+		WHERE user_id=#{userId}
+		LIMIT 1
+	</select>
+
+	<select id="findUserPropertyByEmail" resultType="UserProperty">
+		SELECT avatar,age,email,gender,remark,nickname,phone
+		FROM t_user_property
+		WHERE email=#{email}
+		LIMIT 1
+	</select>
+
+	<update id="updateUserPropertyByUserId">
+		UPDATE `t_user_property`
+		<set>
+			<if test="user.property.avatar != null and user.property.avatar != ''">
+				avatar=#{user.property.avatar}
+			</if>
+			<if test="user.property.age != null">
+				age=#{user.property.age}
+			</if>
+			<if test="user.property.email != null and user.property.email != ''">
+				email=#{user.property.email}
+			</if>
+			<if test="user.property.gender != null">
+				gender=#{user.property.gender}
+			</if>
+			<if test="user.property.remark != null and user.property.remark != ''">
+				remark=#{user.property.remark}
+			</if>
+			<if test="user.property.nickname != null and user.property.nickname != ''">
+				nickname=#{user.property.nickname}
+			</if>
+			<if test="user.property.phone != null and user.property.phone != ''">
+				phone=#{user.property.phone}
+			</if>
+		</set>
+		WHERE user_id=#{user.userId}
+	</update>
+
+</mapper>

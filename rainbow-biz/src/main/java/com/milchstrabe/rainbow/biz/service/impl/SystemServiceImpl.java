@@ -1,24 +1,30 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.MD5;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import cn.hutool.extra.mail.MailUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.milchstrabe.rainbow.biz.common.config.JWTConfig;
 import com.milchstrabe.rainbow.biz.common.util.BeanUtils;
+import com.milchstrabe.rainbow.biz.domain.dto.ResetPasswdDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
 import com.milchstrabe.rainbow.biz.domain.po.CLI;
 import com.milchstrabe.rainbow.biz.domain.po.User;
+import com.milchstrabe.rainbow.biz.domain.po.UserProperty;
 import com.milchstrabe.rainbow.biz.mapper.ICLIMappper;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
+import com.milchstrabe.rainbow.biz.mapper.IUserPropertyMapper;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,11 +43,19 @@ public class SystemServiceImpl implements ISystemService {
     @Autowired
     private IUserMappper userMappper;
 
+
     @Autowired
     private ICLIMappper cliMappper;
 
     @Value("{encrypt.secret:123}")
     private String secret;
+
+    private static final String RESET_PASSWD_KEY = "rainbow:reset:pwd:";
+
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
+
+
 
 
     @Override
@@ -102,7 +116,6 @@ public class SystemServiceImpl implements ISystemService {
         if(!isOk){
             throw new LogicException(3000,"add user fail");
         }
-
     }
 
     @Override
@@ -123,7 +136,37 @@ public class SystemServiceImpl implements ISystemService {
         if(isSuccess){
             return encryptHex;
         }
-        throw new LogicException(300,"create cid fail");
+        throw new LogicException(3000,"create cid fail");
+    }
+
+
+    @Override
+    public void resetPasswd(ResetPasswdDTO dto) throws LogicException {
+        String username = dto.getUsername();
+        String email = dto.getEmail();
+        String code = dto.getCode();
+        String passwd = dto.getPasswd();
+        User user = userMappper.findUserByUsername(username);
+        if(!email.equals(user.getProperty().getEmail())){
+            throw new LogicException(3000,"重置密码失败，账号和邮箱不匹配");
+        }
+
+        String codeInDatabase = redisTemplate.opsForValue().get(RESET_PASSWD_KEY + email);
+
+        if(codeInDatabase == null){
+            throw new LogicException(3000,"重置密码失败，验证码失效");
+        }
+
+        if(!code.equals(codeInDatabase)){
+            throw new LogicException(3000,"重置密码失败，验证码错误");
+        }
+
+        String md5Pwd = MD5.create().digestHex(passwd);
+        boolean isSuccess = userMappper.updatePasswordByUsername(username, md5Pwd);
+        if(!isSuccess){
+            throw new LogicException(3000,"重置密码失败,原因未知");
+        }
+
     }
 
 }

@@ -38,7 +38,7 @@ public class ContactController {
     private IContactService contactService;
 
     @GetMapping(path = APIVersion.V_1 + "/list")
-    public Result<ContactVO> list(@CurrentUser RequestUser user) throws LogicException {
+    public Result<ContactVO> list(@CurrentUser RequestUser user) {
         String uid = user.getUserId();
         List<Contact> list = contactService.list(uid);
         List<ContactVO> result = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ContactController {
             BeanUtils.copyProperties(contact,contactVO);
             contactVO.setUserId(contact.getUser().getUserId());
             contactVO.setUsername(contact.getUser().getUsername());
-            contactVO.setAvatar("../static/images/avator.png");
+            contactVO.setAvatar(contact.getUser().getProperty().getAvatar());
             result.add(contactVO);
         });
         return ResultBuilder.success(result);

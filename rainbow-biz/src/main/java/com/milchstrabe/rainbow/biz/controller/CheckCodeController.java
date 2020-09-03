@@ -1,6 +1,5 @@
 package com.milchstrabe.rainbow.biz.controller;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
@@ -8,19 +7,20 @@ import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
 import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.UserPropertyDTO;
 import com.milchstrabe.rainbow.biz.domain.vo.RegisterVO;
+import com.milchstrabe.rainbow.biz.domain.vo.SendCheckCodeVO;
+import com.milchstrabe.rainbow.biz.domain.vo.SendResetPwdCheckCodeVO;
+import com.milchstrabe.rainbow.biz.service.ICheckCodeService;
 import com.milchstrabe.rainbow.biz.service.ISystemService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.exception.ParamMissException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -32,33 +32,33 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/sys")
-public class RegisterController {
+public class CheckCodeController {
 
 
     @Autowired
-    private ISystemService systemService;
+    private ICheckCodeService checkCodeService;
 
 
-    @PutMapping(path = APIVersion.V_1 + "/signUp")
-    public Result<String> register(@RequestBody @Validated RegisterVO registerVO) throws LogicException, ParamMissException {
+    @PutMapping(path = APIVersion.V_1 + "/checkcode/sign/up")
+    public Result<String> registerCheckCode(@RequestBody @Validated SendCheckCodeVO vo) throws LogicException {
 
-        String userId = IdUtil.objectId();
-        UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder()
-                .nickname(registerVO.getNickname())
-                .email(registerVO.getEmail())
-                .build();
-
-        UserDTO userDTO = UserDTO.builder()
-                .passwd(MD5.create().digestHex(registerVO.getPasswd()))
-                .username(registerVO.getUsername())
-                .property(userPropertyDTO)
-                .userId(userId)
-                .status((short)1)
-                .build();
-
-        systemService.register(userDTO);
+        String email = vo.getEmail();
+        checkCodeService.sendSignUpCheckcode(email);
 
         return ResultBuilder.success();
+
+    }
+
+
+    @PutMapping(path = APIVersion.V_1 + "/checkcode/reset/pwd")
+    public Result<String> resetPasswdCheckCode(@RequestBody @Validated SendResetPwdCheckCodeVO vo) throws LogicException {
+
+        String email = vo.getEmail();
+        String username = vo.getUsername();
+        checkCodeService.sendResetCheckCode(username,email);
+
+        return ResultBuilder.success();
+
     }
 
 

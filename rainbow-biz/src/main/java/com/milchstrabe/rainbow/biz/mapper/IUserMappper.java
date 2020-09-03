@@ -18,9 +18,7 @@ public interface IUserMappper {
 
     User findUserByUserId(@Param("id") String id);
 
-    boolean updateUserPropertyByUserId(@Param("user") User user);
-
-    UserProperty findUserPropertyByUserId(@Param("userId") String userId);
+    boolean updatePasswordByUsername(@Param("username") String username,@Param("passwd") String password);
 
     User findUserAndPropertyByUsernameAndStatus(@Param("username") String username,@Param("status") Short status);
 
