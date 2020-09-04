@@ -13,11 +13,11 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message<T> {
+public class Message {
 
     private String id;
     private Integer msgType;
-    private T content;
+    private String content;
     private String sender;
     private String receiver;
     private Short status;

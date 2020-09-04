@@ -77,6 +77,12 @@
 			<artifactId>hutool-all</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.milchstrabe.rainbow.base</groupId>
+			<artifactId>rainbow-base</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

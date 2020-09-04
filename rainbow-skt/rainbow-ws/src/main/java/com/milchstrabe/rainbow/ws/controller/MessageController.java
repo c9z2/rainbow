@@ -2,10 +2,10 @@ package com.milchstrabe.rainbow.ws.controller;
 
 import cn.hutool.core.util.IdUtil;
 import com.google.gson.Gson;
-import com.milchstrabe.rainbow.ws.domain.vo.MessageResponse;
+import com.milchstrabe.rainbow.server.domain.dto.Message;
+import com.milchstrabe.rainbow.ws.common.MessageProcessorContainer;
 import com.milchstrabe.rainbow.ws.service.IMessageService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -37,13 +37,14 @@ public class MessageController {
         log.debug("msg:[{}]",messageStr);
         Gson gson = new Gson();
         Message message = gson.fromJson(messageStr, Message.class);
+        Integer msgType = message.getMsgType();
         message.setDate(System.currentTimeMillis());
-        String msgId = IdUtil.objectId();
-        message.setId(msgId);
+        message.setId(IdUtil.objectId());
+
+        IMessageService messageService = MessageProcessorContainer.get(msgType);
         messageService.doMessage(message);
-        MessageResponse messageResponse = new MessageResponse();
-        BeanUtils.copyProperties(message,messageResponse);
-        String json = gson.toJson(messageResponse);
+
+        String json = gson.toJson(message);
         return json;
     }
 

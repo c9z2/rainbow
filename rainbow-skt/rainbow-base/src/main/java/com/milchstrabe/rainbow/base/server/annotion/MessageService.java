@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.converter;
+package com.milchstrabe.rainbow.base.server.annotion;
 
 
 import org.springframework.stereotype.Component;
@@ -11,5 +11,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface Converter {
+public @interface MessageService {
+    int type();
 }

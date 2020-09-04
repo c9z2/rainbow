@@ -6,6 +6,7 @@ import com.milchstrabe.rainbow.biz.domain.dto.UserPropertyDTO;
 import com.milchstrabe.rainbow.biz.domain.po.User;
 import com.milchstrabe.rainbow.biz.domain.po.UserProperty;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
+import com.milchstrabe.rainbow.biz.mapper.IUserPropertyMapper;
 import com.milchstrabe.rainbow.biz.service.IUserService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,13 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserMappper userMappper;
 
+    @Autowired
+    private IUserPropertyMapper userPropertyMapper;
+
     @Override
     public void modifiedUserAvatar(UserDTO userDTO) throws LogicException {
         User user = BeanUtils.map(userDTO, User.class);
-        boolean isSuccess = userMappper.updateUserPropertyByUserId(user);
+        boolean isSuccess = userPropertyMapper.updateUserPropertyByUserId(user);
         if(!isSuccess){
             throw new LogicException(5000,"modified user info fail");
         }
@@ -36,7 +40,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserPropertyDTO getUserProperty(UserDTO userDTO) throws LogicException {
-        UserProperty userProperty = userMappper.findUserPropertyByUserId(userDTO.getUserId());
+        UserProperty userProperty = userPropertyMapper.findUserPropertyByUserId(userDTO.getUserId());
         Optional.ofNullable(userProperty).orElseThrow(()-> new LogicException(5000,"user property not found"));
         UserPropertyDTO userPropertyDTO = BeanUtils.map(userProperty, UserPropertyDTO.class);
         return userPropertyDTO;
