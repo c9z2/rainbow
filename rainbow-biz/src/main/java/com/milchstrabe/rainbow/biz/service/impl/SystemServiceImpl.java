@@ -52,10 +52,9 @@ public class SystemServiceImpl implements ISystemService {
 
     private static final String RESET_PASSWD_KEY = "rainbow:reset:pwd:";
 
+
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
-
-
 
 
     @Override
@@ -70,6 +69,7 @@ public class SystemServiceImpl implements ISystemService {
         //用户名密码正确
         Map<String,Object> headerMap = new HashMap<>();
         headerMap.put("alg","HS256");
+        
         headerMap.put("type","JWT");
 
         Algorithm algorithmHS = Algorithm.HMAC256(secret);
@@ -103,6 +103,7 @@ public class SystemServiceImpl implements ISystemService {
     @Transactional
     @Override
     public void register(UserDTO userDTO) throws LogicException {
+
         User userInDatabase = userMappper.findUserByUsername(userDTO.getUsername());
         if(userInDatabase != null){
             throw new LogicException(3000,"user exist");

@@ -1,5 +1,5 @@
-host = smtp.163.com
+host = smtp.yeah.net
 port = 25
-from = rainbow_service@163.com
-user = rainbow
-pass = IAVEGDPLRCJFEVON
+from = rainbow_service@yeah.net
+user = rainbow_service
+pass = ADNFFXXEWQYIBYCA

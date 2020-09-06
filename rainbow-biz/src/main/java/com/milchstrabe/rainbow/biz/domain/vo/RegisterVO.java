@@ -19,10 +19,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class RegisterVO {
 
-    @Regexp(regexp = "^[a-z][a-zA-Z0-9_]{5,16}$",message = "小写字母开头，允许5-16字符，允许字母数字下划线")
+    @Regexp(regexp = "^[a-z][a-zA-Z0-9_]{4,16}$",message = "用户名以小写字母开头，允许5-16字符，允许字母数字下划线")
     private String username;
 
-    @Regexp(regexp = "^[a-zA-Z]\\w{6,18}$",message = "以字母开头，长度在6~18之间，只能包含字母、数字和下划线")
+    @Regexp(regexp = "^[a-zA-Z]\\w{6,18}$",message = "密码以字母开头，长度在6~18之间，只能包含字母、数字和下划线")
     private String passwd;
 
     @NotNull
@@ -32,6 +32,6 @@ public class RegisterVO {
     @Regexp(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",message = "电子邮箱地址非法")
     private String email;
 
-    @Regexp(regexp = "^\\d{6}$",message = "验证码错误")
+    @Regexp(regexp = "^\\w{6}$",message = "验证码错误")
     private String code;
 }

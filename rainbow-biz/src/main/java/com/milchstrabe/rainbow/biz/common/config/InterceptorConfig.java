@@ -33,7 +33,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/**/signIn","/**/signUp","/error");
+        .excludePathPatterns("/**/signIn",
+                "/**/signUp",
+                "/**/checkcode/**",
+                "/**/reset/passwd",
+                "/error");
     }
 
     @Override

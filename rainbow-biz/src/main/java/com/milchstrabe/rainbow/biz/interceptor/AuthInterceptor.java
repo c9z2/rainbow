@@ -31,12 +31,12 @@ public class AuthInterceptor implements HandlerInterceptor {
         if(!StringUtils.hasLength(authorization)){
             authorization = request.getParameter("Authorization");
             if(!StringUtils.hasLength(authorization)){
-                throw new AuthException("miss auth!");
+                throw new AuthException("你没权限这么做!");
             }
         }
         String[] tokens = authorization.split(" ");
         if(tokens.length<2){
-            throw new AuthException("miss auth!");
+            throw new AuthException("你没权限这么做!");
         }
         String token = tokens[1];
         DecodedJWT decode = null;

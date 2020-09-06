@@ -16,11 +16,6 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 public class MessageController {
 
-
-    @Autowired
-    private IMessageService messageService;
-
-
     /**
      *      string msgId = 1;
      *      int32 msgType = 2;

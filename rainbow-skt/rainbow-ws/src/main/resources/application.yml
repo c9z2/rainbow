@@ -15,11 +15,11 @@ thread:
 spring:
   data:
     mongodb:
-      uri: mongodb://rainbow.milchstrabe.com:37017/rainbow
+      uri: mongodb://192.168.1.118:27017/rainbow
   redis:
     database: 0
-    host: rainbow.milchstrabe.com
-    port: 16379
+    host: 192.168.1.118
+    port: 6379
     # password: 123456
     max-active: 10
     max-wait: 500
@@ -37,5 +37,4 @@ fdfs:
     width: 150
     height: 150
   tracker-list:            #TrackerList , support multi
-#    - 192.168.1.118:22122
-     - rainbow.milchstrabe.com:22122
+    - 192.168.1.118:22122

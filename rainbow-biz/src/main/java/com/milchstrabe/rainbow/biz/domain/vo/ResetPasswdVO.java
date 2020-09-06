@@ -3,6 +3,7 @@ package com.milchstrabe.rainbow.biz.domain.vo;
 import com.milchstrabe.rainbow.biz.common.validator.annotation.Regexp;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
@@ -17,13 +18,15 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class ResetPasswdVO {
 
-    @NotNull(message = "用户名不能为空")
+    @Regexp(regexp = "^[a-z][a-zA-Z0-9_]{4,16}$",message = "用户名以小写字母开头，允许5-16字符，允许字母数字下划线")
     private String username;
 
-    @Regexp(regexp = "^[a-zA-Z]\\w{6,18}$",message = "以字母开头，长度在6~18之间，只能包含字母、数字和下划线")
+    @Regexp(regexp = "^[a-zA-Z]\\w{6,18}$",message = "密码以字母开头，长度在6~18之间，只能包含字母、数字和下划线")
     private String passwd;
-    @NotNull(message = "电子邮件不能为空")
+
+    @Regexp(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",message = "电子邮箱地址非法")
     private String email;
-    @NotNull(message = "验证码不能为空")
+
+    @Regexp(regexp = "^\\w{6}$",message = "验证码错误")
     private String code;
 }

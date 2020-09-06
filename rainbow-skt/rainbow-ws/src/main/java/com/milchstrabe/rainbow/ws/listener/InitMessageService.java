@@ -1,7 +1,8 @@
 package com.milchstrabe.rainbow.ws.listener;
 
-import com.milchstrabe.rainbow.converter.ConverterContainer;
-import com.milchstrabe.rainbow.converter.IMessageConverter;
+import com.milchstrabe.rainbow.base.server.annotion.MessageService;
+import com.milchstrabe.rainbow.ws.common.MessageProcessorContainer;
+import com.milchstrabe.rainbow.ws.service.IMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,15 +21,14 @@ import java.util.Set;
  **/
 @Slf4j
 @Component
-public class InitMessageConverter implements CommandLineRunner {
+public class InitMessageService implements CommandLineRunner {
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
     public void run(String... args) throws Exception {
-
-        Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(Converter.class);
+        Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(MessageService.class);
 
         if(beansWithAnnotation == null || beansWithAnnotation.isEmpty()){
             return;
@@ -39,15 +39,13 @@ public class InitMessageConverter implements CommandLineRunner {
         while (iterator.hasNext()){
             Map.Entry<String, Object> entry = iterator.next();
             Object value = entry.getValue();
-            Converter annotation = value.getClass().getAnnotation(Converter.class);
+            MessageService annotation = value.getClass().getAnnotation(MessageService.class);
             int type = annotation.type();
-            if(ConverterContainer.get(type) == null){
-                ConverterContainer.put(type,(IMessageConverter) value);
+            if(MessageProcessorContainer.get(type) == null){
+                MessageProcessorContainer.put(type,(IMessageService) value);
             }else{
                 log.info("消息转换器重复：{}",type);
             }
-
-
         }
 
     }

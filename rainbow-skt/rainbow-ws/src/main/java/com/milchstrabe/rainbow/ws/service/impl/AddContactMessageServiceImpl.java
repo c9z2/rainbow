@@ -39,9 +39,6 @@ public class AddContactMessageServiceImpl implements IMessageService {
     @Autowired
     private GRPCClient grpcClient;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
     @Override
     public void doMessage(Message message) {
 
@@ -49,7 +46,7 @@ public class AddContactMessageServiceImpl implements IMessageService {
         Gson gson = new Gson();
         String json = gson.toJson(message);
 
-        mongoTemplate.save()
+//        mongoTemplate.save()
 
         simpMessageSendingOperations.convertAndSendToUser(receiver, "/message", json);
 

@@ -23,8 +23,8 @@ public class ResultBuilder<T> {
         return result;
     }
 
-    public static <T> Result fail(T t){
-        Result result = new Result<>(ResultCode.FAIL, t);
+    public static <T> Result fail(String msg){
+        Result result = new Result<>(ResultCode.FAIL.code(), msg);
         return result;
     }
 

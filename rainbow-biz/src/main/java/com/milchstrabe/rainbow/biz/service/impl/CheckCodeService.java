@@ -56,7 +56,10 @@ public class CheckCodeService implements ICheckCodeService {
 
     @Override
     public void sendResetCheckCode(String username,String email) {
-        User user = userMappper.findUserByUsername(username);
+        User user = userMappper.findUserAndPropertyByUsernameAndStatus(username,(short)1);
+        if(user == null || user.getProperty() == null){
+            return;
+        }
         if(!email.equals(user.getProperty().getEmail())){
             //不存在这样的电子邮箱时，也提示发送成功。
             return;

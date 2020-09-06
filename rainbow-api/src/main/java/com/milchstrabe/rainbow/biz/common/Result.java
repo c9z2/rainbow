@@ -27,4 +27,12 @@ public class Result<T> {
         this.code = resultCode.code();
         this.msg = resultCode.msg();
     }
+
+    protected Result(Integer code,String msg){
+        this.code = code;
+        this.msg = msg;
+    }
+
+
+
 }

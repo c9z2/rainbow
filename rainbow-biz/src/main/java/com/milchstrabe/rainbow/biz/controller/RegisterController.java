@@ -13,15 +13,12 @@ import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.exception.ParamMissException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @Author ch3ng
@@ -34,13 +31,22 @@ import java.util.UUID;
 @RequestMapping("/sys")
 public class RegisterController {
 
-
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
     @Autowired
     private ISystemService systemService;
-
+    private static final String SIGN_UP_KEY = "rainbow:sign:up:";
 
     @PutMapping(path = APIVersion.V_1 + "/signUp")
     public Result<String> register(@RequestBody @Validated RegisterVO registerVO) throws LogicException, ParamMissException {
+
+        String codeInRedis = redisTemplate.opsForValue().get(SIGN_UP_KEY + registerVO.getEmail());
+        if(codeInRedis == null){
+            return ResultBuilder.fail("验证码失效");
+        }
+        if(!registerVO.getCode().equals(codeInRedis)){
+            return ResultBuilder.fail("验证码错误");
+        }
 
         String userId = IdUtil.objectId();
         UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder()

@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +37,7 @@ public class TextMessageServiceImpl implements IMessageService {
     @Autowired
     private GRPCClient grpcClient;
 
-    @Async("asyncExecutor")
+//    @Async("asyncExecutor")
     @Override
     public void doMessage(Message message) {
         String receiver = message.getReceiver();
