@@ -70,7 +70,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                             try {
                                 decode = JWT.decode(token);
                             } catch (JWTDecodeException exception) {
-                                log.error(exception.getMessage());
+                                log.error(exception.getMessage() +"token:"+token);
                                 return false;
                             }
 
