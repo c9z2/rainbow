@@ -14,6 +14,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface IUserPropertyMapper {
 
+    boolean addUserProperty(@Param("user") User user);
+
     boolean updateUserPropertyByUserId(@Param("user") User user);
 
     UserProperty findUserPropertyByUserId(@Param("userId") String userId);

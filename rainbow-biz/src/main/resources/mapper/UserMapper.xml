@@ -9,18 +9,6 @@
 		VALUE (#{user.userId},#{user.username},#{user.passwd},#{user.status})
 	</insert>
 
-	<insert id="addUserProperty">
-		INSERT INTO `t_user_property` (user_id,avatar,age,email,gender,remark,nickname,phone)
-		VALUE (#{user.userId},
-		#{user.property.avatar},
-		#{user.property.age},
-		#{user.property.email},
-		#{user.property.gender},
-		#{user.property.remark},
-		#{user.property.nickname},
-		#{user.property.phone})
-	</insert>
-
 	<select id="findUserByUsernameAndStatus" resultType="User">
 		SELECT id,
 		user_id AS userId,
@@ -31,7 +19,7 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 
-	<select id="findUserAndPropertyByUsernameAndStatus" resultMap="findUserAndPropertyByUsernameAndStatusResult">
+	<select id="findUserAndPropertyByUsernameAndStatus" resultMap="findUserAndProperty">
 		SELECT
 		t1.user_id AS userId,
 		t1.username,
@@ -39,7 +27,7 @@
 		t2.age,
 		t2.email,
 		t2.gender,
-		t2.remark,
+		t2.signature,
 		t2.nickname,
 		t2.phone
 		FROM `t_user` t1
@@ -47,7 +35,7 @@
 		WHERE t1.username=#{username} AND status=#{status}
 	</select>
 
-	<resultMap id="findUserAndPropertyByUsernameAndStatusResult" type="User">
+	<resultMap id="findUserAndProperty" type="User">
 		<result property="userId" column="userId"/>
 		<result property="username" column="username"/>
 		<association property="property" javaType="UserProperty">
@@ -55,7 +43,7 @@
 			<result property="age" column="age"/>
 			<result property="email" column="email"/>
 			<result property="gender" column="gender"/>
-			<result property="remark" column="remark"/>
+			<result property="signature" column="signature"/>
 			<result property="nickname" column="nickname"/>
 			<result property="phone" column="phone"/>
 		</association>
@@ -82,6 +70,7 @@
 		WHERE user_id=#{id}
 		LIMIT 1
 	</select>
+
 
 	<update id="updatePasswordByUsername">
 		UPDATE t_user SET passwd=#{passwd} WHERE username=#{username}

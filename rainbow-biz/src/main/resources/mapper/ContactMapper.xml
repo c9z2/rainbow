@@ -4,19 +4,25 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IContactMappper">
 
-	<select id="list" resultMap="list_result">
+	<select id="list" resultMap="contactResult">
 		SELECT t2.user_id AS userId,
 		t2.username AS username,
 		t1.remark AS remark,
 		t1.create_time AS createTime,
-		t3.avatar AS avatar
+		t3.avatar AS avatar,
+		t3.age,
+		t3.email,
+		t3.gender,
+		t3.signature,
+		t3.nickname,
+		t3.phone
 		FROM t_contact t1
 		LEFT JOIN t_user t2 ON t1.contact_id=t2.user_id
 		LEFT JOIN t_user_property t3 ON t2.user_id=t3.user_id
 		WHERE t1.user_id=#{uid}
 	</select>
 
-	<resultMap id="list_result" type="com.milchstrabe.rainbow.biz.domain.po.Contact">
+	<resultMap id="contactResult" type="com.milchstrabe.rainbow.biz.domain.po.Contact">
 		<result column="remark" property="remark"/>
 		<result column="createTime" property="createTime"/>
 		<association property="user" javaType="com.milchstrabe.rainbow.biz.domain.po.User">
@@ -24,10 +30,36 @@
 			<result column="username" property="username"/>
 			<association property="property" javaType="com.milchstrabe.rainbow.biz.domain.po.UserProperty">
 				<result column="avatar" property="avatar"/>
+				<result column="age" property="age"/>
+				<result column="email" property="email"/>
+				<result column="gender" property="gender"/>
+				<result column="signature" property="signature"/>
+				<result column="nickname" property="nickname"/>
+				<result column="phone" property="phone"/>
 			</association>
 		</association>
 
 	</resultMap>
 
+
+
+	<select id="findContactDetail" resultMap="contactResult">
+		SELECT
+		t1.remark,
+		t1.create_time AS createTime,
+		t2.user_id AS userId,
+		t2.username,
+		t3.avatar,
+		t3.age,
+		t3.email,
+		t3.gender,
+		t3.signature,
+		t3.nickname,
+		t3.phone
+		FROM t_contact t1
+		LEFT JOIN t_user t2 ON t1.contact_id=t2.user_id
+		LEFT JOIN `t_user_property` t3 ON t2.user_id=t3.user_id
+		WHERE t1.user_id=#{userId} AND t1.contact_id=#{contactId}
+	</select>
 
 </mapper>

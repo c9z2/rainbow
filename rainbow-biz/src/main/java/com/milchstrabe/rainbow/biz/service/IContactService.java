@@ -1,5 +1,6 @@
 package com.milchstrabe.rainbow.biz.service;
 
+import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.po.Contact;
 
 import java.util.List;
@@ -7,5 +8,7 @@ import java.util.List;
 public interface IContactService {
 
     List<Contact> list(String uid);
+
+    GetContactDetailDTO findContactDetail(String userId, String contactId);
 
 }

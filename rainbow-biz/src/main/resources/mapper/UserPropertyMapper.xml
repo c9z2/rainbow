@@ -4,15 +4,28 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IUserPropertyMapper">
 
+
+	<insert id="addUserProperty">
+		INSERT INTO `t_user_property` (user_id,avatar,age,email,gender,signature,nickname,phone)
+		VALUE (#{user.userId},
+		#{user.property.avatar},
+		#{user.property.age},
+		#{user.property.email},
+		#{user.property.gender},
+		#{user.property.signature},
+		#{user.property.nickname},
+		#{user.property.phone})
+	</insert>
+
 	<select id="findUserPropertyByUserId" resultType="UserProperty">
-		SELECT avatar,age,email,gender,remark,nickname,phone
+		SELECT avatar,age,email,gender,signature,nickname,phone
 		FROM t_user_property
 		WHERE user_id=#{userId}
 		LIMIT 1
 	</select>
 
 	<select id="findUserPropertyByEmail" resultType="UserProperty">
-		SELECT avatar,age,email,gender,remark,nickname,phone
+		SELECT avatar,age,email,gender,signature,nickname,phone
 		FROM t_user_property
 		WHERE email=#{email}
 		LIMIT 1
@@ -33,8 +46,8 @@
 			<if test="user.property.gender != null">
 				gender=#{user.property.gender}
 			</if>
-			<if test="user.property.remark != null and user.property.remark != ''">
-				remark=#{user.property.remark}
+			<if test="user.property.signature != null and user.property.signature != ''">
+				signature=#{user.property.signature}
 			</if>
 			<if test="user.property.nickname != null and user.property.nickname != ''">
 				nickname=#{user.property.nickname}

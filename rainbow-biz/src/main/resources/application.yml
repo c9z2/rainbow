@@ -49,7 +49,7 @@ curator:
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
-  type-aliases-package: com.milchstrabe.rainbow.biz.domain.po
+  type-aliases-package: com.milchstrabe.rainbow.biz.domain
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 

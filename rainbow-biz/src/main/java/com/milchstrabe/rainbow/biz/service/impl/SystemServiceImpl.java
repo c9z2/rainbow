@@ -43,6 +43,9 @@ public class SystemServiceImpl implements ISystemService {
     @Autowired
     private IUserMappper userMappper;
 
+    @Autowired
+    private IUserPropertyMapper userPropertyMapper;
+
 
     @Autowired
     private ICLIMappper cliMappper;
@@ -113,7 +116,7 @@ public class SystemServiceImpl implements ISystemService {
         if(!isSuccess){
             throw new LogicException(3000,"add user fail");
         }
-        boolean isOk = userMappper.addUserProperty(user);
+        boolean isOk = userPropertyMapper.addUserProperty(user);
         if(!isOk){
             throw new LogicException(3000,"add user fail");
         }

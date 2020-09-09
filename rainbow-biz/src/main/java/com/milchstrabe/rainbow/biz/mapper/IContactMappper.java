@@ -11,5 +11,7 @@ public interface IContactMappper {
 
     List<Contact> list(@Param("uid")String uid);
 
+    Contact findContactDetail(@Param("userId") String userId, @Param("contactId") String contactId);
+
 
 }
