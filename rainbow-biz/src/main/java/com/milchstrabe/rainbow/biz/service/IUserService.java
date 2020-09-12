@@ -12,4 +12,6 @@ public interface IUserService {
 
     UserDTO findUserByUsernameAndStatus(UserDTO userDTO);
 
+    UserDTO searchUser(UserDTO dto);
+
 }

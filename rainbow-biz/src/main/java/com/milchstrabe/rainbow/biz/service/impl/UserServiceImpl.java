@@ -55,5 +55,14 @@ public class UserServiceImpl implements IUserService {
         return BeanUtils.map(user, UserDTO.class);
     }
 
+    @Override
+    public UserDTO searchUser(UserDTO dto) {
+        User user = userMappper.searchUser(dto.getUsername(), dto.getStatus(), dto.getProperty().getEmail());
+        if(user == null){
+            return null;
+        }
+        return BeanUtils.map(user, UserDTO.class);
+    }
+
 
 }

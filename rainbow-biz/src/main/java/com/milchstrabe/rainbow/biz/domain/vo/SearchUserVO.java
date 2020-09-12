@@ -18,10 +18,6 @@ public class SearchUserVO {
     private String userId;
     private String username;
     private String avatar;
-    private Short age;
     private String email;
-    private Short gender;
-    private String remark;
     private String nickname;
-    private String phone;
 }

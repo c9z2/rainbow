@@ -11,8 +11,8 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private String userId;
     private String username;

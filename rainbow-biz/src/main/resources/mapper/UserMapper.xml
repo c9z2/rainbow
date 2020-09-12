@@ -19,6 +19,22 @@
 		WHERE username=#{username} AND status=#{status}
 	</select>
 
+	<select id="searchUser" resultMap="findUserAndProperty">
+		SELECT
+		t1.user_id AS userId,
+		t1.username,
+		t2.avatar,
+		t2.age,
+		t2.email,
+		t2.gender,
+		t2.signature,
+		t2.nickname,
+		t2.phone
+		FROM `t_user` t1
+		LEFT JOIN `t_user_property` t2 ON t1.user_id=t2.user_id
+		WHERE (t1.username=#{username} OR t2.email=#{email}) AND status=#{status}
+	</select>
+
 	<select id="findUserAndPropertyByUsernameAndStatus" resultMap="findUserAndProperty">
 		SELECT
 		t1.user_id AS userId,

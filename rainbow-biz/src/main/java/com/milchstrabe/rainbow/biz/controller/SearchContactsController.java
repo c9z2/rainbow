@@ -5,6 +5,7 @@ import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
 import com.milchstrabe.rainbow.biz.common.util.BeanUtils;
 import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
+import com.milchstrabe.rainbow.biz.domain.dto.UserPropertyDTO;
 import com.milchstrabe.rainbow.biz.domain.vo.ContactVO;
 import com.milchstrabe.rainbow.biz.domain.vo.SearchUserVO;
 import com.milchstrabe.rainbow.biz.service.IUserService;
@@ -28,11 +29,18 @@ public class SearchContactsController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping(path = APIVersion.V_1 + "/search/username/{username}")
-    public Result<ContactVO> search(@PathVariable("username")String username) throws LogicException {
-        UserDTO userDTO = UserDTO.builder().status((short) 1).username(username).build();
+    @GetMapping(path = APIVersion.V_1 + "/search/{content}")
+    public Result<ContactVO> search(@PathVariable("content")String content) {
 
-        UserDTO userResult = userService.findUserByUsernameAndStatus(userDTO);
+
+        UserDTO userDTO = UserDTO
+                .builder()
+                .status((short) 1)
+                .username(content)
+                .property(UserPropertyDTO.builder().email(content).build())
+                .build();
+
+        UserDTO userResult = userService.searchUser(userDTO);
         if(userResult == null){
             return ResultBuilder.success();
         }
