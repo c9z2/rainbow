@@ -1,10 +1,12 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
 import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
+import com.milchstrabe.rainbow.biz.domain.dto.ModifiedContactRemarkDTO;
 import com.milchstrabe.rainbow.biz.domain.po.Contact;
 import com.milchstrabe.rainbow.biz.domain.vo.GetContactDetailVO;
 import com.milchstrabe.rainbow.biz.mapper.IContactMappper;
 import com.milchstrabe.rainbow.biz.service.IContactService;
+import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,13 @@ public class ContactServiceImpl implements IContactService {
                 .build();
 
         return dto;
+    }
+
+    @Override
+    public void modifiedContactRemark(ModifiedContactRemarkDTO dto) throws LogicException {
+        boolean b = contactMappper.modifiedContactRemark(dto.getUserId(), dto.getContactId(), dto.getRemark());
+        if(!b){
+            throw new LogicException(5000,"改备注失败");
+        }
     }
 }

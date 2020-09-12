@@ -47,7 +47,7 @@ public class ModifiedUserPropertyController {
      * @throws LogicException
      * @throws ParamMissException
      */
-    @PutMapping(path = APIVersion.V_1 + "/property")
+    @PostMapping(path = APIVersion.V_1 + "/property")
     public Result<String> property(@CurrentUser RequestUser user,
                                  @RequestBody ModifiedUserPropertyVO userPropertyVO) throws LogicException, ParamMissException, IOException {
         //TODO

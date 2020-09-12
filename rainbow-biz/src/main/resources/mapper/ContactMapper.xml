@@ -62,4 +62,7 @@
 		WHERE t1.user_id=#{userId} AND t1.contact_id=#{contactId}
 	</select>
 
+	<update id="modifiedContactRemark">
+		UPDATE t_contact SET remark=#{remark} WHERE user_id=#{userId} AND contact_id=#{contactId}	</update>
+
 </mapper>

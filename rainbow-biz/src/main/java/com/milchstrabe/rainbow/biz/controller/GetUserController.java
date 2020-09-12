@@ -1,8 +1,10 @@
 package com.milchstrabe.rainbow.biz.controller;
 
+import com.milchstrabe.rainbow.biz.common.CurrentUser;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
+import com.milchstrabe.rainbow.biz.domain.RequestUser;
 import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
 import com.milchstrabe.rainbow.biz.domain.po.Contact;
@@ -30,9 +32,9 @@ public class GetUserController {
     private IContactService contactService;
 
     @PostMapping(path = APIVersion.V_1 + "/contact/detail")
-    public Result<String> getUserByUserId(@RequestBody @Validated GetContactDetailVO vo) throws LogicException {
+    public Result<String> getUserByUserId(@CurrentUser RequestUser user, @RequestBody @Validated GetContactDetailVO vo) {
 
-        GetContactDetailDTO contactDetail = contactService.findContactDetail(vo.getUserId(), vo.getContactId());
+        GetContactDetailDTO contactDetail = contactService.findContactDetail(user.getUserId(), vo.getContactId());
 
         return ResultBuilder.success(contactDetail);
     }

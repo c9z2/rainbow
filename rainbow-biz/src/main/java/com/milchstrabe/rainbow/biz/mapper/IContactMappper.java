@@ -13,5 +13,7 @@ public interface IContactMappper {
 
     Contact findContactDetail(@Param("userId") String userId, @Param("contactId") String contactId);
 
+    boolean modifiedContactRemark(@Param("userId") String userId, @Param("contactId") String contactId,@Param("remark") String remark);
+
 
 }
