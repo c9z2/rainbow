@@ -4,6 +4,7 @@ public enum ResultCode {
 
     SUCCESS(200,"success"),
     FAIL(300,"fail"),
+    AUTH(304,"no auth"),
     EXCEPTION(500,"exception");
 
     private Integer code;

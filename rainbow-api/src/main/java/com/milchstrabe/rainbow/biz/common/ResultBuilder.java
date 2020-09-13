@@ -28,6 +28,11 @@ public class ResultBuilder<T> {
         return result;
     }
 
+    public static <T> Result noAuth(String msg){
+        Result result = new Result<>(ResultCode.AUTH.code(), msg);
+        return result;
+    }
+
     public static <T> Result exception(T t){
         Result result = new Result<>(ResultCode.EXCEPTION, t);
         return result;

@@ -15,5 +15,11 @@ public interface IContactMappper {
 
     boolean modifiedContactRemark(@Param("userId") String userId, @Param("contactId") String contactId,@Param("remark") String remark);
 
+    boolean addContact(@Param("sender") String sender,
+                       @Param("receiver") String receiver,
+                       @Param("senderNickname") String senderNickname,
+                       @Param("receiverNickname") String receiverNickname,
+                       @Param("createTime") Long createTime);
+
 
 }

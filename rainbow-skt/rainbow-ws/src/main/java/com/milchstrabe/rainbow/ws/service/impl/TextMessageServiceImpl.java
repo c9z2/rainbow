@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.base.server.annotion.MessageService;
 import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.server.domain.dto.Message;
+import com.milchstrabe.rainbow.server.domain.po.Message;
 import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
 import com.milchstrabe.rainbow.ws.server.typ3.grpc.GRPCClient;
 import com.milchstrabe.rainbow.ws.service.IMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +25,7 @@ import java.util.Set;
  **/
 @MessageService(type = 1)
 @Slf4j
-public class TextMessageServiceImpl implements IMessageService {
+public class TextMessageServiceImpl implements IMessageService<String> {
 
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
@@ -39,7 +38,7 @@ public class TextMessageServiceImpl implements IMessageService {
 
 //    @Async("asyncExecutor")
     @Override
-    public void doMessage(Message message) {
+    public void doMessage(Message<String> message) {
         String receiver = message.getReceiver();
         Gson gson = new Gson();
         String json = gson.toJson(message);
@@ -69,5 +68,6 @@ public class TextMessageServiceImpl implements IMessageService {
             grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
         }
     }
+
 
 }

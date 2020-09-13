@@ -4,6 +4,12 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IContactMappper">
 
+	<insert id="addContact">
+		INSERT INTO t_contact (user_id,contact_id,remark,create_time) VALUES
+		(#{sender},#{receiver},#{receiverNickname},#{createTime}),
+		(#{receiver},#{sender},#{senderNickname},#{createTime})
+	</insert>
+
 	<select id="list" resultMap="contactResult">
 		SELECT t2.user_id AS userId,
 		t2.username AS username,

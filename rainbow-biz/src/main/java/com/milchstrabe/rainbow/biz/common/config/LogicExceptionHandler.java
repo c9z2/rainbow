@@ -29,7 +29,7 @@ public class LogicExceptionHandler {
 
     @ExceptionHandler(value = AuthException.class)
     public Result internalException(AuthException exception){
-        return ResultBuilder.fail(exception.getMessage());
+        return ResultBuilder.noAuth(exception.getMessage());
     }
 
     @ExceptionHandler(value = InternalException.class)
