@@ -1,7 +1,7 @@
-package com.milchstrabe.rainbow.udp.server;
+package com.milchstrabe.rainbow.tcp.typ3;
 
-import com.milchstrabe.rainbow.udp.typ3.grpc.GRPCServer;
-import com.milchstrabe.rainbow.udp.typ3.netty.NettyUDPServer;
+import com.milchstrabe.rainbow.tcp.typ3.grpc.GRPCServer;
+import com.milchstrabe.rainbow.tcp.typ3.netty.NettyTCPServer;
 import io.grpc.Server;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
@@ -22,21 +22,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bootstrap implements CommandLineRunner {
 
-    @Value("${netty.udp.port:8082}")
-    private int udpPort;
+    @Value("${netty.tcp.port:8081}")
+    private int tcpPort;
+
     @Value("${netty.gRPC.port:8083}")
     private int gRPCPort;
 
     @Autowired
-    private NettyUDPServer nettyUDPServer;
+    private NettyTCPServer nettyTCPServer;
 
     @Autowired
     private GRPCServer grpcServer;
 
     @Override
     public void run(String... args){
-        //udp
-        ChannelFuture udpFuture = nettyUDPServer.start(udpPort);
+        //tcp
+        ChannelFuture tcpFuture = nettyTCPServer.start(tcpPort);
+
         //gRPC
         Server server = grpcServer.start(gRPCPort);
 
@@ -44,8 +46,8 @@ public class Bootstrap implements CommandLineRunner {
         Runtime.getRuntime().addShutdownHook(new Thread(){
             @Override
             public void run() {
-                //udp
-                nettyUDPServer.destroy();
+                //tcp
+                nettyTCPServer.destroy();
 
                 // Use stderr here since the logger may have been reset by its JVM shutdown hook.
                 // shutting down gRPC server since JVM is shutting down
@@ -55,15 +57,9 @@ public class Bootstrap implements CommandLineRunner {
 
 
         new Thread(()->{
-            //udp server
-            try {
-                udpFuture.channel().closeFuture().await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                log.error(e.getMessage());
-            }
+            //tcp server
+            tcpFuture.channel().closeFuture().syncUninterruptibly();
         }).start();
-
 
         new Thread(()->{
             try {

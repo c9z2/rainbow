@@ -1,5 +1,8 @@
+node:
+  host: 127.0.0.1
+
 server:
-  port: 6767
+  port: 8080
 
 netty:
   gRPC:
@@ -10,6 +13,14 @@ thread:
     corePoolSize: 200
     maxPoolSize: 500
     queueCapacity: 200
+
+
+curator:
+  retryCount: 5
+  elapsedTimeMs: 5000
+  connectString: 192.168.1.118:2181
+  sessionTimeoutMs: 60000
+  connectionTimeoutMs: 5000
 
 
 spring:

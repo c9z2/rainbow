@@ -2,12 +2,12 @@ package com.milchstrabe.rainbow.ws.service.impl;
 
 import com.google.gson.Gson;
 import com.milchstrabe.rainbow.ClientServer;
-import com.milchstrabe.rainbow.base.server.annotion.MessageService;
 import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
-import com.milchstrabe.rainbow.ws.server.typ3.grpc.GRPCClient;
 import com.milchstrabe.rainbow.ws.service.IMessageService;
+import com.milchstrabe.rainbow.ws.typ3.grpc.GRPCClient;
+import com.milchstrabe.rainbow.ws.typ3.stomp.handler.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
