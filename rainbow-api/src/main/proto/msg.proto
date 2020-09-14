@@ -1,7 +1,7 @@
 
 syntax = "proto3";
 
-option java_package="com.milchstrabe.rainbow.base.server.typ3.grpc";
+option java_package="com.milchstrabe.rainbow.api.typ3.grpc";
 
 /*
     defined message type;
@@ -10,7 +10,7 @@ option java_package="com.milchstrabe.rainbow.base.server.typ3.grpc";
     3:
     4: voice message
     5: call message
-    21 : system message - add user message
+    10 : system message - add user message
 */
 message MsgRequest{
     string msgId = 1;
