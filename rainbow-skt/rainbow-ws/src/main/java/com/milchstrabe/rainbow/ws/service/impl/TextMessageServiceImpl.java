@@ -2,7 +2,7 @@ package com.milchstrabe.rainbow.ws.service.impl;
 
 import com.google.gson.Gson;
 import com.milchstrabe.rainbow.ClientServer;
-import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
 import com.milchstrabe.rainbow.ws.service.IMessageService;

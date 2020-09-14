@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.udp.typ3.netty;
 
-import com.milchstrabe.rainbow.base.server.codc.Data;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

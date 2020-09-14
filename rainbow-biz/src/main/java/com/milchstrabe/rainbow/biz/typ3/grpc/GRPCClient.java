@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.biz.typ3.grpc;
 
-import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.base.server.typ3.grpc.PassThroughMessageServiceGrpc;
+import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.api.typ3.grpc.PassThroughMessageServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;

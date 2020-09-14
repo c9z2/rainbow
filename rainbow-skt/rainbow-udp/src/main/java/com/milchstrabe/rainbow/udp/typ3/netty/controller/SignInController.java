@@ -2,7 +2,7 @@ package com.milchstrabe.rainbow.udp.typ3.netty.controller;
 
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
-import com.milchstrabe.rainbow.base.server.codc.Data;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
 import com.milchstrabe.rainbow.exception.AuthException;
 import com.milchstrabe.rainbow.server.domain.vo.SiginVO;
 import com.milchstrabe.rainbow.udp.common.constant.StateCode;

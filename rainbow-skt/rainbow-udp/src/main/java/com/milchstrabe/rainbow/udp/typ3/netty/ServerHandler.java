@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.udp.typ3.netty;
 
-import com.milchstrabe.rainbow.base.server.codc.Data;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
 import com.milchstrabe.rainbow.udp.common.constant.StateCode;
 import com.milchstrabe.rainbow.udp.typ3.netty.scanner.Invoker;
 import com.milchstrabe.rainbow.udp.typ3.netty.scanner.InvokerHolder;

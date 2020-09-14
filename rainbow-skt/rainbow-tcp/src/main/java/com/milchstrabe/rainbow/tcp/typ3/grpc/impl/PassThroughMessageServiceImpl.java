@@ -1,8 +1,8 @@
 package com.milchstrabe.rainbow.tcp.typ3.grpc.impl;
 
-import com.milchstrabe.rainbow.base.server.codc.Data;
-import com.milchstrabe.rainbow.base.server.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.base.server.typ3.grpc.PassThroughMessageServiceGrpc;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
+import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.api.typ3.grpc.PassThroughMessageServiceGrpc;
 import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.tcp.common.constant.StateCode;
 import com.milchstrabe.rainbow.tcp.typ3.netty.session.Session;

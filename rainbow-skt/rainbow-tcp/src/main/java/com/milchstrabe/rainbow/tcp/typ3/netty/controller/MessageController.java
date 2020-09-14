@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.tcp.typ3.netty.controller;
 
-import com.milchstrabe.rainbow.base.server.codc.Data;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
 import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.tcp.common.constant.StateCode;
 import com.milchstrabe.rainbow.tcp.service.IMessageService;

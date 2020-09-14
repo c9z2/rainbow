@@ -1,7 +1,7 @@
 package com.milchstrabe.rainbow.tcp.typ3.netty.session;
 
 
-import com.milchstrabe.rainbow.base.server.codc.Data;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
 import io.netty.channel.Channel;
 
 /**

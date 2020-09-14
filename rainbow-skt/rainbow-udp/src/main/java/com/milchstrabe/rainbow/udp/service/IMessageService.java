@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.udp.service;
 
-import com.milchstrabe.rainbow.base.server.codc.Data;
+import com.milchstrabe.rainbow.api.netty.codc.Data;
 import com.milchstrabe.rainbow.exception.LogicException;
 
 /**
