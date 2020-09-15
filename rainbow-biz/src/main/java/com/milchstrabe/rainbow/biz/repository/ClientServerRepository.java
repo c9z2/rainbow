@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.ws.repository;
+package com.milchstrabe.rainbow.biz.repository;
 
 import com.milchstrabe.rainbow.ClientServer;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -32,6 +32,9 @@ public class ClientServerRepository {
 
     public void addCS(ClientServer clientServer,String uid){
         Set<ClientServer> csByUid = findCSByUid(uid);
+        if(csByUid == null){
+            csByUid = new HashSet<>();
+        }
         csByUid.add(clientServer);
         redisTemplate.opsForValue().set(ROOT_PATH + uid,csByUid);
     }

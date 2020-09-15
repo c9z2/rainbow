@@ -2,7 +2,7 @@ node:
   host: 127.0.0.1
 
 server:
-  port: 8080
+  port: 6767
 
 netty:
   gRPC:

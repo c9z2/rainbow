@@ -1,8 +1,10 @@
 package com.milchstrabe.rainbow.ws.service.impl;
 
 import com.google.gson.Gson;
+import com.google.protobuf.ByteString;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.biz.common.util.ObjectUtils;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
 import com.milchstrabe.rainbow.ws.service.IMessageService;
@@ -49,7 +51,7 @@ public class TextMessageServiceImpl implements IMessageService<String> {
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
                 .setMsgId(message.getId())
                 .setMsgType(message.getMsgType())
-                .setContent(message.getContent())
+                .setContent(ByteString.copyFrom(ObjectUtils.objectToBytes(message.getContent()).get()))
                 .setSender(message.getSender())
                 .setReceiver(message.getReceiver())
                 .setDate(message.getDate())

@@ -1,13 +1,19 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
+import com.google.protobuf.ByteString;
+import com.milchstrabe.rainbow.ClientServer;
+import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.biz.common.util.ObjectUtils;
 import com.milchstrabe.rainbow.biz.domain.dto.AddContactMessageDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.MessageDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.ModifiedContactRemarkDTO;
 import com.milchstrabe.rainbow.biz.domain.po.Contact;
 import com.milchstrabe.rainbow.biz.mapper.IContactMappper;
+import com.milchstrabe.rainbow.biz.repository.ClientServerRepository;
 import com.milchstrabe.rainbow.biz.repository.MessageRepository;
 import com.milchstrabe.rainbow.biz.service.IContactService;
+import com.milchstrabe.rainbow.biz.typ3.grpc.GRPCClient;
 import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.server.domain.po.AddContactMessage;
 import com.milchstrabe.rainbow.server.domain.po.Message;
@@ -16,7 +22,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author ch3ng
@@ -33,6 +41,12 @@ public class ContactServiceImpl implements IContactService {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private GRPCClient grpcClient;
+
+    @Autowired
+    private ClientServerRepository clientServerRepository;
 
 
 
@@ -97,6 +111,30 @@ public class ContactServiceImpl implements IContactService {
         boolean isSuccess = messageRepository.addContactMessage(po);
         if(!isSuccess){
             throw new LogicException(500,"发送请求失败");
+        }
+        /**
+         *  string msgId = 1;
+         *     int32 msgType = 2;
+         *     bytes content = 3;
+         *     string sender = 4;
+         *     string receiver = 5;
+         *     uint64 date = 6;
+         */
+
+        Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
+                .setMsgId(po.getId())
+                .setMsgType(po.getMsgType())
+                .setContent(ByteString.copyFrom(ObjectUtils.objectToBytes(po.getContent()).get()))
+                .setSender(po.getSender())
+                .setReceiver(po.getReceiver())
+                .setDate(po.getDate())
+                .build();
+
+        Set<ClientServer> css = clientServerRepository.findCSByUid(po.getReceiver());
+        Iterator<ClientServer> iterator = css.iterator();
+        while (iterator.hasNext()){
+            ClientServer cs = iterator.next();
+            grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
         }
     }
 

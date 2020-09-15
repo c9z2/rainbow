@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 public class GRPCClient {
 
 
-  private Msg.MsgResponse sendMsg(Msg.MsgRequest txtMsgRequest, ManagedChannel channel) {
+  private Msg.MsgResponse sendMsg(Msg.MsgRequest msgRequest, ManagedChannel channel) {
 
 //    TxtMsg.TxtMsgRequest build = TxtMsg.TxtMsgRequest.newBuilder(txtMsgRequest).build();
       PassThroughMessageServiceGrpc.PassThroughMessageServiceBlockingStub passThroughMessageServiceBlockingStub = PassThroughMessageServiceGrpc.newBlockingStub(channel);
-      Msg.MsgResponse response = passThroughMessageServiceBlockingStub.passThroughMessage(txtMsgRequest);
+      Msg.MsgResponse response = passThroughMessageServiceBlockingStub.passThroughMessage(msgRequest);
       log.info("msg: " + response.getMsg());
       return response;
   }

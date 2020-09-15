@@ -3,9 +3,12 @@ package com.milchstrabe.rainbow.ws.typ3.stomp.config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.server.domain.UCI;
 import com.milchstrabe.rainbow.ws.common.DefaultPrincipal;
+import com.milchstrabe.rainbow.ws.repository.ClientServerRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -26,6 +29,9 @@ import java.util.Map;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    @Autowired
+    private ClientServerRepository clientServerRepository;
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/user");
@@ -40,6 +46,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .addInterceptors(new HandshakeInterceptor() {
                     @Override
                     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
+                        log.info("...1");
                         if (request instanceof ServletServerHttpRequest) {
                             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
                             String token = servletRequest.getServletRequest().getParameter("sid");
@@ -67,15 +74,26 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
                     @Override
                     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-
                     }
                 })
                 .setHandshakeHandler(new DefaultHandshakeHandler() {
                     @Override
                     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+                        log.info("handl shake ok ... 3");
                         String username = attributes.get("username").toString();
                         String userId = attributes.get("userId").toString();
                         String cid = attributes.get("cid").toString();
+
+                        //save grpc info to redis
+                        ClientServer cs = ClientServer.builder()
+                                .cid(cid)
+                                .host("127.0.0.1")
+                                .port(8083)
+                                .cType("WEB")
+                                .build();
+
+                        clientServerRepository.addCS(cs,userId);
+
                         UCI uci = UCI.builder().username(username).uid(userId).cid(cid).build();
                         DefaultPrincipal principal = new DefaultPrincipal(uci);
                         return principal;
