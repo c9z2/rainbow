@@ -1,9 +1,8 @@
 package com.milchstrabe.rainbow.ws.typ3.grpc.impl;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.api.typ3.grpc.PassThroughMessageServiceGrpc;
-import com.milchstrabe.rainbow.biz.common.util.ObjectUtils;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +39,10 @@ public class PassThroughMessageServiceImpl extends PassThroughMessageServiceGrpc
         message.setReceiver(request.getReceiver());
         message.setMsgType(request.getMsgType());
         message.setDate(request.getDate());
-        message.setContent(ObjectUtils.bytesToObject(request.getContent().toByteArray()).get());
+        message.setContent(JSON.parseObject(request.getContent()));
 
-        Gson gson = new Gson();
-        String json = gson.toJson(message);
+        String json = JSON.toJSONString(message);
+        log.info(json);
 
         simpMessageSendingOperations.convertAndSendToUser(request.getReceiver(), "/message", json);
         Msg.MsgResponse msgResponse = Msg.MsgResponse.newBuilder()

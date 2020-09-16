@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.ws.typ3.zk;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.milchstrabe.rainbow.server.domain.Node;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -74,8 +74,7 @@ public class ServerByCurator {
 
     public boolean setData2Node(Node node) throws Exception {
         String keyPath = ROOT_PATH + "/" + node.getHost() + ":" + node.getPort();
-        Gson gson = new Gson();
-        String znodeJson = gson.toJson(node);
+        String znodeJson = JSON.toJSONString(node);
         byte[] bytes = znodeJson.getBytes(Charset.forName("utf-8"));
         Stat stat = curatorFramework.setData().forPath(keyPath, bytes);
         if(stat != null){
@@ -102,8 +101,7 @@ public class ServerByCurator {
         if(bytes == null || bytes.length==0){
             return null;
         }
-        Gson gson = new Gson();
-        Node node = gson.fromJson(new String(bytes), Node.class);
+        Node node = JSON.parseObject(new String(bytes), Node.class);
         return node;
     }
 }

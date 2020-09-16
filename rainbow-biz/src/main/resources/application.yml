@@ -68,3 +68,10 @@ fdfs:
     height: 150
   tracker-list:            #TrackerList , support multi
     - 192.168.1.118:22122
+
+
+thread:
+  pool:
+    corePoolSize: 200
+    maxPoolSize: 500
+    queueCapacity: 200

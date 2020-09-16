@@ -1,6 +1,6 @@
 package com.milchstrabe.rainbow.biz.common.config;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.milchstrabe.rainbow.biz.common.ServerNodesCache;
 import com.milchstrabe.rainbow.server.domain.Node;
 import lombok.extern.slf4j.Slf4j;
@@ -63,19 +63,24 @@ public class CuratorConfiguration {
             @Override
             public void stateChanged(CuratorFramework client, ConnectionState newState) {
                 switch (newState){
+                    case SUSPENDED:
+                        break;
                     case CONNECTED:
                     case RECONNECTED:
                         try {
                             List<String> subPaths = client.getChildren().forPath(ROOT_PATH);
                             for(String subPath : subPaths){
                                 byte[] bytes = client.getData().forPath(ROOT_PATH + "/" + subPath);
-                                Gson gson = new Gson();
-                                Node znode = gson.fromJson(new String(bytes, Charset.forName("utf-8")), Node.class);
+                                Node znode = JSON.parseObject(new String(bytes, Charset.forName("utf-8")), Node.class);
                                 ServerNodesCache.existUpdateOrAdd(znode);
                             }
                         } catch (Exception e) {
                             log.error(e.getMessage());
                         }
+                    case LOST:
+                        break;
+                    case READ_ONLY:
+                        break;
                 }
             }
         });
@@ -91,7 +96,6 @@ public class CuratorConfiguration {
 
                     ChildData data = event.getData();
                     if(data !=null && data.getData() != null && data.getData().length>0){
-                        Gson gson = new Gson();
                         Node znode = null;
                         switch (event.getType()) {
                             case NODE_ADDED:
@@ -99,12 +103,13 @@ public class CuratorConfiguration {
                                 break;
                             case NODE_REMOVED:
                                 log.info("NODE_REMOVED : [{}],data : [{}]", data.getPath(), new String(data.getData()));
-                                znode = gson.fromJson(new String(data.getData()), Node.class);
+
+                                znode =  JSON.parseObject(new String(data.getData()), Node.class);
                                 ServerNodesCache.removeNode(znode);
                                 break;
                             case NODE_UPDATED:
                                 log.info("NODE_UPDATED : [{}],data : [{}]", data.getPath(), new String(data.getData()));
-                                 znode = gson.fromJson(new String(data.getData()), Node.class);
+                                 znode = JSON.parseObject(new String(data.getData()), Node.class);
                                 ServerNodesCache.existUpdateOrAdd(znode);
                                 break;
                             default:

@@ -1,6 +1,6 @@
-package com.milchstrabe.rainbow.ws.typ3.stomp.handler;
+package com.milchstrabe.rainbow.biz.message;
 
-import com.milchstrabe.rainbow.ws.service.IMessageService;
+import com.milchstrabe.rainbow.biz.message.handler.IMessageHandler;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,15 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class MessageProcessorContainer {
 
-    private static final Map<Integer, IMessageService> converter = new ConcurrentHashMap<>();
+    private static final Map<Integer, IMessageHandler> converter = new ConcurrentHashMap<>();
 
     private MessageProcessorContainer(){}
 
-    public static void put(Integer type,IMessageService messageService){
+    public static void put(Integer type,IMessageHandler messageService){
         converter.put(type,messageService);
     }
 
-    public static IMessageService get(Integer type){
+    public static IMessageHandler get(Integer type){
         return converter.get(type);
     }
 }

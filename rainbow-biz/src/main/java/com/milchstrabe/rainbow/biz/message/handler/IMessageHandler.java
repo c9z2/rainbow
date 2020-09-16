@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.ws.service;
+package com.milchstrabe.rainbow.biz.message.handler;
 
 import com.milchstrabe.rainbow.server.domain.po.Message;
 
@@ -8,7 +8,7 @@ import com.milchstrabe.rainbow.server.domain.po.Message;
  * @Version 1.0
  * @Description
  **/
-public interface IMessageService<T> {
+public interface IMessageHandler<T> {
 
-    void doMessage(Message<T> request);
+    void handle(Message<T> request);
 }

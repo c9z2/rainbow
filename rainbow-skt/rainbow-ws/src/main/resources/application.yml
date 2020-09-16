@@ -4,15 +4,8 @@ node:
 server:
   port: 6767
 
-netty:
-  gRPC:
-    port: 8083
-
-thread:
-  pool:
-    corePoolSize: 200
-    maxPoolSize: 500
-    queueCapacity: 200
+gRPC:
+  port: 8083
 
 
 curator:

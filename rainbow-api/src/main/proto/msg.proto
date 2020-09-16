@@ -15,7 +15,7 @@ option java_package="com.milchstrabe.rainbow.api.typ3.grpc";
 message MsgRequest{
     string msgId = 1;
     int32 msgType = 2;
-    bytes content = 3;
+    string content = 3;
     string sender = 4;
     string receiver = 5;
     uint64 date = 6;

@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.ws.common.config;
+package com.milchstrabe.rainbow.biz.common.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

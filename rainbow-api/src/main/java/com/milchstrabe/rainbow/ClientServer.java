@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Builder
-public class ClientServer {
+public class ClientServer implements Serializable {
 
     private String host;
     private Integer port;

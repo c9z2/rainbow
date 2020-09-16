@@ -1,8 +1,6 @@
-package com.milchstrabe.rainbow.ws.typ3.stomp.handler;
+package com.milchstrabe.rainbow.biz.message;
 
-import com.milchstrabe.rainbow.ws.service.IMessageService;
-import com.milchstrabe.rainbow.ws.typ3.stomp.handler.MessageProcessorContainer;
-import com.milchstrabe.rainbow.ws.typ3.stomp.handler.MessageService;
+import com.milchstrabe.rainbow.biz.message.handler.IMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,14 +19,14 @@ import java.util.Set;
  **/
 @Slf4j
 @Component
-public class InitMessageService implements CommandLineRunner {
+public class InitMessageHandler implements CommandLineRunner {
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Override
     public void run(String... args){
-        Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(MessageService.class);
+        Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(MessageHandler.class);
 
         if(beansWithAnnotation == null || beansWithAnnotation.isEmpty()){
             return;
@@ -39,10 +37,10 @@ public class InitMessageService implements CommandLineRunner {
         while (iterator.hasNext()){
             Map.Entry<String, Object> entry = iterator.next();
             Object value = entry.getValue();
-            MessageService annotation = value.getClass().getAnnotation(MessageService.class);
+            MessageHandler annotation = value.getClass().getAnnotation(MessageHandler.class);
             int type = annotation.type();
             if(MessageProcessorContainer.get(type) == null){
-                MessageProcessorContainer.put(type,(IMessageService) value);
+                MessageProcessorContainer.put(type,(IMessageHandler) value);
             }else{
                 log.info("消息转换器重复：{}",type);
             }

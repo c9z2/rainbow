@@ -1,4 +1,4 @@
-package com.milchstrabe.rainbow.ws.typ3.stomp.handler;
+package com.milchstrabe.rainbow.biz.message;
 
 
 import org.springframework.stereotype.Component;
@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface MessageService {
+public @interface MessageHandler {
     int type();
 }

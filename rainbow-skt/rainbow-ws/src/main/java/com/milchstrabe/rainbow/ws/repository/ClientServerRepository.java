@@ -36,4 +36,16 @@ public class ClientServerRepository {
         redisTemplate.opsForValue().set(ROOT_PATH + uid,csByUid);
     }
 
+    public void removeCS(ClientServer clientServer,String uid){
+        Set<ClientServer> csByUid = findCSByUid(uid);
+        if(csByUid.size()== 1){
+            redisTemplate.delete(ROOT_PATH + uid);
+        }else{
+            csByUid.remove(clientServer);
+            redisTemplate.opsForValue().set(ROOT_PATH + uid,csByUid);
+        }
+
+
+    }
+
 }

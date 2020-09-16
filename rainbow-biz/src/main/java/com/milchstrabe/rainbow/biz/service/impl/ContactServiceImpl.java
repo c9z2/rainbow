@@ -1,9 +1,8 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
-import com.google.protobuf.ByteString;
+import com.alibaba.fastjson.JSON;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
-import com.milchstrabe.rainbow.biz.common.util.ObjectUtils;
 import com.milchstrabe.rainbow.biz.domain.dto.AddContactMessageDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.MessageDTO;
@@ -150,7 +149,7 @@ public class ContactServiceImpl implements IContactService {
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
                 .setMsgId(messageInDatabase.getId())
                 .setMsgType(messageInDatabase.getMsgType())
-                .setContent(ByteString.copyFrom(ObjectUtils.objectToBytes(messageInDatabase.getContent()).get()))
+                .setContent(JSON.toJSONString(messageInDatabase.getContent()))
                 .setSender(messageInDatabase.getSender())
                 .setReceiver(messageInDatabase.getReceiver())
                 .setDate(messageInDatabase.getDate())
