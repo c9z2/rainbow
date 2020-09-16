@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface IContactMappper {
@@ -20,6 +21,8 @@ public interface IContactMappper {
                        @Param("senderNickname") String senderNickname,
                        @Param("receiverNickname") String receiverNickname,
                        @Param("createTime") Long createTime);
+
+    List<Map<String,String>> findContactRelationship(@Param("userId") String userId, @Param("contactId") String contactId);
 
 
 }

@@ -1,6 +1,10 @@
 package com.milchstrabe.rainbow.ws.typ3.stomp.controller;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.google.gson.Gson;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 import com.milchstrabe.rainbow.ws.service.IMessageService;
@@ -29,6 +33,7 @@ public class MessageController {
     @SendToUser("/message")
     public String msg(String messageStr) {
         log.info("msg:[{}]",messageStr);
+
         Gson gson = new Gson();
         Message message = gson.fromJson(messageStr, Message.class);
         Integer msgType = message.getMsgType();

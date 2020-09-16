@@ -11,7 +11,7 @@ import com.milchstrabe.rainbow.biz.domain.dto.ModifiedContactRemarkDTO;
 import com.milchstrabe.rainbow.biz.domain.po.Contact;
 import com.milchstrabe.rainbow.biz.mapper.IContactMappper;
 import com.milchstrabe.rainbow.biz.repository.ClientServerRepository;
-import com.milchstrabe.rainbow.biz.repository.MessageRepository;
+import com.milchstrabe.rainbow.biz.repository.ContactRequestMessageRepository;
 import com.milchstrabe.rainbow.biz.service.IContactService;
 import com.milchstrabe.rainbow.biz.typ3.grpc.GRPCClient;
 import com.milchstrabe.rainbow.exception.LogicException;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,7 +41,7 @@ public class ContactServiceImpl implements IContactService {
     private IContactMappper contactMappper;
 
     @Autowired
-    private MessageRepository messageRepository;
+    private ContactRequestMessageRepository messageRepository;
 
     @Autowired
     private GRPCClient grpcClient;
@@ -92,45 +93,70 @@ public class ContactServiceImpl implements IContactService {
 
     @Override
     public void addContactMessage(MessageDTO<AddContactMessageDTO> message) throws LogicException {
-        Message<AddContactMessage> messageInDatabase = messageRepository.getAddContactMessage(message.getSender(), message.getReceiver());
+        String sender = message.getSender();
+        String receiver = message.getReceiver();
 
-        if(messageInDatabase != null && messageInDatabase.getContent().getStatus() == 0){
-            throw new LogicException(300,"请求已发送，请稍后...");
-        }
-        if(messageInDatabase != null && messageInDatabase.getContent().getStatus() == 1){
+        List<Map<String,String>> contactRelationship = contactMappper.findContactRelationship(sender, receiver);
+        if(contactRelationship.size() == 2){
             throw new LogicException(300,"你们已经是好友了");
         }
-
-        AddContactMessage addContactMessage = new AddContactMessage();
-        BeanUtils.copyProperties(message.getContent(), addContactMessage);
-
-        Message<AddContactMessage> po = new Message<>();
-        BeanUtils.copyProperties(message, po);
-        po.setContent(addContactMessage);
-
-        boolean isSuccess = messageRepository.addContactMessage(po);
-        if(!isSuccess){
-            throw new LogicException(500,"发送请求失败");
+        if(contactRelationship.size() == 1){
+            Map<String,String> map = contactRelationship.get(0);
+            if(map.get("contactId").equals(sender)){
+                boolean isSuccess = contactMappper.addContact(message.getSender(),
+                        message.getReceiver(),
+                        message.getContent().getNickname(),
+                        message.getContent().getReceiverNickname(), System.currentTimeMillis());
+                if(!isSuccess){
+                    throw new LogicException(500,"添加好友异常");
+                }else{
+                    return;
+                }
+            }
         }
-        /**
-         *  string msgId = 1;
-         *     int32 msgType = 2;
-         *     bytes content = 3;
-         *     string sender = 4;
-         *     string receiver = 5;
-         *     uint64 date = 6;
-         */
+
+        Message<AddContactMessage> messageInDatabase = messageRepository.getAddContactMessage(message.getSender(), message.getReceiver());
+
+        if(messageInDatabase != null){
+            if(messageInDatabase.getContent().getStatus() == 0){
+                throw new LogicException(300,"请求已发送，请稍后...");
+            }else{
+                messageInDatabase.getContent().setStatus((short)0);
+                message.getContent().setAvatar(message.getContent().getAvatar());
+                message.getContent().setNickname(message.getContent().getNickname());
+                message.getContent().setNote(message.getContent().getNote());
+                message.getContent().setReceiverNickname(message.getContent().getReceiverNickname());
+                message.getContent().setUsername(message.getContent().getUsername());
+                boolean isSuccess = messageRepository.updateAddContactContent(messageInDatabase);
+                if(!isSuccess){
+                    throw new LogicException(500,"发送请求失败");
+                }
+
+            }
+
+        }else{
+            AddContactMessage addContactMessage = new AddContactMessage();
+            BeanUtils.copyProperties(message.getContent(), addContactMessage);
+
+            messageInDatabase = new Message<>();
+            BeanUtils.copyProperties(message, messageInDatabase);
+            messageInDatabase.setContent(addContactMessage);
+            boolean isSuccess = messageRepository.addContactMessage(messageInDatabase);
+            if(!isSuccess){
+                throw new LogicException(500,"发送请求失败");
+            }
+        }
 
         Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
-                .setMsgId(po.getId())
-                .setMsgType(po.getMsgType())
-                .setContent(ByteString.copyFrom(ObjectUtils.objectToBytes(po.getContent()).get()))
-                .setSender(po.getSender())
-                .setReceiver(po.getReceiver())
-                .setDate(po.getDate())
+                .setMsgId(messageInDatabase.getId())
+                .setMsgType(messageInDatabase.getMsgType())
+                .setContent(ByteString.copyFrom(ObjectUtils.objectToBytes(messageInDatabase.getContent()).get()))
+                .setSender(messageInDatabase.getSender())
+                .setReceiver(messageInDatabase.getReceiver())
+                .setDate(messageInDatabase.getDate())
                 .build();
 
-        Set<ClientServer> css = clientServerRepository.findCSByUid(po.getReceiver());
+        Set<ClientServer> css = clientServerRepository.findCSByUid(messageInDatabase.getReceiver());
         Iterator<ClientServer> iterator = css.iterator();
         while (iterator.hasNext()){
             ClientServer cs = iterator.next();

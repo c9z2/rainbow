@@ -170,6 +170,12 @@
                 <artifactId>mail</artifactId>
                 <version>1.4.7</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.73</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

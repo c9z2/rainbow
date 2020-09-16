@@ -59,6 +59,11 @@
     </dependency>
 
     <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>net.sf.dozer</groupId>
       <artifactId>dozer</artifactId>
     </dependency>

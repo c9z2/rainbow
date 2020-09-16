@@ -5,10 +5,11 @@
 <mapper namespace="com.milchstrabe.rainbow.biz.mapper.IContactMappper">
 
 	<insert id="addContact">
-		INSERT INTO t_contact (user_id,contact_id,remark,create_time) VALUES
+		INSERT IGNORE INTO t_contact (user_id,contact_id,remark,create_time) VALUES
 		(#{sender},#{receiver},#{receiverNickname},#{createTime}),
 		(#{receiver},#{sender},#{senderNickname},#{createTime})
 	</insert>
+
 
 	<select id="list" resultMap="contactResult">
 		SELECT t2.user_id AS userId,
@@ -69,6 +70,17 @@
 	</select>
 
 	<update id="modifiedContactRemark">
-		UPDATE t_contact SET remark=#{remark} WHERE user_id=#{userId} AND contact_id=#{contactId}	</update>
+		UPDATE t_contact SET remark=#{remark} WHERE user_id=#{userId} AND contact_id=#{contactId}
+	</update>
+
+
+	<select id="findContactRelationship" resultType="java.util.Map">
+		SELECT
+			user_id AS userId, contact_id AS contactId
+		FROM t_contact
+		WHERE
+			(user_id=#{userId} AND contact_id=#{contactId}) OR (user_id=#{contactId} AND contact_id=#{userId})
+		LIMIT 2
+	</select>
 
 </mapper>
