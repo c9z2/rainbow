@@ -1,8 +1,5 @@
 package com.milchstrabe.rainbow.biz.controller;
 
-import com.github.tobato.fastdfs.domain.fdfs.StorePath;
-import com.github.tobato.fastdfs.service.DefaultFastFileStorageClient;
-import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.milchstrabe.rainbow.biz.common.CurrentUser;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
@@ -17,12 +14,12 @@ import com.milchstrabe.rainbow.exception.ParamMissException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
 
 /**
  * @Author ch3ng
@@ -50,7 +47,7 @@ public class ModifiedUserPropertyController {
     @PostMapping(path = APIVersion.V_1 + "/property")
     public Result<String> property(@CurrentUser RequestUser user,
                                  @RequestBody ModifiedUserPropertyVO userPropertyVO) throws LogicException, ParamMissException, IOException {
-        //TODO
+
         UserDTO userDTO = UserDTO.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
@@ -58,7 +55,7 @@ public class ModifiedUserPropertyController {
         UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder().build();
         BeanUtils.copyProperties(userPropertyVO,userPropertyDTO);
         userDTO.setProperty(userPropertyDTO);
-        userService.modifiedUserAvatar(userDTO);
-        return null;
+        userService.modifiedUserProperty(userDTO);
+        return ResultBuilder.success();
     }
 }

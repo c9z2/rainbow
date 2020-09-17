@@ -34,9 +34,6 @@
 	<update id="updateUserPropertyByUserId">
 		UPDATE `t_user_property`
 		<set>
-			<if test="user.property.avatar != null and user.property.avatar != ''">
-				avatar=#{user.property.avatar}
-			</if>
 			<if test="user.property.age != null">
 				age=#{user.property.age}
 			</if>
@@ -57,6 +54,10 @@
 			</if>
 		</set>
 		WHERE user_id=#{user.userId}
+	</update>
+
+	<update id="updateUserAvatar">
+		UPDATE `t_user_property` SET avatar=#{user.property.avatar} WHERE user_id=#{user.userId}
 	</update>
 
 </mapper>

@@ -8,9 +8,9 @@ public interface IUserService {
 
     void modifiedUserAvatar(UserDTO userDTO) throws LogicException;
 
-    UserPropertyDTO getUserProperty(UserDTO userDTO) throws LogicException;
+    void modifiedUserProperty(UserDTO dto) throws LogicException;
 
-    UserDTO findUserByUsernameAndStatus(UserDTO userDTO);
+    UserPropertyDTO getUserProperty(UserDTO userDTO) throws LogicException;
 
     UserDTO searchUser(UserDTO dto);
 

@@ -32,9 +32,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void modifiedUserAvatar(UserDTO userDTO) throws LogicException {
         User user = BeanUtils.map(userDTO, User.class);
+        boolean isSuccess = userPropertyMapper.updateUserAvatar(user);
+        if(!isSuccess){
+            throw new LogicException(500,"修改头像失败");
+        }
+    }
+
+    @Override
+    public void modifiedUserProperty(UserDTO dto) throws LogicException {
+        User user = BeanUtils.map(dto, User.class);
         boolean isSuccess = userPropertyMapper.updateUserPropertyByUserId(user);
         if(!isSuccess){
-            throw new LogicException(5000,"modified user info fail");
+            throw new LogicException(500,"修改信息失败");
         }
     }
 
@@ -46,14 +55,6 @@ public class UserServiceImpl implements IUserService {
         return userPropertyDTO;
     }
 
-    @Override
-    public UserDTO findUserByUsernameAndStatus(UserDTO userDTO) {
-        User user = userMappper.findUserAndPropertyByUsernameAndStatus(userDTO.getUsername(), userDTO.getStatus());
-        if(user == null){
-            return null;
-        }
-        return BeanUtils.map(user, UserDTO.class);
-    }
 
     @Override
     public UserDTO searchUser(UserDTO dto) {

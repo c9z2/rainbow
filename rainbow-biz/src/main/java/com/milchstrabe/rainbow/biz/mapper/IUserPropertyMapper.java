@@ -18,6 +18,8 @@ public interface IUserPropertyMapper {
 
     boolean updateUserPropertyByUserId(@Param("user") User user);
 
+    boolean updateUserAvatar(@Param("user") User user);
+
     UserProperty findUserPropertyByUserId(@Param("userId") String userId);
 
     UserProperty findUserPropertyByEmail(@Param("email") String email);
