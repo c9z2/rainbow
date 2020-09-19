@@ -21,10 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author ch3ng
@@ -91,7 +88,7 @@ public class ContactServiceImpl implements IContactService {
     }
 
     @Override
-    public void addContactMessage(MessageDTO<AddContactMessageDTO> message) throws LogicException {
+    public GetContactDetailDTO addContactMessage(MessageDTO<AddContactMessageDTO> message) throws LogicException {
         String sender = message.getSender();
         String receiver = message.getReceiver();
 
@@ -109,7 +106,7 @@ public class ContactServiceImpl implements IContactService {
                 if(!isSuccess){
                     throw new LogicException(500,"添加好友异常");
                 }else{
-                    return;
+                   return findContactDetail(sender,receiver);
                 }
             }
         }
@@ -161,6 +158,7 @@ public class ContactServiceImpl implements IContactService {
             ClientServer cs = iterator.next();
             grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
         }
+        return null;
     }
 
     @Override
@@ -187,5 +185,17 @@ public class ContactServiceImpl implements IContactService {
 
         }
 
+    }
+
+    @Override
+    public void deleteContact(String userId, String contactId) throws LogicException {
+        Contact contact = contactMappper.findContactDetail(userId, contactId);
+        Optional.ofNullable(contact).orElseThrow(()->{
+           return new LogicException(300,"非法操作");
+        });
+        boolean isSuccess = contactMappper.deleteContact(userId, contactId);
+        if(!isSuccess){
+            throw new LogicException(500,"解除好友关系失败");
+        }
     }
 }

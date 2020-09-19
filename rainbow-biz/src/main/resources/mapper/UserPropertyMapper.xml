@@ -35,19 +35,19 @@
 		UPDATE `t_user_property`
 		<set>
 			<if test="user.property.age != null">
-				age=#{user.property.age}
+				age=#{user.property.age},
 			</if>
 			<if test="user.property.email != null and user.property.email != ''">
-				email=#{user.property.email}
+				email=#{user.property.email},
 			</if>
 			<if test="user.property.gender != null">
-				gender=#{user.property.gender}
+				gender=#{user.property.gender},
 			</if>
 			<if test="user.property.signature != null and user.property.signature != ''">
-				signature=#{user.property.signature}
+				signature=#{user.property.signature},
 			</if>
 			<if test="user.property.nickname != null and user.property.nickname != ''">
-				nickname=#{user.property.nickname}
+				nickname=#{user.property.nickname},
 			</if>
 			<if test="user.property.phone != null and user.property.phone != ''">
 				phone=#{user.property.phone}

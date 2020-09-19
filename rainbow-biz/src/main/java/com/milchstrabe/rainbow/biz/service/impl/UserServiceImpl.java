@@ -50,7 +50,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserPropertyDTO getUserProperty(UserDTO userDTO) throws LogicException {
         UserProperty userProperty = userPropertyMapper.findUserPropertyByUserId(userDTO.getUserId());
-        Optional.ofNullable(userProperty).orElseThrow(()-> new LogicException(5000,"user property not found"));
+        Optional.ofNullable(userProperty).orElseThrow(()-> new LogicException(500,"user property not found"));
         UserPropertyDTO userPropertyDTO = BeanUtils.map(userProperty, UserPropertyDTO.class);
         return userPropertyDTO;
     }

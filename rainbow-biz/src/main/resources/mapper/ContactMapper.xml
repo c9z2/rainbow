@@ -83,4 +83,8 @@
 		LIMIT 2
 	</select>
 
+	<delete id="deleteContact">
+		DELETE FROM t_contact WHERE user_id=#{userId} AND contact_id=#{contactId}
+	</delete>
+
 </mapper>

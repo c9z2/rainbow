@@ -7,6 +7,7 @@ import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
 import com.milchstrabe.rainbow.biz.domain.RequestUser;
 import com.milchstrabe.rainbow.biz.domain.dto.AddContactMessageDTO;
+import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.MessageDTO;
 import com.milchstrabe.rainbow.biz.domain.vo.MessageVO;
 import com.milchstrabe.rainbow.biz.service.IContactService;
@@ -47,7 +48,7 @@ public class AddContactRequestController {
 
         dto.setContent(addContactMessageDTO);
 
-        contactService.addContactMessage(dto);
-        return ResultBuilder.success();
+        GetContactDetailDTO getContactDetailDTO = contactService.addContactMessage(dto);
+        return ResultBuilder.success(getContactDetailDTO);
     }
 }

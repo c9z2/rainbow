@@ -20,8 +20,10 @@ public interface IContactService {
 
     List<Message> getAddContactRequest(String userId);
 
-    void addContactMessage(MessageDTO<AddContactMessageDTO> message) throws LogicException;
+    GetContactDetailDTO addContactMessage(MessageDTO<AddContactMessageDTO> message) throws LogicException;
 
     void handleAddContact(String userId,String sender,Short handle) throws LogicException;
+
+    void deleteContact(String userId,String contactId) throws LogicException;
 
 }

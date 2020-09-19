@@ -24,5 +24,7 @@ public interface IContactMappper {
 
     List<Map<String,String>> findContactRelationship(@Param("userId") String userId, @Param("contactId") String contactId);
 
+    boolean deleteContact(@Param("userId") String userId, @Param("contactId") String contactId);
+
 
 }

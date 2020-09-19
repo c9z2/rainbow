@@ -3,7 +3,6 @@ package com.milchstrabe.rainbow.biz.controller;
 import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.upload.FastFile;
-import com.github.tobato.fastdfs.service.DefaultFastFileStorageClient;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.milchstrabe.rainbow.biz.common.CurrentUser;
 import com.milchstrabe.rainbow.biz.common.Result;
@@ -86,7 +85,7 @@ public class ModifiedUserAvatarController {
                     .build();
             userDTO.setProperty(userPropertyDTO);
             userService.modifiedUserAvatar(userDTO);
-            return ResultBuilder.success();
+            return ResultBuilder.success(storePath.getFullPath());
         } catch (IOException e) {
             e.printStackTrace();
             log.error(e.getMessage());

@@ -18,7 +18,7 @@ public class UserPropertyDTO {
     private Short age;
     private String email;
     private Short gender;
-    private String remark;
+    private String signature;
     private String nickname;
     private String phone;
 }
