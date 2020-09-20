@@ -38,6 +38,16 @@ spring:
       filters: stat
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       use-global-data-source-stat: true
+  fastdfs:
+    tracker-server: 192.168.1.118:22122
+    connect-timeout: 5
+    network-timeout: 30
+    charset: UTF-8
+    pool:
+      enabled: true
+      max-count-per-entry: 500
+      max-idle-time: 3600
+      max-wait-time-in-ms: 1000
 
 encrypt:
   secret: 123
@@ -55,19 +65,6 @@ mybatis:
   type-aliases-package: com.milchstrabe.rainbow.biz.domain
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-
-# ===================================================================
-# fastdfs config
-# ===================================================================
-fdfs:
-  so-timeout: 1501
-  connect-timeout: 601
-  thumb-image:
-    width: 150
-    height: 150
-  tracker-list:            #TrackerList , support multi
-    - 192.168.1.118:22122
 
 
 thread:

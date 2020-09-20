@@ -45,11 +45,9 @@ public class ContactRequestMessageRepository {
 
         Update update = new Update();
         update.set("content.status",message.getContent().getStatus());
-        update.set("content.avatar",message.getContent().getAvatar());
-        update.set("content.nickname",message.getContent().getNickname());
         update.set("content.note",message.getContent().getNote());
-        update.set("content.receiverNickname",message.getContent().getReceiverNickname());
-        update.set("content.username",message.getContent().getUsername());
+        update.set("content.receiver",message.getContent().getReceiver());
+        update.set("content.sender",message.getContent().getSender());
         UpdateResult upsert = mongoTemplate.upsert(query, update, Message.class,COLLECTION);
         if(upsert.getModifiedCount()>0){
             return true;

@@ -19,5 +19,6 @@ public class SearchUserVO {
     private String username;
     private String avatar;
     private String email;
+    private Long createTime;
     private String nickname;
 }

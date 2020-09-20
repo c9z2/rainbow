@@ -21,4 +21,5 @@ public class UserPropertyDTO {
     private String signature;
     private String nickname;
     private String phone;
+    private Long createTime;
 }

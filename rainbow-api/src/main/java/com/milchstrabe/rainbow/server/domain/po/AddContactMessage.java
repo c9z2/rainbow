@@ -15,12 +15,8 @@ import java.io.Serializable;
 @Getter
 public class AddContactMessage implements Serializable {
 
-    private String avatar;
-    private String note;
-    private String nickname;
-    private String username;
-    private String receiverNickname;
-
+    private ContactBrief sender;
+    private ContactBrief receiver;
     /**
      * 0: Not processed
      * 1: accept
@@ -28,5 +24,7 @@ public class AddContactMessage implements Serializable {
      * 3: timeout
      */
     private Short status;
+    private String note;
+
 
 }

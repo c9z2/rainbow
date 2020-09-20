@@ -21,6 +21,7 @@ public class Message<T> implements Serializable {
     /**
      * 1: text message
      * 10: add contact message
+     * 11: accept add contact message
      */
     private Integer msgType;
     private T content;

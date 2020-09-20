@@ -29,7 +29,8 @@
 		t2.gender,
 		t2.signature,
 		t2.nickname,
-		t2.phone
+		t2.phone,
+		t2.create_time AS createTime
 		FROM `t_user` t1
 		LEFT JOIN `t_user_property` t2 ON t1.user_id=t2.user_id
 		WHERE (t1.username=#{username} OR t2.email=#{email}) AND status=#{status}
@@ -45,7 +46,8 @@
 		t2.gender,
 		t2.signature,
 		t2.nickname,
-		t2.phone
+		t2.phone,
+		t2.create_time AS createTime
 		FROM `t_user` t1
 		LEFT JOIN `t_user_property` t2 ON t1.user_id=t2.user_id
 		WHERE t1.username=#{username} AND status=#{status}
@@ -62,6 +64,7 @@
 			<result property="signature" column="signature"/>
 			<result property="nickname" column="nickname"/>
 			<result property="phone" column="phone"/>
+			<result property="createTime" column="createTime"/>
 		</association>
 	</resultMap>
 

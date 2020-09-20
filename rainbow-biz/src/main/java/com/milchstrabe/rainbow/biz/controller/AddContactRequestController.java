@@ -7,6 +7,7 @@ import com.milchstrabe.rainbow.biz.common.ResultBuilder;
 import com.milchstrabe.rainbow.biz.common.constant.APIVersion;
 import com.milchstrabe.rainbow.biz.domain.RequestUser;
 import com.milchstrabe.rainbow.biz.domain.dto.AddContactMessageDTO;
+import com.milchstrabe.rainbow.biz.domain.dto.ContactBriefDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.MessageDTO;
 import com.milchstrabe.rainbow.biz.domain.vo.MessageVO;
@@ -36,17 +37,30 @@ public class AddContactRequestController {
     @PutMapping(path = APIVersion.V_1 + "/add/request")
     public Result addContactRequest(@CurrentUser RequestUser user, @RequestBody MessageVO message) throws LogicException {
 
+        //warp messageDTO
         MessageDTO<AddContactMessageDTO> dto = new MessageDTO<>();
         BeanUtils.copyProperties(message,dto);
         dto.setId(IdUtil.objectId());
         dto.setDate(System.currentTimeMillis());
         dto.setSender(user.getUserId());
 
-        AddContactMessageDTO addContactMessageDTO = new AddContactMessageDTO();
-        BeanUtils.copyProperties(message.getContent(), addContactMessageDTO);
-        addContactMessageDTO.setStatus((short)0);
 
-        dto.setContent(addContactMessageDTO);
+        //warp sender ContactBriefDTO
+        ContactBriefDTO senderContactBriefDTO = new ContactBriefDTO();
+        BeanUtils.copyProperties(message.getContent().getSender(), senderContactBriefDTO);
+        //warp receiver ContactBriefDTO
+        ContactBriefDTO receiverContactBriefDTO = new ContactBriefDTO();
+        BeanUtils.copyProperties(message.getContent().getReceiver(), receiverContactBriefDTO);
+        //warp AddContactMessageDTO
+        AddContactMessageDTO build = AddContactMessageDTO.builder()
+                .sender(senderContactBriefDTO)
+                .receiver(receiverContactBriefDTO)
+                .status((short) 0)
+                .note(message.getContent().getNote())
+                .build();
+
+
+        dto.setContent(build);
 
         GetContactDetailDTO getContactDetailDTO = contactService.addContactMessage(dto);
         return ResultBuilder.success(getContactDetailDTO);

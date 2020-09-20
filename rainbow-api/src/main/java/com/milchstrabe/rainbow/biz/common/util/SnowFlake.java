@@ -2,6 +2,8 @@ package com.milchstrabe.rainbow.biz.common.util;
 
 public class SnowFlake {
 
+    private static final SnowFlake snowFlake = new SnowFlake(15,23);
+
     /**
      * 起始的时间戳
      */
@@ -33,7 +35,7 @@ public class SnowFlake {
     private long sequence = 0L; //序列号
     private long lastStmp = -1L;//上一次时间戳
 
-    public SnowFlake(long datacenterId, long machineId) {
+    private SnowFlake(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }
@@ -44,12 +46,15 @@ public class SnowFlake {
         this.machineId = machineId;
     }
 
+    public static String id(){
+        return snowFlake.nextId()+"";
+    }
     /**
      * 产生下一个ID
      *
      * @return
      */
-    public synchronized long nextId() {
+    private synchronized long nextId() {
         long currStmp = getNewstmp();
         if (currStmp < lastStmp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");

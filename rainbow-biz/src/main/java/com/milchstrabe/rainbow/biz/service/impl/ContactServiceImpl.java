@@ -3,6 +3,7 @@ package com.milchstrabe.rainbow.biz.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
+import com.milchstrabe.rainbow.biz.common.util.SnowFlake;
 import com.milchstrabe.rainbow.biz.domain.dto.AddContactMessageDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.GetContactDetailDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.MessageDTO;
@@ -14,7 +15,9 @@ import com.milchstrabe.rainbow.biz.repository.ContactRequestMessageRepository;
 import com.milchstrabe.rainbow.biz.service.IContactService;
 import com.milchstrabe.rainbow.biz.typ3.grpc.GRPCClient;
 import com.milchstrabe.rainbow.exception.LogicException;
+import com.milchstrabe.rainbow.server.domain.dto.AcceptAddContactMessageDTO;
 import com.milchstrabe.rainbow.server.domain.po.AddContactMessage;
+import com.milchstrabe.rainbow.server.domain.po.ContactBrief;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -54,8 +57,17 @@ public class ContactServiceImpl implements IContactService {
     }
 
     @Override
-    public GetContactDetailDTO findContactDetail(String userId, String contactId) {
+    public List<Map<String, String>> findContactRelationship(String userId, String contactId) {
+        List<Map<String, String>> contactRelationship = contactMappper.findContactRelationship(userId, contactId);
+        return contactRelationship;
+    }
+
+    @Override
+    public GetContactDetailDTO findContactDetail(String userId, String contactId) throws LogicException {
         Contact contact = contactMappper.findContactDetail(userId, contactId);
+        Optional.ofNullable(contact).orElseThrow(() -> {
+            return new LogicException(300,"好友不存在");
+        });
         GetContactDetailDTO dto = GetContactDetailDTO.builder()
                 .age(contact.getUser().getProperty().getAge())
                 .avatar(contact.getUser().getProperty().getAvatar())
@@ -99,14 +111,16 @@ public class ContactServiceImpl implements IContactService {
         if(contactRelationship.size() == 1){
             Map<String,String> map = contactRelationship.get(0);
             if(map.get("contactId").equals(sender)){
+                //对方还持有当前发送者的好友关系
                 boolean isSuccess = contactMappper.addContact(message.getSender(),
                         message.getReceiver(),
-                        message.getContent().getNickname(),
-                        message.getContent().getReceiverNickname(), System.currentTimeMillis());
+                        message.getContent().getSender().getNickname(),
+                        message.getContent().getReceiver().getNickname(), System.currentTimeMillis());
                 if(!isSuccess){
                     throw new LogicException(500,"添加好友异常");
                 }else{
-                   return findContactDetail(sender,receiver);
+                    //TODO return receiver
+//                   return findContactDetail(sender,receiver);
                 }
             }
         }
@@ -117,12 +131,18 @@ public class ContactServiceImpl implements IContactService {
             if(messageInDatabase.getContent().getStatus() == 0){
                 throw new LogicException(300,"请求已发送，请稍后...");
             }else{
+                //需要当前双方最新的个人信息
                 messageInDatabase.getContent().setStatus((short)0);
-                message.getContent().setAvatar(message.getContent().getAvatar());
-                message.getContent().setNickname(message.getContent().getNickname());
-                message.getContent().setNote(message.getContent().getNote());
-                message.getContent().setReceiverNickname(message.getContent().getReceiverNickname());
-                message.getContent().setUsername(message.getContent().getUsername());
+                //warp senderContactBrief
+                ContactBrief senderContactBrief = new ContactBrief();
+                BeanUtils.copyProperties(message.getContent().getSender(), senderContactBrief);
+                //warp receiverContactBrief
+                ContactBrief receiverContactBrief = new ContactBrief();
+                BeanUtils.copyProperties(message.getContent().getReceiver(), receiverContactBrief);
+
+                messageInDatabase.getContent().setSender(senderContactBrief);
+                messageInDatabase.getContent().setReceiver(receiverContactBrief);
+                messageInDatabase.getContent().setNote(message.getContent().getNote());
                 boolean isSuccess = messageRepository.updateAddContactContent(messageInDatabase);
                 if(!isSuccess){
                     throw new LogicException(500,"发送请求失败");
@@ -131,8 +151,18 @@ public class ContactServiceImpl implements IContactService {
             }
 
         }else{
+            //warp senderContactBrief
+            ContactBrief senderContactBrief = new ContactBrief();
+            BeanUtils.copyProperties(message.getContent().getSender(), senderContactBrief);
+            //warp receiverContactBrief
+            ContactBrief receiverContactBrief = new ContactBrief();
+            BeanUtils.copyProperties(message.getContent().getReceiver(), receiverContactBrief);
+
             AddContactMessage addContactMessage = new AddContactMessage();
-            BeanUtils.copyProperties(message.getContent(), addContactMessage);
+            addContactMessage.setSender(senderContactBrief);
+            addContactMessage.setReceiver(receiverContactBrief);
+            addContactMessage.setStatus(message.getContent().getStatus());
+            addContactMessage.setNote(message.getContent().getNote());
 
             messageInDatabase = new Message<>();
             BeanUtils.copyProperties(message, messageInDatabase);
@@ -174,12 +204,36 @@ public class ContactServiceImpl implements IContactService {
             AddContactMessage content = addContactMessage.getContent();
             boolean isOk = contactMappper.addContact(addContactMessage.getSender(),
                     addContactMessage.getReceiver(),
-                    content.getNickname(),
-                    content.getReceiverNickname(),
+                    content.getSender().getNickname(),
+                    content.getReceiver().getNickname(),
                     System.currentTimeMillis());
 
             if(!isOk){
                 throw new LogicException(500,"添加好友失败");
+            }
+
+            AcceptAddContactMessageDTO messageDetail = AcceptAddContactMessageDTO.builder()
+                    .avatar(content.getReceiver().getAvatar())
+                    .createTime(System.currentTimeMillis())
+                    .remark(content.getReceiver().getNickname())
+                    .userId(addContactMessage.getReceiver())
+                    .username(content.getReceiver().getUsername())
+                    .build();
+
+            Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
+                    .setMsgId(SnowFlake.id())
+                    .setMsgType(11)
+                    .setContent(JSON.toJSONString(messageDetail))
+                    .setSender(userId)
+                    .setReceiver(sender)
+                    .setDate(System.currentTimeMillis())
+                    .build();
+
+            Set<ClientServer> css = clientServerRepository.findCSByUid(sender);
+            Iterator<ClientServer> iterator = css.iterator();
+            while (iterator.hasNext()){
+                ClientServer cs = iterator.next();
+                grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
             }
 
 

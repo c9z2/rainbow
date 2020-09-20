@@ -104,8 +104,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
+            <groupId>com.milchstrabe.fastdfs.client</groupId>
+            <artifactId>fastdfs-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

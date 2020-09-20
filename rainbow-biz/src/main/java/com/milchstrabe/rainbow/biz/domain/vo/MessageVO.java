@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class MessageVO {
 
-
     @NotNull(message = "message type cant not be null")
     private Integer msgType;
 
@@ -35,10 +34,18 @@ public class MessageVO {
     @AllArgsConstructor
     @NoArgsConstructor
     public class AddContactMessageVO{
-        private String avatar;
+        private ContactBriefVO sender;
+        private ContactBriefVO receiver;
         private String note;
-        private String nickname;
-        private String username;
-        private String receiverNickname;
+
+        @Setter
+        @Getter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        class ContactBriefVO{
+            private String avatar;
+            private String nickname;
+            private String username;
+        }
     }
 }

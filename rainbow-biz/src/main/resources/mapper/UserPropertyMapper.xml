@@ -6,7 +6,7 @@
 
 
 	<insert id="addUserProperty">
-		INSERT INTO `t_user_property` (user_id,avatar,age,email,gender,signature,nickname,phone)
+		INSERT INTO `t_user_property` (user_id,avatar,age,email,gender,signature,nickname,phone,create_time)
 		VALUE (#{user.userId},
 		#{user.property.avatar},
 		#{user.property.age},
@@ -14,18 +14,19 @@
 		#{user.property.gender},
 		#{user.property.signature},
 		#{user.property.nickname},
-		#{user.property.phone})
+		#{user.property.phone},
+		#{user.property.createTime},)
 	</insert>
 
 	<select id="findUserPropertyByUserId" resultType="UserProperty">
-		SELECT avatar,age,email,gender,signature,nickname,phone
+		SELECT avatar,age,email,gender,signature,nickname,phone,create_time AS createTime
 		FROM t_user_property
 		WHERE user_id=#{userId}
 		LIMIT 1
 	</select>
 
 	<select id="findUserPropertyByEmail" resultType="UserProperty">
-		SELECT avatar,age,email,gender,signature,nickname,phone
+		SELECT avatar,age,email,gender,signature,nickname,phone,create_time AS createTime
 		FROM t_user_property
 		WHERE email=#{email}
 		LIMIT 1

@@ -9,12 +9,15 @@ import com.milchstrabe.rainbow.exception.LogicException;
 import com.milchstrabe.rainbow.server.domain.po.Message;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IContactService {
 
     List<Contact> list(String uid);
 
-    GetContactDetailDTO findContactDetail(String userId, String contactId);
+    List<Map<String,String>> findContactRelationship(String userId, String contactId);
+
+    GetContactDetailDTO findContactDetail(String userId, String contactId) throws LogicException;
 
     void modifiedContactRemark(ModifiedContactRemarkDTO dto) throws LogicException;
 

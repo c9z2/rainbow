@@ -33,7 +33,7 @@
         <hutool.version>5.2.3</hutool.version>
         <rainbow-api.version>1.0.0-SNAPSHOT</rainbow-api.version>
         <fastjson.version>1.2.73</fastjson.version>
-        <fastdfs.version>1.27.2</fastdfs.version>
+        <fastdfs.version>1.0.1</fastdfs.version>
         <dozer.version>5.5.1</dozer.version>
     </properties>
 
@@ -154,8 +154,8 @@
             </dependency>
 
             <dependency>
-                <groupId>com.github.tobato</groupId>
-                <artifactId>fastdfs-client</artifactId>
+                <groupId>com.milchstrabe.fastdfs.client</groupId>
+                <artifactId>fastdfs-spring-boot-starter</artifactId>
                 <version>${fastdfs.version}</version>
             </dependency>
 

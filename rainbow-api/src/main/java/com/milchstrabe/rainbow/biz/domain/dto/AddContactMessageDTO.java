@@ -1,5 +1,6 @@
 package com.milchstrabe.rainbow.biz.domain.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,13 +12,11 @@ import lombok.Setter;
  **/
 @Setter
 @Getter
+@Builder
 public class AddContactMessageDTO {
 
-    private String avatar;
-    private String note;
-    private String nickname;
-    private String username;
-    private String receiverNickname;
+    private ContactBriefDTO sender;
+    private ContactBriefDTO receiver;
 
     /**
      * 0: Not processed
@@ -26,5 +25,9 @@ public class AddContactMessageDTO {
      * 3: timeout
      */
     private Short status;
+    private String note;
+
+
+
 
 }
