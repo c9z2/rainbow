@@ -42,14 +42,6 @@ spring:
 encrypt:
   secret: 123
 
-
-curator:
-  retryCount: 5
-  elapsedTimeMs: 5000
-  connectString: 192.168.1.118:2181
-  sessionTimeoutMs: 60000
-  connectionTimeoutMs: 5000
-
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.milchstrabe.rainbow.biz.domain
