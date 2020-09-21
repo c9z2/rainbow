@@ -1,6 +1,7 @@
 package com.milchstrabe.rainbow.biz.common.config;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.milchstrabe.rainbow.biz.common.ServerNodesCache;
 import com.milchstrabe.rainbow.server.domain.Node;
 import lombok.extern.slf4j.Slf4j;
@@ -69,9 +70,10 @@ public class CuratorConfiguration {
                     case RECONNECTED:
                         try {
                             List<String> subPaths = client.getChildren().forPath(ROOT_PATH);
+                            ObjectMapper objectMapper = new ObjectMapper();
                             for(String subPath : subPaths){
                                 byte[] bytes = client.getData().forPath(ROOT_PATH + "/" + subPath);
-                                Node znode = JSON.parseObject(new String(bytes, Charset.forName("utf-8")), Node.class);
+                                Node znode = objectMapper.readValue(new String(bytes, Charset.forName("utf-8")), Node.class);
                                 ServerNodesCache.existUpdateOrAdd(znode);
                             }
                         } catch (Exception e) {
@@ -97,19 +99,19 @@ public class CuratorConfiguration {
                     ChildData data = event.getData();
                     if(data !=null && data.getData() != null && data.getData().length>0){
                         Node znode = null;
+                        ObjectMapper objectMapper = new ObjectMapper();
                         switch (event.getType()) {
                             case NODE_ADDED:
                                 log.info("NODE_ADDED : [{}],data : [{}]", data.getPath(), new String(data.getData()));
                                 break;
                             case NODE_REMOVED:
                                 log.info("NODE_REMOVED : [{}],data : [{}]", data.getPath(), new String(data.getData()));
-
-                                znode =  JSON.parseObject(new String(data.getData()), Node.class);
+                                znode =  objectMapper.readValue(new String(data.getData()), Node.class);
                                 ServerNodesCache.removeNode(znode);
                                 break;
                             case NODE_UPDATED:
                                 log.info("NODE_UPDATED : [{}],data : [{}]", data.getPath(), new String(data.getData()));
-                                 znode = JSON.parseObject(new String(data.getData()), Node.class);
+                                 znode = objectMapper.readValue(new String(data.getData()), Node.class);
                                 ServerNodesCache.existUpdateOrAdd(znode);
                                 break;
                             default:

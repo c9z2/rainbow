@@ -1,6 +1,8 @@
 package com.milchstrabe.rainbow.ws.typ3.grpc.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.api.typ3.grpc.PassThroughMessageServiceGrpc;
 import com.milchstrabe.rainbow.server.domain.po.Message;
@@ -9,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * @Author ch3ng
@@ -31,17 +35,23 @@ public class PassThroughMessageServiceImpl extends PassThroughMessageServiceGrpc
      */
     @Override
     public void passThroughMessage(Msg.MsgRequest request, StreamObserver<Msg.MsgResponse> responseObserver) {
-
-        Message<Object> message = new Message<>();
-        message.setId(request.getMsgId());
-        message.setStatus((short)1);
-        message.setSender(request.getSender());
-        message.setReceiver(request.getReceiver());
-        message.setMsgType(request.getMsgType());
-        message.setDate(request.getDate());
-        message.setContent(JSON.parseObject(request.getContent()));
-
-        String json = JSON.toJSONString(message);
+        String json = null;
+        try {
+            Message<Map<String,Object>> message = new Message<>();
+            message.setId(request.getMsgId());
+            message.setStatus((short)1);
+            message.setSender(request.getSender());
+            message.setReceiver(request.getReceiver());
+            message.setMsgType(request.getMsgType());
+            message.setDate(request.getDate());
+            ObjectMapper objectMapper = new ObjectMapper();
+            message.setContent(objectMapper.readValue(request.getContent(), new TypeReference<Map<String,Object>>() {
+            }));
+            json = objectMapper.writeValueAsString(message);
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+            return;
+        }
         log.info(json);
 
         simpMessageSendingOperations.convertAndSendToUser(request.getReceiver(), "/message", json);

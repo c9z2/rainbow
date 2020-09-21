@@ -1,6 +1,7 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.biz.common.util.SnowFlake;
@@ -119,8 +120,13 @@ public class ContactServiceImpl implements IContactService {
                 if(!isSuccess){
                     throw new LogicException(500,"添加好友异常");
                 }else{
-                    //TODO return receiver
-//                   return findContactDetail(sender,receiver);
+                    return GetContactDetailDTO.builder()
+                            .username(message.getContent().getReceiver().getUsername())
+                            .remark(message.getContent().getReceiver().getNickname())
+                            .avatar(message.getContent().getReceiver().getAvatar())
+                            .userId(message.getReceiver())
+                            .nickname(message.getContent().getReceiver().getNickname())
+                            .build();
                 }
             }
         }
@@ -172,15 +178,22 @@ public class ContactServiceImpl implements IContactService {
                 throw new LogicException(500,"发送请求失败");
             }
         }
+        Msg.MsgRequest msgRequest = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            msgRequest = Msg.MsgRequest.newBuilder()
+                    .setMsgId(messageInDatabase.getId())
+                    .setMsgType(messageInDatabase.getMsgType())
+                    .setContent(objectMapper.writeValueAsString(messageInDatabase.getContent()))
+                    .setSender(messageInDatabase.getSender())
+                    .setReceiver(messageInDatabase.getReceiver())
+                    .setDate(messageInDatabase.getDate())
+                    .build();
+        }catch (JsonProcessingException e){
+            log.error(e.getMessage());
+            throw new LogicException(500,e.getMessage());
+        }
 
-        Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
-                .setMsgId(messageInDatabase.getId())
-                .setMsgType(messageInDatabase.getMsgType())
-                .setContent(JSON.toJSONString(messageInDatabase.getContent()))
-                .setSender(messageInDatabase.getSender())
-                .setReceiver(messageInDatabase.getReceiver())
-                .setDate(messageInDatabase.getDate())
-                .build();
 
         Set<ClientServer> css = clientServerRepository.findCSByUid(messageInDatabase.getReceiver());
         Iterator<ClientServer> iterator = css.iterator();
@@ -219,15 +232,21 @@ public class ContactServiceImpl implements IContactService {
                     .userId(addContactMessage.getReceiver())
                     .username(content.getReceiver().getUsername())
                     .build();
-
-            Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
-                    .setMsgId(SnowFlake.id())
-                    .setMsgType(11)
-                    .setContent(JSON.toJSONString(messageDetail))
-                    .setSender(userId)
-                    .setReceiver(sender)
-                    .setDate(System.currentTimeMillis())
-                    .build();
+            Msg.MsgRequest msgRequest =null;
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                msgRequest = Msg.MsgRequest.newBuilder()
+                        .setMsgId(SnowFlake.id())
+                        .setMsgType(11)
+                        .setContent(objectMapper.writeValueAsString(messageDetail))
+                        .setSender(userId)
+                        .setReceiver(sender)
+                        .setDate(System.currentTimeMillis())
+                        .build();
+            }catch (JsonProcessingException e){
+                log.error(e.getMessage());
+                throw new LogicException(500,e.getMessage());
+            }
 
             Set<ClientServer> css = clientServerRepository.findCSByUid(sender);
             Iterator<ClientServer> iterator = css.iterator();

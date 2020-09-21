@@ -1,8 +1,7 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
-import com.milchstrabe.fastdfs.client.common.UploadResult;
-import com.milchstrabe.fastdfs.client.service.FastdfsTemplate;
 import com.milchstrabe.rainbow.biz.common.util.BeanUtils;
+import com.milchstrabe.rainbow.biz.common.util.MinioUtils;
 import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.UserPropertyDTO;
 import com.milchstrabe.rainbow.biz.domain.po.User;
@@ -13,12 +12,13 @@ import com.milchstrabe.rainbow.biz.service.IUserService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @Author ch3ng
@@ -37,7 +37,10 @@ public class UserServiceImpl implements IUserService {
     private IUserPropertyMapper userPropertyMapper;
 
     @Autowired
-    private FastdfsTemplate fastdfsTemplate;
+    private MinioUtils minioUtils;
+
+    @Value("${minio.bucket}")
+    private String bucket;
 
     @Override
     public String modifiedUserAvatar(String userId, MultipartFile file) throws LogicException {
@@ -50,33 +53,27 @@ public class UserServiceImpl implements IUserService {
         try {
             String originalFilename = file.getOriginalFilename();
             String fileExtName = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
-            byte[] bytes = file.getBytes();
-
-            UploadResult fs = fastdfsTemplate.upload_file(bytes, fileExtName, null);
-            String path = fs.getPath();
+            String path = "/user/avatar/"+ UUID.randomUUID().toString().replace("-","")+"."+fileExtName;
+            minioUtils.upload(bucket,path,file.getInputStream());
 
             //get old avatar info
             UserProperty property = userPropertyMapper.findUserPropertyByUserId(userId);
             String avatar = property.getAvatar();
             if(StringUtils.hasLength(avatar)){
                 //delete old avatar
-                UploadResult group1 = fastdfsTemplate.delete_file("group1", avatar.replace("group1/", ""));
-                if(!group1.isSuccess()){
-                    log.error(group1.getMsg());
-                }
-
+                minioUtils.delete(bucket,avatar);
             }
             User user = User.builder().userId(userId).build();
             UserProperty userProperty = UserProperty.builder()
-                    .avatar(path)
+                    .avatar(bucket + path)
                     .build();
             user.setProperty(userProperty);
             boolean isSuccess = userPropertyMapper.updateUserAvatar(user);
             if(isSuccess){
-                return path;
+                return bucket + path;
             }
             throw new LogicException(500,"modified avatar fail");
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new LogicException(500,e.getMessage());
         }

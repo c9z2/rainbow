@@ -1,5 +1,7 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.milchstrabe.rainbow.ClientServer;
 import com.milchstrabe.rainbow.api.typ3.grpc.Msg;
 import com.milchstrabe.rainbow.biz.domain.dto.SendMessageDTO;
@@ -29,22 +31,26 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public void doMessage(SendMessageDTO dto) {
         //TODO save message
-
-        Msg.MsgRequest msgRequest = Msg.MsgRequest.newBuilder()
-                .setMsgId(dto.getId())
-                .setMsgType(dto.getMsgType())
-                .setContent(dto.getContent().toJSONString())
-                .setSender(dto.getSender())
-                .setReceiver(dto.getReceiver())
-                .setDate(dto.getDate())
-                .build();
-
+        Msg.MsgRequest msgRequest = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            msgRequest = Msg.MsgRequest.newBuilder()
+                    .setMsgId(dto.getId())
+                    .setMsgType(dto.getMsgType())
+                    .setContent(objectMapper.writeValueAsString(dto.getContent()))
+                    .setSender(dto.getSender())
+                    .setReceiver(dto.getReceiver())
+                    .setDate(dto.getDate())
+                    .build();
+        }catch (JsonProcessingException e){
+            log.error(e.getMessage());
+            return;
+        }
         Set<ClientServer> css = clientServerRepository.findCSByUid(dto.getReceiver());
         Iterator<ClientServer> iterator = css.iterator();
         while (iterator.hasNext()){
             ClientServer cs = iterator.next();
             grpcClient.sender(cs.getHost(),cs.getPort(),msgRequest);
         }
-
     }
 }

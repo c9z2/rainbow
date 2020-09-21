@@ -1,7 +1,5 @@
 package com.milchstrabe.rainbow.biz.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.milchstrabe.rainbow.biz.common.CurrentUser;
 import com.milchstrabe.rainbow.biz.common.Result;
 import com.milchstrabe.rainbow.biz.common.ResultBuilder;
@@ -52,7 +50,7 @@ public class MessageController {
         SendMessageDTO dto = new SendMessageDTO();
         dto.setReceiver(vo.getReceiver());
         dto.setMsgType(vo.getMsgType());
-        dto.setContent(JSONObject.parseObject(JSON.toJSONString(vo.getContent())));
+        dto.setContent(vo.getContent());
         dto.setDate(System.currentTimeMillis());
         dto.setId(SnowFlake.id());
         dto.setSender(user.getUserId());

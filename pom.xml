@@ -32,9 +32,8 @@
         <jwt.version>3.10.1</jwt.version>
         <hutool.version>5.2.3</hutool.version>
         <rainbow-api.version>1.0.0-SNAPSHOT</rainbow-api.version>
-        <fastjson.version>1.2.73</fastjson.version>
-        <fastdfs.version>1.0.1</fastdfs.version>
         <dozer.version>5.5.1</dozer.version>
+        <minio.version>3.0.10</minio.version>
     </properties>
 
     <modules>
@@ -154,22 +153,17 @@
             </dependency>
 
             <dependency>
-                <groupId>com.milchstrabe.fastdfs.client</groupId>
-                <artifactId>fastdfs-spring-boot-starter</artifactId>
-                <version>${fastdfs.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>1.4.7</version>
             </dependency>
 
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

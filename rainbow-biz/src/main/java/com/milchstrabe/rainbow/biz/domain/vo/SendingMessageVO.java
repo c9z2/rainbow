@@ -10,12 +10,13 @@ import java.util.Map;
 @Getter
 public class SendingMessageVO {
 
-    @NotNull(message = "message type cant not be null")
+    @NotNull(message = "message type can not be null")
     private Integer msgType;
 
+    @NotNull(message = "message content can not be null")
     private Map<String,Object> content;
 
-    @NotNull(message = "receiver cant not be null")
+    @NotNull(message = "message receiver can not be null")
     private String receiver;
 
 
