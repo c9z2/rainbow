@@ -28,8 +28,13 @@ RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe 
 #####  minio ######
 && wget https://oss-1254056673.cos.ap-beijing.myqcloud.com/minio \
 && chmod +x minio \
+##### jar #####
+&& mvn clean package -DskipTests \
+&& mkdir ./rainbow \
+&& cp ./rainbow-biz/target/rainbow-biz-1.0.0.jar /root/rainbow \
+&& cp ./rainbow-skt/rainbow-ws/target/rainbow-ws-1.0.0.jar /root/rainbow \
 ##### start shell #####
-&& echo "#!/bin/bash \nservice mysql start \nservice mongodb start \nredis-server /etc/redis/redis.conf \n./minio server /root/oss/data \ntail -f  /dev/null" > ./start.sh \
+&& echo "#!/bin/bash \nservice mysql start \nservice mongodb start \nredis-server /etc/redis/redis.conf \n./minio server /root/oss/data \nnohup java -jar ./rainbow/rainbow-biz-1.0.0.jar > /dev/null 2>&1 & \nnohup java -jar ./rainbow/rainbow-ws-1.0.0.jar > /dev/null 2>&1 & \ntail -f  /dev/null" > ./start.sh \
 && mkdir -p ./oss/data \
 && chmod +x ./start.sh
 # open poort 9000  minio, 6767 websocket ,9090 for biz
