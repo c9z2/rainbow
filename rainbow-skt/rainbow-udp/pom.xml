@@ -5,13 +5,13 @@
     <parent>
         <groupId>com.milchstrabe.rainbow.skt</groupId>
         <artifactId>rainbow-skt</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
     <groupId>com.milchstrabe.rainbow.udp</groupId>
     <artifactId>rainbow-udp</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>rainbow-udp</name>
     <description>Demo project for Spring Boot</description>
 
