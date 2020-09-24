@@ -3,8 +3,8 @@ MAINTAINER ch3ng  <ch3ng57@gmail.com>
 WORKDIR /root/
 # copy mysql init sql include ddl and dml
 COPY rainbow.sql /root/
-COPY ./rainbow-biz/target/rainbow-biz-1.0.0.jar /root/rainbow
-COPY ./rainbow-skt/rainbow-ws/target/rainbow-ws-1.0.0.jar /root/rainbow
+COPY ./rainbow-biz/target/rainbow-biz-1.0.0.jar /root/
+COPY ./rainbow-skt/rainbow-ws/target/rainbow-ws-1.0.0.jar /root/
 # change ubuntu sources.list
 RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse \ndeb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse \ndeb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" > /etc/apt/sources.list \
 && apt-get update \
@@ -31,7 +31,7 @@ RUN echo "deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe 
 && wget https://oss-1254056673.cos.ap-beijing.myqcloud.com/minio \
 && chmod +x minio \
 ##### start shell #####
-&& echo "#!/bin/bash \nservice mysql start \nservice mongodb start \nredis-server /etc/redis/redis.conf \n./minio server /root/oss/data \nnohup java -jar ./rainbow-biz-1.0.0.jar > /dev/null 2>&1 & \nnohup java -jar ./rainbow-ws-1.0.0.jar > /dev/null 2>&1 & \ntail -f  /dev/null" > ./start.sh \
+&& echo "#!/bin/bash \nservice mysql start \nservice mongodb start \nredis-server /etc/redis/redis.conf \nnohup ./minio server /root/oss/data > /dev/null 2>&1 & \nnohup java -jar ./rainbow-biz-1.0.0.jar > /dev/null 2>&1 & \nnohup java -jar ./rainbow-ws-1.0.0.jar > /dev/null 2>&1 & \ntail -f  /dev/null" > ./start.sh \
 && mkdir -p ./oss/data \
 && chmod +x ./start.sh
 # open poort 9000  minio, 6767 websocket ,9090 for biz
