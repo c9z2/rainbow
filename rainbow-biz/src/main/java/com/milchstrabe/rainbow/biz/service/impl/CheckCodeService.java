@@ -18,6 +18,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author ch3ng
@@ -63,8 +65,11 @@ public class CheckCodeService implements ICheckCodeService {
             while ((len = inputStream.read(buf,0, buf.length)) != -1){
                 byteArrayOutputStream.write(buf,0,len);
             }
-            String html = new String(byteArrayOutputStream.toByteArray());
-            html.replaceAll("check_code",code);
+            String html = new String(byteArrayOutputStream.toByteArray(),"utf-8");
+            String regEx = "<code>";
+            Pattern p_html = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
+            Matcher m_html = p_html.matcher(html);
+            html = m_html.replaceAll(code);
             MailUtil.send(email, "rainbow service", html, true);
         }catch (IOException e){
             log.error(e.getMessage());
@@ -94,8 +99,11 @@ public class CheckCodeService implements ICheckCodeService {
             while ((len = inputStream.read(buf,0, buf.length)) != -1){
                 byteArrayOutputStream.write(buf,0,len);
             }
-            String html = new String(byteArrayOutputStream.toByteArray());
-            html.replace("check_code",code);
+            String html = new String(byteArrayOutputStream.toByteArray(),"utf-8");
+            String regEx = "<code>";
+            Pattern p_html = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
+            Matcher m_html = p_html.matcher(html);
+            html = m_html.replaceAll(code);
             MailUtil.send(email, "rainbow service", html, true);
         }catch (IOException e){
             log.error(e.getMessage());
