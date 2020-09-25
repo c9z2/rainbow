@@ -10,9 +10,13 @@ import com.milchstrabe.rainbow.biz.service.ICheckCodeService;
 import com.milchstrabe.rainbow.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,13 +53,27 @@ public class CheckCodeService implements ICheckCodeService {
 
         String code = RandomUtil.randomString(6);
 
-        redisTemplate.opsForValue().set(SIGN_UP_KEY + email,code,15,TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(SIGN_UP_KEY + email,code,5,TimeUnit.MINUTES);
 
-        MailUtil.send(email, "注册验证码", "您到验证码：<h4>"+code+"</h4>", true);
+        ClassPathResource classPathResource = new ClassPathResource("mail.html");
+        try(InputStream inputStream = classPathResource.getInputStream();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()){
+            byte[] buf = new byte[2048];
+            int len = 0;
+            while ((len = inputStream.read(buf,0, buf.length)) != -1){
+                byteArrayOutputStream.write(buf,0,len);
+            }
+            String html = new String(byteArrayOutputStream.toByteArray());
+            html.replaceAll("check_code",code);
+            MailUtil.send(email, "rainbow service", html, true);
+        }catch (IOException e){
+            log.error(e.getMessage());
+            throw new LogicException(500,e.getMessage());
+        }
     }
 
     @Override
-    public void sendResetCheckCode(String username,String email) {
+    public void sendResetCheckCode(String username,String email) throws LogicException {
         User user = userMappper.findUserAndPropertyByUsernameAndStatus(username,(short)1);
         if(user == null || user.getProperty() == null){
             return;
@@ -67,8 +85,21 @@ public class CheckCodeService implements ICheckCodeService {
 
         String code = RandomUtil.randomString(6);
 
-        redisTemplate.opsForValue().set(RESET_PASSWD_KEY + email,code,15, TimeUnit.MINUTES);
-
-        MailUtil.send(email, "注册验证码", "您到验证码：<h4>"+code+"</h4>", true);
+        redisTemplate.opsForValue().set(RESET_PASSWD_KEY + email,code,5, TimeUnit.MINUTES);
+        ClassPathResource classPathResource = new ClassPathResource("mail.html");
+        try(InputStream inputStream = classPathResource.getInputStream();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()){
+            byte[] buf = new byte[2048];
+            int len = 0;
+            while ((len = inputStream.read(buf,0, buf.length)) != -1){
+                byteArrayOutputStream.write(buf,0,len);
+            }
+            String html = new String(byteArrayOutputStream.toByteArray());
+            html.replace("check_code",code);
+            MailUtil.send(email, "rainbow service", html, true);
+        }catch (IOException e){
+            log.error(e.getMessage());
+            throw new LogicException(500,e.getMessage());
+        }
     }
 }

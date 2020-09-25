@@ -50,7 +50,7 @@ public class RegisterController {
 
         String userId = IdUtil.objectId();
         UserPropertyDTO userPropertyDTO = UserPropertyDTO.builder()
-                .avatar("https://wx2.sbimg.cn/2020/09/20/GQUnI.png")
+                .avatar("https://ftp.bmp.ovh/imgs/2020/09/0e7fc5f08d349356.png")
                 .nickname(registerVO.getNickname())
                 .email(registerVO.getEmail())
                 .build();

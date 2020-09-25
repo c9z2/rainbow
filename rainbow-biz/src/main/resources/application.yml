@@ -4,10 +4,10 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://192.168.1.118:27017/rainbow
+      uri: mongodb://127.0.0.1:27017/rainbow
   redis:
     database: 0
-    host: 192.168.1.118
+    host: 127.0.0.1
     port: 6379
     # password: 123456
     max-active: 10
@@ -16,7 +16,7 @@ spring:
     min-idle: 1
     timeout: 2000
   datasource:
-    url: jdbc:mysql://192.168.1.118:3306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
     username: root
     password: zhang
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -57,7 +57,7 @@ thread:
 
 
 minio:
-  host: http://192.168.1.118:9000
+  host: http://127.0.0.1:9000
   accessKey: minioadmin
   secretKey: minioadmin
   bucket: oss

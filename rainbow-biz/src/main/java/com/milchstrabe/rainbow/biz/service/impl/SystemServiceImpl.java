@@ -1,12 +1,10 @@
 package com.milchstrabe.rainbow.biz.service.impl;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.MD5;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
-import cn.hutool.extra.mail.MailUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.milchstrabe.rainbow.biz.common.config.JWTConfig;
@@ -15,7 +13,6 @@ import com.milchstrabe.rainbow.biz.domain.dto.ResetPasswdDTO;
 import com.milchstrabe.rainbow.biz.domain.dto.UserDTO;
 import com.milchstrabe.rainbow.biz.domain.po.CLI;
 import com.milchstrabe.rainbow.biz.domain.po.User;
-import com.milchstrabe.rainbow.biz.domain.po.UserProperty;
 import com.milchstrabe.rainbow.biz.mapper.ICLIMappper;
 import com.milchstrabe.rainbow.biz.mapper.IUserMappper;
 import com.milchstrabe.rainbow.biz.mapper.IUserPropertyMapper;
@@ -109,16 +106,16 @@ public class SystemServiceImpl implements ISystemService {
 
         User userInDatabase = userMappper.findUserByUsername(userDTO.getUsername());
         if(userInDatabase != null){
-            throw new LogicException(3000,"user exist");
+            throw new LogicException(300,"user exist");
         }
         User user = BeanUtils.map(userDTO, User.class);
         boolean isSuccess = userMappper.addUser(user);
         if(!isSuccess){
-            throw new LogicException(3000,"add user fail");
+            throw new LogicException(300,"add user fail");
         }
         boolean isOk = userPropertyMapper.addUserProperty(user);
         if(!isOk){
-            throw new LogicException(3000,"add user fail");
+            throw new LogicException(300,"add user fail");
         }
     }
 

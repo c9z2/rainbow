@@ -12,5 +12,5 @@ public interface ICheckCodeService {
 
     void sendSignUpCheckcode(String email) throws LogicException;
 
-    void sendResetCheckCode(String username,String email);
+    void sendResetCheckCode(String username,String email) throws LogicException;
 }
