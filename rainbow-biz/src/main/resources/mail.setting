@@ -1,5 +1,5 @@
 host =
 port = 25
-from = rainbow_service@yeah.net
-user = rainbow_service
+from =
+user =
 pass =
