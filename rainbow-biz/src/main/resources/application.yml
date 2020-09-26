@@ -17,8 +17,8 @@ spring:
     timeout: 2000
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
-    username: root
-    password: zhang
+    username: rainbow
+    password: rainbow
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
