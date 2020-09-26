@@ -15,7 +15,7 @@
 		#{user.property.signature},
 		#{user.property.nickname},
 		#{user.property.phone},
-		#{user.property.createTime},)
+		#{user.property.createTime})
 	</insert>
 
 	<select id="findUserPropertyByUserId" resultType="UserProperty">

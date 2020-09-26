@@ -20,6 +20,7 @@ public class Message<T> implements Serializable {
     private String id;
     /**
      * 1: text message
+     * 2: pic message
      * 10: add contact message
      * 11: accept add contact message
      */
