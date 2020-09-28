@@ -57,7 +57,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .addInterceptors(new HandshakeInterceptor() {
                     @Override
                     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-                        log.info("...1");
                         if (request instanceof ServletServerHttpRequest) {
                             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
                             String token = servletRequest.getServletRequest().getParameter("sid");
@@ -85,7 +84,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
                     @Override
                     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-
+                        //TODO 判断多设备登入问题
                     }
                 })
                 .setHandshakeHandler(new DefaultHandshakeHandler() {
@@ -96,7 +95,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         String userId = attributes.get("userId").toString();
                         String cid = attributes.get("cid").toString();
 
-                        log.info("handl shake ok ... 3");
                         //save grpc info to redis
                         ClientServer cs = ClientServer.builder()
                                 .cid(cid)
