@@ -23,7 +23,7 @@ rainbow
 ```
 
 ## 设计
-![alt rainbow](https://ibbbb.oss-cn-beijing.aliyuncs.com/20-5/rainbow.png)
+![alt rainbow](https://ibbbb.oss-cn-beijing.aliyuncs.com/20-9/rainbow.png)
 ## 开始
 
 - 目前你可以通过maven自行编译安装，依赖的中间件包括MySQL-5.7.x，Redis-5.x，MongoDB-4.x，Minio。
