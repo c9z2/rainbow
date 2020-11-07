@@ -68,8 +68,8 @@ rainbow
 | --------------- | ------------------------------------- |
 | rainbow         | https://github.com/ch3n90/rainbow     |
 | rainbow-web     | https://github.com/ch3n90/rainbow-web |
+| rainbow-desktop | https://github.com/ch3n90/rainbow-desktop |
 | rainbow-mobile  |                                       |
-| rainbow-desktop |                                       |
 ## License
 Rainbow已获得Apache 2.0许可。 有关详细信息，请查看[LICENSE](https://github.com/RainbowRW2/rainbow/blob/master/LICENSE)。
 
