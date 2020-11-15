@@ -41,6 +41,9 @@ public class UserServiceImpl implements IUserService {
 
     @Value("${minio.bucket}")
     private String bucket;
+    @Value("${minio.prefix}")
+    private String prefix;
+
 
     @Override
     public String modifiedUserAvatar(String userId, MultipartFile file) throws LogicException {
@@ -65,7 +68,7 @@ public class UserServiceImpl implements IUserService {
             }
             User user = User.builder().userId(userId).build();
             UserProperty userProperty = UserProperty.builder()
-                    .avatar(bucket + path)
+                    .avatar(prefix + path)
                     .build();
             user.setProperty(userProperty);
             boolean isSuccess = userPropertyMapper.updateUserAvatar(user);

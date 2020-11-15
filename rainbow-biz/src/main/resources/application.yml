@@ -57,6 +57,7 @@ thread:
 
 
 minio:
+  prefix: http://127.0.0.1:9000/oss
   host: http://127.0.0.1:9000
   accessKey: minioadmin
   secretKey: minioadmin

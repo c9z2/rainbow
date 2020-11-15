@@ -46,6 +46,10 @@ public class SendPicMessageController {
     @Value("${minio.bucket}")
     private String bucket;
 
+    @Value("${minio.prefix}")
+    private String prefix;
+
+
     @Autowired
     private IContactService contactService;
 
@@ -73,7 +77,7 @@ public class SendPicMessageController {
             minioUtils.upload(bucket,path,file.getInputStream());
 
             Map<String,Object> content = new HashMap<>();
-            content.put("uri",bucket + path);
+            content.put("uri",prefix + path);
             content.put("width",width);
             content.put("height",height);
 
