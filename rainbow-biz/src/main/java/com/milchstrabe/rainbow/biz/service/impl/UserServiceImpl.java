@@ -73,7 +73,7 @@ public class UserServiceImpl implements IUserService {
             user.setProperty(userProperty);
             boolean isSuccess = userPropertyMapper.updateUserAvatar(user);
             if(isSuccess){
-                return bucket + path;
+                return prefixexi + path;
             }
             throw new LogicException(500,"modified avatar fail");
         } catch (Exception e) {
