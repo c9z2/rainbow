@@ -40,8 +40,8 @@ rainbow
     ```
 - 也可以通过docker-compose安装
   ```
-  git clone https://github.com/ch3n90/rainbow.git
-  
+  cd docker-compose 
+ 
   cd rainbow 
   
   chmod +x build
