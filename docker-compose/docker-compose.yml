@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:5.7.34
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: rainbow
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  redis:
+    image: redis:latest
+    container_name: redis
+
+  mongodb:
+    image: mongo:4.4.6
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+        MONGO_INITDB_DATABASE: rainbow
+    volumes:
+        - ./mongodb/init.js:/docker-entrypoint-initdb.d/init.js:ro
+
+  minio:
+    image: "minio/minio:latest"
+    container_name: minio
+    command: minio server /data
+    ports:
+      - 9000:9000

@@ -10,11 +10,11 @@ gRPC:
 spring:
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:27017/rainbow
+      uri: ${mongodb.uri:@mongodb.uri@}
   redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
+    database: ${redis.db:@redis.db@}
+    host: ${redis.host:@redis.host@}
+    port: ${redis.port:@redis.port@}
     # password: 123456
     max-active: 10
     max-wait: 500

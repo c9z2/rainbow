@@ -166,4 +166,22 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <mongodb.uri>mongodb://127.0.0.1:27017/rainbow</mongodb.uri>
+                <redis.host>127.0.0.1</redis.host>
+                <redis.db>0</redis.db>
+                <reids.port>6379</reids.port>
+            </properties>
+        </profile>
+    </profiles>
+
+
+
 </project>

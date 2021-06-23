@@ -38,7 +38,7 @@ rainbow
     
     mvn clean package
     ```
-- 也可以通过docker安装
+- 也可以通过docker-compose安装
   ```
   git clone https://github.com/ch3n90/rainbow.git
   
