@@ -72,39 +72,21 @@
 			<groupId>com.milchstrabe</groupId>
 			<artifactId>rainbow-api</artifactId>
 		</dependency>
-
 	</dependencies>
 
-
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<mongodb.uri>mongodb://127.0.0.1:27017/rainbow</mongodb.uri>
-				<redis.host>127.0.0.1</redis.host>
-				<redis.db>0</redis.db>
-				<reids.port>6379</reids.port>
-			</properties>
-		</profile>
-	</profiles>
-
-
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>　　　　　　　　　　
-				<directory>src/main/resources</directory>　　　　　　　　　　
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 	</build>
 
 </project>

@@ -177,7 +177,7 @@
                 <mongodb.uri>mongodb://127.0.0.1:27017/rainbow</mongodb.uri>
                 <redis.host>127.0.0.1</redis.host>
                 <redis.db>0</redis.db>
-                <reids.port>6379</reids.port>
+                <redis.port>6379</redis.port>
             </properties>
         </profile>
     </profiles>
