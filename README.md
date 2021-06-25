@@ -1,37 +1,5 @@
 # Rainbow Project
 Rainbow期望是一个将要覆盖全平台的IM系统。 包括IOS, Android, Web, Windows,Mac和Linux。这里只有服务端!!!
-## 结构
-```
-rainbow
-├── rainbow-api: common program
-│   ├── src: source code
-│   └── pom: pom file
-├── rainbow-biz: provide business program for clients
-│   ├── src: source code
-│   └── pom: pom file
-├── rainbow-skt: sever program
-│   ├── rainbow-tcp: tcp connection
-│ 	│ 	├── src: source code
-│   │ 	└── pom: pom file
-│   ├── rainbow-udp: tcp connection
-│ 	│ 	├── src: source code
-│   │ 	└── pom: pom file
-│   ├── rainbow-ws: tcp connection
-│   │ 	├── src: source code
-│   │   └── pom: pom file
-├── ├── pom: pom file
-│   │ 	├── src: source code
-├── pom: pom file
-├── BizDockerfile
-├── WSDockerfile
-├── docker-compose
-│   ├── mongodb
-│ 	│   └── init.js
-│   ├── mysql
-│ 	│   └── init.sql
-└──	├── docker-compose.yml 
-```
-
 ## 设计
 ![alt rainbow](https://ibbbb.oss-cn-beijing.aliyuncs.com/20-9/rainbow.png)
 ## 开始
