@@ -1,19 +1,74 @@
 version: "3.9"
 services:
+  rainbow-biz:
+    build:
+      context: ../
+      dockerfile: BizDockerfile
+    environment:
+      MONGODB_URI: mongodb://172.23.0.4:27017/rainbow
+      REDIS_HOST: 172.23.0.3
+      REDIS_DB: 0
+      REDIS_PORT: 6379
+      MYSQL_URL: jdbc:mysql://172.23.0.2:3306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
+      MYSQL_USERNAME: rainbow
+      MYSQL_PASSWORD: rainbow
+      MINIO_PREFIX: http://172.23.0.5:9000/oss
+      MINIO_HOST: http://172.23.0.5:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: oss
+    depends_on:
+      - mysql
+      - redis
+      - mongodb
+      - minio
+    networks:
+      rainbow_net:
+        ipv4_address: 172.23.0.7
+
+  rainbow-ws:
+    build:
+      context: ../
+      dockerfile: WSDockerfile
+    container_name: rainbow-ws
+    environment:
+      MONGODB_URI: mongodb://172.23.0.4:27017/rainbow
+      REDIS_HOST: 172.23.0.3
+      REDIS_DB: 0
+      REDIS_PORT: 6379
+    depends_on:
+      - mysql
+      - redis
+      - mongodb
+      - minio
+    networks:
+      rainbow_net:
+        ipv4_address: 172.23.0.6
+
   mysql:
     image: mysql:5.7.34
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+      MYSQL_USER: rainbow
+      MYSQL_PASSWORD: rainbow
       MYSQL_DATABASE: rainbow
     volumes:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - 3306:3306
+    networks:
+      rainbow_net:
+        ipv4_address: 172.23.0.2
 
   redis:
     image: redis:latest
     container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      rainbow_net:
+        ipv4_address: 172.23.0.3
 
   mongodb:
     image: mongo:4.4.6
@@ -24,6 +79,9 @@ services:
         MONGO_INITDB_DATABASE: rainbow
     volumes:
         - ./mongodb/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      rainbow_net:
+        ipv4_address: 172.23.0.4
 
   minio:
     image: "minio/minio:latest"
@@ -31,3 +89,12 @@ services:
     command: minio server /data
     ports:
       - 9000:9000
+    networks:
+      rainbow_net:
+        ipv4_address: 172.23.0.5
+
+networks:
+  rainbow_net:
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16

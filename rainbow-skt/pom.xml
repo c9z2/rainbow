@@ -3,18 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <parent>
         <groupId>com.milchstrabe</groupId>
         <artifactId>rainbow</artifactId>
-        <version>1.0.0</version>
+        <version>emerald.1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <packaging>pom</packaging>
     <groupId>com.milchstrabe.rainbow.skt</groupId>
     <artifactId>rainbow-skt</artifactId>
-    <version>1.0.0</version>
+    <version>emerald.1.0.0</version>
     <name>${project.artifactId}</name>
     <description>im server</description>
 

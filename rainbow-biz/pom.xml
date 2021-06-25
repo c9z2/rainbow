@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.milchstrabe</groupId>
         <artifactId>rainbow</artifactId>
-        <version>1.0.0</version>
+        <version>emerald.1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>rainbow-biz</artifactId>
-    <version>1.0.0</version>
+    <version>emerald.1.0.0</version>
     <name>${project.artifactId}</name>
     <description>biz server</description>
 
@@ -103,6 +103,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

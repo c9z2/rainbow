@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>com.milchstrabe.rainbow.skt</groupId>
 		<artifactId>rainbow-skt</artifactId>
-		<version>1.0.0</version>
+		<version>emerald.1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<packaging>jar</packaging>
 	<groupId>com.milchstrabe.rainbow.ws</groupId>
 	<artifactId>rainbow-ws</artifactId>
-	<version>1.0.0</version>
+	<version>emerald.1.0.0</version>
 	<name>rainbow-ws</name>
 	<description>rainbow websocket server</description>
 

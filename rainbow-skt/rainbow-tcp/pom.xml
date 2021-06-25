@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>com.milchstrabe.rainbow.skt</groupId>
 		<artifactId>rainbow-skt</artifactId>
-		<version>1.0.0</version>
+		<version>emerald.1.0.0</version>
 		<relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
 	</parent>
 
 	<packaging>jar</packaging>
 	<groupId>com.milchstrabe.rainbow.tcp</groupId>
 	<artifactId>rainbow-tcp</artifactId>
-	<version>1.0.0</version>
+	<version>emerald.1.0.0</version>
 	<name>rainbow-tcp</name>
 	<description>Demo project for Spring Boot</description>
 

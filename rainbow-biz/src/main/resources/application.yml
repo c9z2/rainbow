@@ -4,11 +4,11 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:27017/rainbow
+      uri: ${mongodb.uri:@mongodb.uri@}
   redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
+    database: ${redis.db:@redis.db@}
+    host: ${redis.host:@redis.host@}
+    port: ${redis.port:@redis.port@}
     # password: 123456
     max-active: 10
     max-wait: 500
@@ -16,9 +16,9 @@ spring:
     min-idle: 1
     timeout: 2000
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/rainbow?serverTimezone=UTC&characterEncoding=utf-8
-    username: rainbow
-    password: rainbow
+    url: ${mysql.url:@mysql.url@}
+    username: ${mysql.username:@mysql.username@}
+    password: ${mysql.password:@mysql.password@}
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -55,11 +55,10 @@ thread:
     maxPoolSize: 500
     queueCapacity: 200
 
-
 minio:
-  prefix: http://127.0.0.1:9000/oss
-  host: http://127.0.0.1:9000
-  accessKey: minioadmin
-  secretKey: minioadmin
-  bucket: oss
+  prefix: ${minio.prefix:@minio.prefix@}
+  host: ${minio.host:@minio.host@}
+  accessKey: ${minio.accessKey:@minio.accessKey@}
+  secretKey: ${minio.secretKey:@minio.secretKey@}
+  bucket: ${minio.bucket:@minio.bucket@}
 

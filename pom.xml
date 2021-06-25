@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
     <groupId>com.milchstrabe</groupId>
     <artifactId>rainbow</artifactId>
-    <version>1.0.0</version>
+    <version>emerald.1.0.0</version>
 
     <name>rainbow</name>
     <url>https://github.com/RainbowRW2/rainbow</url>
@@ -31,7 +31,7 @@
         <druid.version>1.1.20</druid.version>
         <jwt.version>3.10.1</jwt.version>
         <hutool.version>5.2.3</hutool.version>
-        <rainbow-api.version>1.0.0</rainbow-api.version>
+        <rainbow-api.version>emerald.1.0.0</rainbow-api.version>
         <dozer.version>5.5.1</dozer.version>
         <minio.version>3.0.10</minio.version>
     </properties>
@@ -178,6 +178,14 @@
                 <redis.host>127.0.0.1</redis.host>
                 <redis.db>0</redis.db>
                 <redis.port>6379</redis.port>
+                <mysql.url>jdbc:mysql://127.0.0.1:3306/rainbow?serverTimezone=UTC&amp;characterEncoding=utf-8</mysql.url>
+                <mysql.username>rainbow</mysql.username>
+                <mysql.password>rainbow</mysql.password>
+                <minio.prefix>http://127.0.0.1:9000/oss</minio.prefix>
+                <minio.host>http://127.0.0.1:9000</minio.host>
+                <minio.accessKey>minioadmin</minio.accessKey>
+                <minio.secretKey>minioadmin</minio.secretKey>
+                <minio.bucket>oss</minio.bucket>
             </properties>
         </profile>
     </profiles>
