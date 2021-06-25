@@ -19,7 +19,17 @@ rainbow
 │   ├── rainbow-ws: tcp connection
 │   │ 	├── src: source code
 │   │   └── pom: pom file
-└── pom: pom file
+├── ├── pom: pom file
+│   │ 	├── src: source code
+├── pom: pom file
+├── BizDockerfile
+├── WSDockerfile
+├── docker-compose
+│   ├── mongodb
+│ 	│   └── init.js
+│   ├── mysql
+│ 	│   └── init.sql
+└──	├── docker-compose.yml 
 ```
 
 ## 设计
@@ -38,31 +48,13 @@ rainbow
     
     mvn clean package
     ```
-- 也可以通过docker-compose安装
+- 也可以通过docker-compose快速安装体验
   ```
   cd docker-compose 
  
-  cd rainbow 
-  
-  chmod +x build
-  
-  ./build
-  ```
-  运行
-  ```shell
-  sudo docker run -d \
-  	-v ~/data/rainbow/oss:/root/oss/data \
-  	-v ~/data/rainbow/mongodb:/var/lib/mongodb \
-  	-v ~/data/rainbow/mysql:/var/lib/mysql \
-  	-p 9000:9000 \
-  	-p 6767:6767 \
-  	-p 9090:9090 \
-  	--name rainbow \
-      --restart=always \
-  	ch3n90/rainbow:0.0.8
+  sudo docker-compose up 
   ```
 - 此时你可能还需要一个前端程序，[rainbow-web](https://github.com/ch3n90/rainbow-web) 正好是rainbow的web客户端程序。
-- 你也可以体验已经部署好的 [rainbow](http://web.rainbow.milchstrabe.com) 请勿压测，谢谢！
 ## 现在
 | 项目            | 地址                                  |
 | --------------- | ------------------------------------- |
